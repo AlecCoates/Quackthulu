@@ -26,7 +26,6 @@ public class GameScreen implements Screen {
     private TextureAtlas textureAtlas;
 
     private TextureRegion background, playerBoatTexture, enemyDuckTexture;
-    private Texture test;
 
     //timing
     private int backgroundOffset;
@@ -45,7 +44,7 @@ public class GameScreen implements Screen {
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
         //set up texture atlas
-        textureAtlas = new TextureAtlas("images_2.0.atlas");
+        textureAtlas = new TextureAtlas("images3.atlas");
 
         playerBoatTexture = textureAtlas.findRegion("player");
         enemyDuckTexture = textureAtlas.findRegion("duck_in_a_top_hat");
