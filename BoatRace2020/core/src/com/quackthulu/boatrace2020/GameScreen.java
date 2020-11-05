@@ -49,7 +49,7 @@ public class GameScreen implements Screen {
 
         playerBoatTexture = textureAtlas.findRegion("player");
         enemyDuckTexture = textureAtlas.findRegion("duck_in_a_top_hat");
-        background = textureAtlas.findRegion("sea");
+        background = textureAtlas.findRegion("sea2");
         backgroundOffset = 0;
 
         //set up game objects
