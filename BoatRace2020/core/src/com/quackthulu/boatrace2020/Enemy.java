@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.awt.*;
 
 public class Enemy extends GameObject{
-    float movementSpeed = 0;
+    float movementSpeed;
 
     public Enemy(int xCenter, int yCenter, int width, int height, TextureRegion thisObjectTexture, float movementSpeed) {
         super(xCenter, yCenter, width, height, thisObjectTexture);

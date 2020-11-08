@@ -7,9 +7,9 @@ import java.awt.*;
 public class Boat extends GameObject{
 
     //ship characteristics
-    float movementSpeed = 1; //world units per second
-    int health = 1; //default values
-    boolean isPlayer = false;
+    float movementSpeed; //world units per second
+    int health; //default values
+    boolean isPlayer;
 
     public Boat(int xCenter, int yCenter, int width, int height, TextureRegion thisObjectTexture, float movementSpeed, int health, boolean isPlayer) {
         super(xCenter, yCenter, width, height, thisObjectTexture);
