@@ -102,6 +102,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        float rawDelta = Gdx.graphics.getRawDeltaTime();
+
         batch.begin();
 
         detectInput(delta);

@@ -20,7 +20,7 @@ public class DynamicObj {
     }
 
     float calcVelocity(float delta, float velocity, float force) {
-        return delta * (force / mass);
+        return (float) (velocity + delta * (force - Math.pow(velocity, 2)) / mass);
     }
 
     public float getMass() {
