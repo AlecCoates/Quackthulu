@@ -9,4 +9,6 @@ public class Enemy extends GameObject{
         super(xCenter, yCenter, width, height, outputDamage, thisObjectTexture);
         this.movementSpeed = movementSpeed;
     }
+
+
 }

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -22,8 +23,8 @@ import java.util.LinkedList;
 public class GameScreen implements Screen {
 
     //screen
-    private Camera camera;
-    private Viewport viewport;
+    private OrthographicCamera camera;
+    private ExtendViewport viewport;
 
     //graphics
     private SpriteBatch batch;
@@ -55,7 +56,7 @@ public class GameScreen implements Screen {
 
     GameScreen(){
         camera = new OrthographicCamera(); //no 3d perspective
-        viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
+        viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
         //set up texture atlas
         textureAtlas = new TextureAtlas("images5.atlas");

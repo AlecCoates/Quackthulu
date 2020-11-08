@@ -14,7 +14,7 @@ public class Background{
     //graphics
     TextureRegion textureRegion;
 
-    public Background(TextureRegion textureRegion,int xPos, int yPos,int width, int height){
+    public Background(TextureRegion textureRegion, int xPos, int yPos,int width, int height){
         this.textureRegion = textureRegion;
         this.boundingBox = new com.badlogic.gdx.math.Rectangle(xPos,yPos,width,height);
         this.center = center();
@@ -32,7 +32,7 @@ public class Background{
         boundingBox.setPosition(boundingBox.x+xChange,boundingBox.y+yChange);
     }
 
-    public float dictenceTo(Vector2 boat){
+    public float distanceTo(Vector2 boat){
         return (float)Math.sqrt(Math.pow((center.x-boat.x),2)+  Math.pow((center.y-boat.y),2));
     }
 
