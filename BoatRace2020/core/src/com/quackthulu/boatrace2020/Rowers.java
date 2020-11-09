@@ -1,15 +1,53 @@
 package com.quackthulu.boatrace2020;
 
 public class Rowers {
-    float maneuverabilty = 0;
-    float stamina = 0;
-    float burnRate = 0;
-    float maxForce = 0;
+    private float agility;
+    private float maxStamina;
+    private float stamina;
+    private float maxForce;
+    private float force;
 
-    public Rowers(float maneuverabilty, float stamina, float burnRate, float maxForce) {
-        this.maneuverabilty = maneuverabilty;
-        this.stamina = stamina;
-        this.burnRate = burnRate;
+    public Rowers() {
+        this(1.0f, 2000.0f, 50.0f);
+    }
+
+    public Rowers(float agility, float maxStamina, float maxForce) {
+        this.agility = agility;
+        this.maxStamina = maxStamina;
+        this.stamina = maxStamina;
         this.maxForce = maxForce;
+        this.force = 0;
+    }
+
+    public float getAgility() {
+        return agility;
+    }
+
+    public void setAgility(float agility) {
+        this.agility = agility;
+    }
+
+    public float getMaxStamina() {
+        return maxStamina;
+    }
+
+    public void setMaxStamina(float maxStamina) {
+        this.maxStamina = maxStamina;
+    }
+
+    public float getStamina() {
+        return stamina;
+    }
+
+    public float getMaxForce() {
+        return maxForce;
+    }
+
+    public void setMaxForce(float maxForce) {
+        this.maxForce = maxForce;
+    }
+
+    public float getForce() {
+        return force;
     }
 }

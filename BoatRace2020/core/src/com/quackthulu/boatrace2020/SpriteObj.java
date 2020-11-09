@@ -5,19 +5,22 @@ import com.badlogic.gdx.math.Shape2D;
 import com.quackthulu.boatrace2020.basics.TimedTexture;
 
 public class SpriteObj {
-    Sprite sprite;
-    TimedTexture[] timedTextures;
-    int currentTexture;
-    float elapsedTextureTime;
-    Shape2D customBounds;
-    boolean isCollider;
+    private Sprite sprite;
+    private TimedTexture[] timedTextures;
+    private int currentTexture;
+    private float elapsedTextureTime;
+    private Shape2D customBounds;
+    private boolean isCollider;
 
+    public SpriteObj() {
+        this(new TimedTexture[] {});
+    }
 
-    SpriteObj(TimedTexture[] timedTextures) {
+    public SpriteObj(TimedTexture[] timedTextures) {
         this(new Sprite(), timedTextures);
     }
 
-    SpriteObj(Sprite sprite, TimedTexture[] timedTextures) {
+    public SpriteObj(Sprite sprite, TimedTexture[] timedTextures) {
         this.sprite = sprite;
         this.timedTextures = timedTextures;
         this.currentTexture = 0;
@@ -50,6 +53,11 @@ public class SpriteObj {
 
     public void setTimedTextures(TimedTexture[] timedTextures) {
         this.timedTextures = timedTextures;
+        if (this.timedTextures.length > 0) {
+            this.sprite.setTexture(timedTextures[0].getTexture());
+        }
+        this.currentTexture = 0;
+        this.elapsedTextureTime = 0.0f;
     }
 
     public void setIsCollider(boolean isCollider) {

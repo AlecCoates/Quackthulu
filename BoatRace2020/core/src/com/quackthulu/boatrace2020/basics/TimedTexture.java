@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TimedTexture {
-    Texture texture;
-    float time;
+    private Texture texture;
+    private float time;
 
     public TimedTexture(Texture image) {
         this(image, 0.0f);

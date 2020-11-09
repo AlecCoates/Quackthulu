@@ -1,8 +1,8 @@
 package com.quackthulu.boatrace2020.basics;
 
 public class Velocity {
-    float x;
-    float y;
+    private float x;
+    private float y;
 
     public Velocity() {
         this(0, 0);
@@ -27,5 +27,10 @@ public class Velocity {
 
     public void setY(float y) {
         this.y = y;
+    }
+
+    public void setVelocity(float x, float y) {
+        this.setX(x);
+        this.setY(y);
     }
 }

@@ -1,8 +1,8 @@
 package com.quackthulu.boatrace2020.basics;
 
 public class Force {
-    float x;
-    float y;
+    private float x;
+    private float y;
 
     public Force() {
         this(0, 0);
@@ -27,5 +27,10 @@ public class Force {
 
     public void setY(float y) {
         this.y = y;
+    }
+
+    public void setForce(float x, float y) {
+        this.setX(x);
+        this.setY(y);
     }
 }

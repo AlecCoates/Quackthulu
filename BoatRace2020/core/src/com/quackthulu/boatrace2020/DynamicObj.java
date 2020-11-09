@@ -4,19 +4,19 @@ import com.quackthulu.boatrace2020.basics.Force;
 import com.quackthulu.boatrace2020.basics.Velocity;
 
 public class DynamicObj {
-    float mass;
-    Velocity velocity;
-    Force force;
+    private float mass;
+    private Velocity velocity;
+    private Force force;
 
-    DynamicObj() {
+    public DynamicObj() {
         mass = 1.0f;
         velocity = new Velocity();
         force = new Force();
     }
 
-    public void update(float delta) {
-        velocity.setX(calcVelocity(delta, velocity.getX(), force.getX()));
-        velocity.setY(calcVelocity(delta, velocity.getY(), force.getY()));
+    public void update(float delta, EnvironmentalConditions env) {
+        velocity.setX(calcVelocity(delta, velocity.getX(), force.getX() + env.getCurrent().getForce().getX() + env.getWind().getForce().getX() + env.getWind().getGust().getForce().getX()));
+        velocity.setY(calcVelocity(delta, velocity.getY(), force.getY() + env.getCurrent().getForce().getY() + env.getWind().getForce().getY() + env.getWind().getGust().getForce().getY()));
     }
 
     float calcVelocity(float delta, float velocity, float force) {
