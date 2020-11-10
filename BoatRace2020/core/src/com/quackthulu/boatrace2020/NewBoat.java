@@ -24,4 +24,40 @@ public class NewBoat {
         this.maxHealth = 5;
         this.health = maxHealth;
     }
+
+    public SpriteObj getSpriteObj() {
+        return spriteObj;
+    }
+
+    public DynamicObj getDynamicObj() {
+        return dynamicObj;
+    }
+
+    public Rowers getRowers() {
+        return rowers;
+    }
+
+    public float getManeuverability() {
+        return maneuverability;
+    }
+
+    public void setManeuverability(float maneuverability) {
+        this.maneuverability = maneuverability;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
 }
