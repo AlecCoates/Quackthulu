@@ -21,6 +21,10 @@ public class Velocity {
         this.x = x;
     }
 
+    public void addX(float x) {
+        this.x += x;
+    }
+
     public float getY() {
         return y;
     }
@@ -29,8 +33,17 @@ public class Velocity {
         this.y = y;
     }
 
+    public void addY(float y) {
+        this.y += y;
+    }
+
     public void setVelocity(float x, float y) {
         this.setX(x);
         this.setY(y);
+    }
+
+    public void addVelocity(float x, float y) {
+        this.addX(x);
+        this.addY(y);
     }
 }

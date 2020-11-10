@@ -28,7 +28,7 @@ public class SpriteObj {
         this.customBounds = null;
         this.isCollider = true;
         if (this.timedTextures.length > 0) {
-            this.sprite.setTexture(timedTextures[0].getTexture());
+            this.sprite.setTexture(timedTextures[0].getTexture().getTexture());
         }
     }
 
@@ -43,7 +43,7 @@ public class SpriteObj {
                     currentTexture = 0;
                 }
             }
-            sprite.setTexture(timedTextures[currentTexture].getTexture());
+            sprite.setTexture(timedTextures[currentTexture].getTexture().getTexture());
         }
     }
 
@@ -53,11 +53,13 @@ public class SpriteObj {
 
     public void setTimedTextures(TimedTexture[] timedTextures) {
         this.timedTextures = timedTextures;
-        if (this.timedTextures.length > 0) {
-            this.sprite.setTexture(timedTextures[0].getTexture());
+        if (timedTextures.length > 0) {
+            sprite.setTexture(timedTextures[0].getTexture().getTexture());
         }
-        this.currentTexture = 0;
-        this.elapsedTextureTime = 0.0f;
+        sprite.setSize(timedTextures[0].getTexture().getRegionWidth(), timedTextures[0].getTexture().getRegionHeight());
+        sprite.setOrigin(sprite.getWidth() / 2.0f, sprite.getHeight() / 2.0f);
+        currentTexture = 0;
+        elapsedTextureTime = 0.0f;
     }
 
     public void setIsCollider(boolean isCollider) {

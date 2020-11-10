@@ -8,7 +8,7 @@ public class Enemy extends GameObject{
     float movementSpeed;
 
     public Enemy(int xCenter, int yCenter, int width, int height, TextureRegion thisObjectTexture, float movementSpeed) {
-        super(xCenter, yCenter, width, height, thisObjectTexture);
+        super(xCenter, yCenter, width, height, 2, thisObjectTexture);
         this.movementSpeed = movementSpeed;
     }
 }

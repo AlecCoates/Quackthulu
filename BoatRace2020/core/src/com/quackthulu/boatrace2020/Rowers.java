@@ -8,7 +8,7 @@ public class Rowers {
     private float force;
 
     public Rowers() {
-        this(1.0f, 2000.0f, 50.0f);
+        this(80.0f, 2000.0f, 300.0f);
     }
 
     public Rowers(float agility, float maxStamina, float maxForce) {

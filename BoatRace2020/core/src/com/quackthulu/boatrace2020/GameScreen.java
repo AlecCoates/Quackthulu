@@ -6,43 +6,33 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-<<<<<<< Updated upstream
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-=======
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
->>>>>>> Stashed changes
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.quackthulu.boatrace2020.basics.Force;
+import com.quackthulu.boatrace2020.basics.TimedTexture;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public class GameScreen implements Screen {
 
     //screen
-    private Camera camera;
-    private Viewport viewport;
+    private OrthographicCamera camera;
+    private ExtendViewport viewport;
 
     //graphics
     private SpriteBatch batch;
     private TextureAtlas textureAtlas;
-<<<<<<< Updated upstream
-
-    private TextureRegion background, playerBoatTexture, enemyDuckTexture;
-=======
     private TextureRegion backgroundTexture, landTexture, playerBoatTexture, enemyDuckTexture, fullHUDTexture, halfHUDTexture;
->>>>>>> Stashed changes
 
     //timing
     private int backgroundOffset;
 
     //world parameters
-<<<<<<< Updated upstream
-    private final int WORLD_HEIGHT = 72;
-    private final int WORLD_WIDTH = 128;
-=======
     private int WORLD_HEIGHT = 600;
     private int WORLD_WIDTH = 800;
 
@@ -50,31 +40,30 @@ public class GameScreen implements Screen {
     //Background
     private Background background;
     private ArrayList<Background> backgrounds;
-    private int riverCountX = 0;
-    private int riverCountY = 0;
->>>>>>> Stashed changes
+    private float riverCountX = 0;
+    private float riverCountY = 0;
 
     //game objects
-    private Boat playerBoat;
+    private NewBoat playerBoat;
     private Duck enemyDuck;
     //private LinkedList<Enemy> enemyObjects;
+    private LinkedList<Enemy> enemyObjects;
+
+    //HUD
+    private HUD hud;
 
     //River environment
     private EnvironmentalConditions environmentalConditions;
 
     GameScreen(){
         camera = new OrthographicCamera(); //no 3d perspective
-        viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
+        viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
         //set up texture atlas
-        textureAtlas = new TextureAtlas("images3.atlas");
+        textureAtlas = new TextureAtlas("images5.atlas");
 
         playerBoatTexture = textureAtlas.findRegion("player");
         enemyDuckTexture = textureAtlas.findRegion("duck_in_a_top_hat");
-<<<<<<< Updated upstream
-        background = textureAtlas.findRegion("sea2");
-        backgroundOffset = 0;
-=======
         backgroundTexture = textureAtlas.findRegion("sea");
         landTexture = textureAtlas.findRegion("land");
         fullHUDTexture = textureAtlas.findRegion("full_paddle");
@@ -86,13 +75,11 @@ public class GameScreen implements Screen {
         environmentalConditions.getWind().setGust(new Gust(new Force(-2.0f, -3.0f), 5.0f, 0.08f));
         environmentalConditions.getCurrent().setForce(new Force(-0.8f, -8.0f));
 
->>>>>>> Stashed changes
-
         //set up game objects
-        playerBoat = new Boat(2,2,10,
-                10, playerBoatTexture, 10, 10, true);
-        enemyDuck = new Duck(2,3,WORLD_WIDTH/2,WORLD_HEIGHT*3/4,
-                enemyDuckTexture,0);
+        playerBoat = new NewBoat();
+        playerBoat.getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(playerBoatTexture)});
+        System.out.println(playerBoat.getSpriteObj().getSprite().getHeight());
+        //enemyDuck = new Duck(2,3,WORLD_WIDTH/2,WORLD_HEIGHT*3/4, enemyDuckTexture,0);
 
         batch = new SpriteBatch();
     }
@@ -101,24 +88,13 @@ public class GameScreen implements Screen {
     public void render(float avgDelta) {
         float delta = Gdx.graphics.getRawDeltaTime();
 
-<<<<<<< Updated upstream
-
-=======
         Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
->>>>>>> Stashed changes
         batch.begin();
 
-        //detectInput(delta);
+        detectInput();
 
         //draw background
-<<<<<<< Updated upstream
-        batch.draw(background,0,0,WORLD_WIDTH,WORLD_HEIGHT);
-
-        //draw player
-        playerBoat.draw(batch);
-        enemyDuck.draw(batch);
-=======
         batch.disableBlending();
         renderBackground();
         batch.enableBlending();
@@ -130,23 +106,28 @@ public class GameScreen implements Screen {
         //renderEnemies();
 
         //draw player
-        //playerBoat.draw(batch);
->>>>>>> Stashed changes
+        Sprite boatSprite = playerBoat.getSpriteObj().getSprite();
+        batch.draw(playerBoatTexture, boatSprite.getX(), boatSprite.getY(), boatSprite.getOriginX(), boatSprite.getOriginY(), boatSprite.getWidth(), boatSprite.getHeight(), boatSprite.getScaleX(), boatSprite.getScaleY(), -boatSprite.getRotation());
+        //playerBoat.getSpriteObj().getSprite().draw(batch);
+        System.out.print(playerBoat.getDynamicObj().getVelocity().getX());
+        System.out.print(", ");
+        System.out.print(playerBoat.getDynamicObj().getVelocity().getY());
+        System.out.print(", ");
+        System.out.print(playerBoat.getSpriteObj().getSprite().getX());
+        System.out.print(", ");
+        System.out.println(playerBoat.getSpriteObj().getSprite().getY());
+        camera.position.y += 50;
 
         //detect collisions
         //detectCollisions();
 
-        //detect inputs
-        //detectInput(delta);
-
         //updates
-        playerBoat.update(delta);
+        playerBoat.update(delta, environmentalConditions);
 
         batch.end();
     }
 
-<<<<<<< Updated upstream
-=======
+
     private void initialiseBackground(){
 
     }
@@ -165,8 +146,8 @@ public class GameScreen implements Screen {
             riverTextureWidth = (int) (floatHeight * backgroundTexture.getRegionWidth() / backgroundTexture.getRegionHeight());
         }
 
-        riverCountX = (int) (riverCountX + environmentalConditions.getCurrent().getForce().getX()) % riverTextureWidth;
-        riverCountY = (int) (riverCountY + environmentalConditions.getCurrent().getForce().getY()) % riverTextureHeight;
+        riverCountX = (riverCountX + environmentalConditions.getCurrent().getForce().getX() / 10) % riverTextureWidth;
+        riverCountY = (riverCountY + environmentalConditions.getCurrent().getForce().getY() / 10) % riverTextureHeight;
 
         for (int i = -1; i < 8; i++) {
             for (int j = -1; j < (viewport.getWorldHeight() / riverTextureHeight) + 1; j++) {
@@ -198,76 +179,44 @@ public class GameScreen implements Screen {
                 batch.draw(landTexture, (int) ((viewport.getWorldWidth() + 7 * riverTextureWidth) / 2 + i * landTextureWidth), j * riverTextureHeight, riverTextureWidth, riverTextureHeight);
             }
         }
-        //batch.draw(backgroundTexture, 200, 5 * riverTextureHeight , riverTextureWidth, riverTextureHeight);
     }
 
     private void renderEnemies(){
         Iterator iterator = enemyObjects.iterator();
         while(iterator.hasNext()){
             Enemy e = (Enemy) iterator.next();
-            if(e.intersects(playerBoat.boundingBox)){
+            /*if(e.intersects(playerBoat.boundingBox)){
                 iterator.remove();
                 hud.damage(e);
                 playerBoat.damage(e);
                 System.out.println("damage");
             }else {
                 e.draw(batch);
-            }
+            }*/
         }
     }
 
->>>>>>> Stashed changes
     private void detectCollisions(){
         //for each boat check if intersects enemy object
 
     }
 
-    private void detectInput(float delta){
+    private void detectInput(){
         //keyboard input
-<<<<<<< Updated upstream
-
-        //strategy: determine the max distance the ship can move
-        //check each key that matters and move accordingly
-
-        float leftLimit, rightLimit, upLimit, downLimit;
-        leftLimit = -playerBoat.boundingBox.x;
-        downLimit = -playerBoat.boundingBox.y;
-        rightLimit = WORLD_WIDTH-playerBoat.boundingBox.x - playerBoat.boundingBox.width;
-        upLimit = WORLD_WIDTH-playerBoat.boundingBox.y - playerBoat.boundingBox.height;
-
-        if(Gdx.input.isKeyPressed(Input.Keys.D) && rightLimit > 0){
-            playerBoat.translate(Math.min(playerBoat.movementSpeed*delta, rightLimit),0f);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.A) && leftLimit < 0){
-            playerBoat.translate(Math.max(-playerBoat.movementSpeed*delta, leftLimit),0f);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.W) && upLimit > 0){
-            playerBoat.translate(0f, Math.min(playerBoat.movementSpeed*delta, upLimit));
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.S) && downLimit < 0){
-            playerBoat.translate(0f, Math.max(-playerBoat.movementSpeed*delta, downLimit));
-=======
         //Background movement
-        if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            for (Enemy e : enemyObjects) {
-                e.translate(playerBoat.movementSpeed * delta, 0f);
-            }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            playerBoat.setThrottle(1.0f);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            playerBoat.setThrottle(-1.0f);
+        } else {
+            playerBoat.setThrottle(0.0f);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            for (Enemy e : enemyObjects) {
-                e.translate(-playerBoat.movementSpeed * delta, 0f);
-            }
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            for (Enemy e : enemyObjects) {
-                e.translate(0f, playerBoat.movementSpeed * delta);
-            }
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.W)){
-            for (Enemy e : enemyObjects) {
-                e.translate(0f, -playerBoat.movementSpeed * delta);
-            }
->>>>>>> Stashed changes
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            playerBoat.setSteering(-1.0f);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            playerBoat.setSteering(1.0f);
+        } else {
+            playerBoat.setSteering(0.0f);
         }
 
     }
