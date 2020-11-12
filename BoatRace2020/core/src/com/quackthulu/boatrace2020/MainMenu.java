@@ -58,13 +58,13 @@ public class MainMenu implements Screen {
         startGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(BoatRace.GAME);
+                parent.setScreen(BoatRace.GAME_SCREEN);
             }
         });
         settings.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(BoatRace.SETTINGS);
+                parent.setScreen(BoatRace.SETTINGS_SCREEN);
             }
         });
     }
