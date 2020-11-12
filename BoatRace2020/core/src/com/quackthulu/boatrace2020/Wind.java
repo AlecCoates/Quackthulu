@@ -3,8 +3,8 @@ package com.quackthulu.boatrace2020;
 import com.quackthulu.boatrace2020.basics.Force;
 
 public class Wind {
-    Force force;
-    Gust gust;
+    private Force force;
+    private Gust gust;
 
     public Wind() {
         this(new Force());
@@ -19,4 +19,19 @@ public class Wind {
         this.gust = gust;
     }
 
+    public Force getForce() {
+        return force;
+    }
+
+    public void setForce(Force force) {
+        this.force = force;
+    }
+
+    public Gust getGust() {
+        return gust;
+    }
+
+    public void setGust(Gust gust) {
+        this.gust = gust;
+    }
 }

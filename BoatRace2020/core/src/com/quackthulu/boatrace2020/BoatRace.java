@@ -20,8 +20,8 @@ public class BoatRace extends Game {
 
 	@Override
 	public void dispose() {
-		super.dispose();
 		gameScreen.dispose();
+		System.exit(0);
 	}
 
 	@Override

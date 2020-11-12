@@ -4,14 +4,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TimedTexture {
-    Texture texture;
-    float time;
+    private TextureRegion texture;
+    private float time;
 
-    public TimedTexture(Texture image) {
+    public TimedTexture(TextureRegion image) {
         this(image, 0.0f);
     }
 
-    public TimedTexture(Texture texture, float time) {
+    public TimedTexture(TextureRegion texture, float time) {
         this.texture = texture;
         this.time = time;
     }
@@ -20,7 +20,7 @@ public class TimedTexture {
         return time;
     }
 
-    public Texture getTexture() {
+    public TextureRegion getTexture() {
         return texture;
     }
 }

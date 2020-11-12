@@ -2,42 +2,32 @@ package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class HUD {
-    private int maxHealth;
-    private int currentDamage = 0;
-    private TextureRegion fullTextureRegion, halfTextureRegion;
+    private NewBoat boat;
+    private TextureRegion fullDamageIcon, halfDamageIcon;
+    private int damageIconWidth, damageIconHeight;
 
-    public HUD(int health, TextureRegion fullTextureRegion, TextureRegion halfTextureRegion){
-        this.maxHealth = health;
-        this.fullTextureRegion = fullTextureRegion;
-        this.halfTextureRegion = halfTextureRegion;
+    public HUD(NewBoat boat, TextureRegion fullDamageIcon, TextureRegion halfDamageIcon){
+        this.boat = boat;
+        this.fullDamageIcon = fullDamageIcon;
+        this.halfDamageIcon = halfDamageIcon;
+        damageIconWidth = 64;
+        damageIconHeight = 64;
     }
 
-    public void update(GameObject gameObject){
-        currentDamage += gameObject.outputDamage;
-    }
-
-    public void draw(Batch batch,float x, float y) {
-        int redrawHealth = maxHealth - currentDamage;
-        int i = 1;
-        while(redrawHealth != 0){
-            if(redrawHealth - 2 >= 0){
-                batch.draw(fullTextureRegion,x-350+i*64,y+350,64,64);
-                redrawHealth -= 2;
-            }else{
-                batch.draw(halfTextureRegion,x-350+i*64,y+350,64,64);
-                redrawHealth -=1;
+    public void draw(Batch batch, Viewport viewport) {
+        for (int i = 0; i < boat.getHealth(); i += 2) {
+            if (i < boat.getHealth() - 1) {
+                batch.draw(fullDamageIcon,(i / 2) * damageIconWidth,viewport.getWorldHeight() - damageIconHeight,damageIconWidth,damageIconHeight);
+            } else {
+                batch.draw(halfDamageIcon,(i / 2) * damageIconWidth,viewport.getWorldHeight() - damageIconHeight,damageIconWidth,damageIconHeight);
             }
-            i++;
         }
-    }
-
-    public void damage(GameObject gameObject){
-        currentDamage = Math.min(currentDamage + gameObject.outputDamage, maxHealth);
     }
 }

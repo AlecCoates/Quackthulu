@@ -8,7 +8,7 @@ import com.quackthulu.boatrace2020.Enemy;
 public class Duck extends Enemy {
 
     public Duck(int xCenter, int yCenter, int width, int height, int outputDamage, TextureRegion thisObjectTexture, float movementSpeed) {
-        super(xCenter, yCenter, width, height, outputDamage, thisObjectTexture, movementSpeed);
+        super(xCenter, yCenter, width, height, thisObjectTexture, movementSpeed);
     }
 
 }
