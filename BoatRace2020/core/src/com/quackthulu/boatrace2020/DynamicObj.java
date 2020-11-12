@@ -5,6 +5,7 @@ import com.quackthulu.boatrace2020.basics.Velocity;
 
 public class DynamicObj {
     private float mass;
+    private float dragMult;
     private Velocity velocity;
     private float rotationalVelocity;
     private Force force;
@@ -12,6 +13,7 @@ public class DynamicObj {
 
     public DynamicObj() {
         this.mass = 1.0f;
+        this.dragMult = 0.8f;
         this.velocity = new Velocity();
         this.rotationalVelocity = 0.0f;
         this.force = new Force();
@@ -36,7 +38,7 @@ public class DynamicObj {
     }
 
     float calcVelocity(float delta, float velocity, float force) {
-        return delta * (force - (velocity / mass));
+        return delta * (force - (dragMult * velocity / mass));
     }
 
     //Getters & setters

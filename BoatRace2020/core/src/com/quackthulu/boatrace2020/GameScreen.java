@@ -60,12 +60,12 @@ public class GameScreen implements Screen {
         viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
         //set up texture atlas
-        textureAtlas = new TextureAtlas("images5.atlas");
+        textureAtlas = new TextureAtlas("images6.atlas");
 
         playerBoatTexture = textureAtlas.findRegion("player");
         enemyDuckTexture = textureAtlas.findRegion("duck_in_a_top_hat");
-        backgroundTexture = textureAtlas.findRegion("sea");
-        landTexture = textureAtlas.findRegion("land");
+        backgroundTexture = textureAtlas.findRegion("sea3");
+        landTexture = textureAtlas.findRegion("land1");
         fullHUDTexture = textureAtlas.findRegion("full_paddle");
         halfHUDTexture = textureAtlas.findRegion("half_paddle");
 
@@ -78,8 +78,10 @@ public class GameScreen implements Screen {
         //set up game objects
         playerBoat = new NewBoat();
         playerBoat.getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(playerBoatTexture)});
-        System.out.println(playerBoat.getSpriteObj().getSprite().getHeight());
         //enemyDuck = new Duck(2,3,WORLD_WIDTH/2,WORLD_HEIGHT*3/4, enemyDuckTexture,0);
+
+        //hud
+        hud = new HUD(playerBoat, fullHUDTexture, halfHUDTexture);
 
         batch = new SpriteBatch();
     }
@@ -100,23 +102,15 @@ public class GameScreen implements Screen {
         batch.enableBlending();
 
         //draw heads up display
-        //hud.draw(batch,playerBoat.boundingBox.x,playerBoat.boundingBox.y);
+        hud.draw(batch, viewport);
 
         //draw enemies
         //renderEnemies();
 
         //draw player
-        Sprite boatSprite = playerBoat.getSpriteObj().getSprite();
-        batch.draw(playerBoatTexture, boatSprite.getX(), boatSprite.getY(), boatSprite.getOriginX(), boatSprite.getOriginY(), boatSprite.getWidth(), boatSprite.getHeight(), boatSprite.getScaleX(), boatSprite.getScaleY(), -boatSprite.getRotation());
-        //playerBoat.getSpriteObj().getSprite().draw(batch);
-        System.out.print(playerBoat.getDynamicObj().getVelocity().getX());
-        System.out.print(", ");
-        System.out.print(playerBoat.getDynamicObj().getVelocity().getY());
-        System.out.print(", ");
-        System.out.print(playerBoat.getSpriteObj().getSprite().getX());
-        System.out.print(", ");
-        System.out.println(playerBoat.getSpriteObj().getSprite().getY());
-        camera.position.y += 50;
+        Sprite playerBoatSprite = playerBoat.getSpriteObj().getSprite();
+        batch.draw(playerBoatTexture, (viewport.getWorldWidth() - playerBoatTexture.getRegionWidth()) / 2, (viewport.getWorldHeight() - playerBoatTexture.getRegionHeight()) / 2, playerBoat.getSpriteObj().getSprite().getOriginX(), playerBoatSprite.getOriginY(), playerBoatSprite.getWidth(), playerBoatSprite.getHeight(), playerBoatSprite.getScaleX(), playerBoatSprite.getScaleY(), -playerBoatSprite.getRotation());
+
 
         //detect collisions
         //detectCollisions();
@@ -133,50 +127,37 @@ public class GameScreen implements Screen {
     }
 
     private void renderBackground(){
+        float laneWidthsRiver = 7.0f;
+        float laneWidthsScreen = 7.5f;
+        float minAspectRatio = 1.8f;
+
         //Draw river
-        int riverTextureWidth;
-        int riverTextureHeight;
-        if ((float) viewport.getWorldWidth() / viewport.getWorldHeight() < 1.8) {
-            float floatWidth = (float) viewport.getWorldWidth() / 6;
-            riverTextureWidth = (int) floatWidth;
-            riverTextureHeight = (int) (floatWidth * backgroundTexture.getRegionHeight() / backgroundTexture.getRegionWidth());
+        int backgroundTextureSize;
+        if ((float) viewport.getWorldWidth() / viewport.getWorldHeight() < minAspectRatio) {
+            backgroundTextureSize = (int) (viewport.getWorldWidth() / laneWidthsScreen);
         } else {
-            float floatHeight = (float) (viewport.getWorldHeight() / (6 / 1.8));
-            riverTextureHeight = (int) floatHeight;
-            riverTextureWidth = (int) (floatHeight * backgroundTexture.getRegionWidth() / backgroundTexture.getRegionHeight());
+            backgroundTextureSize = (int) (viewport.getWorldHeight() / (laneWidthsScreen / minAspectRatio));
         }
 
-        riverCountX = (riverCountX + environmentalConditions.getCurrent().getForce().getX() / 10) % riverTextureWidth;
-        riverCountY = (riverCountY + environmentalConditions.getCurrent().getForce().getY() / 10) % riverTextureHeight;
+        riverCountX = (riverCountX + environmentalConditions.getCurrent().getForce().getX() / 10) % backgroundTextureSize;
+        riverCountY = (riverCountY + environmentalConditions.getCurrent().getForce().getY() / 10) % backgroundTextureSize;
 
         for (int i = -1; i < 8; i++) {
-            for (int j = -1; j < (viewport.getWorldHeight() / riverTextureHeight) + 1; j++) {
-                batch.draw(backgroundTexture, (int) ((viewport.getWorldWidth() - 7 * riverTextureWidth) / 2 + i * riverTextureWidth) + riverCountX, j * riverTextureHeight + riverCountY, riverTextureWidth, riverTextureHeight);
+            for (int j = -1; j < (viewport.getWorldHeight() / backgroundTextureSize) + 1; j++) {
+                batch.draw(backgroundTexture, (int) ((viewport.getWorldWidth() - laneWidthsRiver * backgroundTextureSize) / 2 + i * backgroundTextureSize) + riverCountX - playerBoat.getSpriteObj().getSprite().getX(), j * backgroundTextureSize + (riverCountY - playerBoat.getSpriteObj().getSprite().getY()) % backgroundTextureSize, backgroundTextureSize, backgroundTextureSize);
             }
         }
 
         //Draw land
-        int landTextureWidth;
-        int landTextureHeight;
-        if ((float) viewport.getWorldWidth() / viewport.getWorldHeight() < 1.8) {
-            float floatWidth = (float) viewport.getWorldWidth() / 6;
-            landTextureWidth = (int) floatWidth;
-            landTextureHeight = (int) (floatWidth * landTexture.getRegionHeight() / landTexture.getRegionWidth());
-        } else {
-            float floatHeight = (float) (viewport.getWorldHeight() / (6 / 1.8));
-            landTextureHeight = (int) floatHeight;
-            landTextureWidth = (int) (floatHeight * landTexture.getRegionWidth() / landTexture.getRegionHeight());
-        }
-
-        for (int i = 1; i < (int) ((viewport.getWorldWidth() - 7 * riverTextureWidth) / 2 / landTextureWidth) + 2; i++) {
-            for (int j = 0; j < (viewport.getWorldHeight() / landTextureHeight); j++) {
-                batch.draw(landTexture, (int) ((viewport.getWorldWidth() - 7 * riverTextureWidth) / 2 - i * landTextureWidth), j * riverTextureHeight, riverTextureWidth, riverTextureHeight);
+        for (int i = 1; i < (int) ((viewport.getWorldWidth() - laneWidthsRiver) / 2) + 2; i++) {
+            for (int j = -1; j < (viewport.getWorldHeight() / backgroundTextureSize) + 1; j++) {
+                batch.draw(landTexture, (int) ((viewport.getWorldWidth() - laneWidthsRiver * backgroundTextureSize) / 2 - i * backgroundTextureSize) - playerBoat.getSpriteObj().getSprite().getX(), j * backgroundTextureSize - playerBoat.getSpriteObj().getSprite().getY() % backgroundTextureSize, backgroundTextureSize, backgroundTextureSize);
             }
         }
 
-        for (int i = 0; i < (int) ((viewport.getWorldWidth() - 7 * riverTextureWidth) / 2 / landTextureWidth) + 1; i++) {
-            for (int j = 0; j < (viewport.getWorldHeight() / landTextureHeight); j++) {
-                batch.draw(landTexture, (int) ((viewport.getWorldWidth() + 7 * riverTextureWidth) / 2 + i * landTextureWidth), j * riverTextureHeight, riverTextureWidth, riverTextureHeight);
+        for (int i = 0; i < (int) ((viewport.getWorldWidth() - laneWidthsRiver) / 2) + 1; i++) {
+            for (int j = -1; j < (viewport.getWorldHeight() / backgroundTextureSize) + 1; j++) {
+                batch.draw(landTexture, (int) ((viewport.getWorldWidth() + laneWidthsRiver * backgroundTextureSize) / 2 + i * backgroundTextureSize) - playerBoat.getSpriteObj().getSprite().getX(), j * backgroundTextureSize - playerBoat.getSpriteObj().getSprite().getY() % backgroundTextureSize, backgroundTextureSize, backgroundTextureSize);
             }
         }
     }
@@ -187,7 +168,6 @@ public class GameScreen implements Screen {
             Enemy e = (Enemy) iterator.next();
             /*if(e.intersects(playerBoat.boundingBox)){
                 iterator.remove();
-                hud.damage(e);
                 playerBoat.damage(e);
                 System.out.println("damage");
             }else {

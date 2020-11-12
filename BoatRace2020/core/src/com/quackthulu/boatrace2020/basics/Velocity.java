@@ -46,4 +46,8 @@ public class Velocity {
         this.addX(x);
         this.addY(y);
     }
+
+    public float getLinearVelocity() {
+        return (float) Math.sqrt(Math.pow(this.getX(),2) + Math.pow(this.getY(),2));
+    }
 }

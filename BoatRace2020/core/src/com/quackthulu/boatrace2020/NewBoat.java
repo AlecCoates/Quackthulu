@@ -1,6 +1,7 @@
 package com.quackthulu.boatrace2020;
 
 import com.quackthulu.boatrace2020.basics.Force;
+import com.sun.org.apache.bcel.internal.Const;
 
 public class NewBoat {
     private SpriteObj spriteObj;
@@ -37,7 +38,9 @@ public class NewBoat {
     }
 
     public void setSteering(float steering) {
-        dynamicObj.setTorque(steering * rowers.getAgility());
+        float cosTheta = (float) Math.cos(Math.acos(dynamicObj.getVelocity().getY() / dynamicObj.getVelocity().getLinearVelocity()) - Math.toRadians(spriteObj.getSprite().getRotation()));
+        if (!(cosTheta >= -1)) cosTheta = 1;
+        dynamicObj.setTorque((steering * rowers.getAgility()) * (1.1f + cosTheta) / 2);
     }
 
     public SpriteObj getSpriteObj() {
