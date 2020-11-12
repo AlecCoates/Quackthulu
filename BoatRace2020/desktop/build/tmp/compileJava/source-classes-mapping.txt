@@ -1,0 +1,2 @@
+com/quackthulu/boatrace2020/desktop/DesktopLauncher.java
+ com.quackthulu.boatrace2020.desktop.DesktopLauncher

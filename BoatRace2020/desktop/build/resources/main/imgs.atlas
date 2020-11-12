@@ -1,0 +1,20 @@
+
+imgs.png
+size: 2048,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+player
+  rotate: false
+  xy: 2, 2
+  size: 66, 113
+  orig: 66, 113
+  offset: 0, 0
+  index: -1
+sea
+  rotate: false
+  xy: 2, 117
+  size: 1280, 620
+  orig: 1280, 620
+  offset: 0, 0
+  index: -1
