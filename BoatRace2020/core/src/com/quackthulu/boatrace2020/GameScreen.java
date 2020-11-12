@@ -5,207 +5,85 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.quackthulu.boatrace2020.basics.Force;
-import com.quackthulu.boatrace2020.basics.TimedTexture;
 
-import java.util.*;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public class GameScreen implements Screen {
-
+    private BoatRace parent;
     //screen
-    private OrthographicCamera camera;
-    private ExtendViewport viewport;
+    private Camera camera;
+    private Viewport viewport;
 
     //graphics
     private SpriteBatch batch;
     private TextureAtlas textureAtlas;
-    private TextureRegion backgroundTexture, landTexture, playerBoatTexture, enemyDuckTexture, fullHUDTexture, halfHUDTexture;
+
+    private TextureRegion background, playerBoatTexture, enemyDuckTexture;
 
     //timing
+    private int backgroundOffset;
 
     //world parameters
-    private int WORLD_HEIGHT = 600;
-    private int WORLD_WIDTH = 800;
-
-
-    //Background
-    private Background background;
-    private ArrayList<Background> backgrounds;
-    private float laneWidthsRiver = 7.0f;
-    private float laneWidthsScreen = 7.5f;
-    private float minAspectRatio = 1.8f;
-    private int backgroundTextureSize = 64;
-    private float riverCountX = 0;
-    private float riverCountY = 0;
+    private final int WORLD_HEIGHT = 72;
+    private final int WORLD_WIDTH = 128;
 
     //game objects
-    private NewBoat playerBoat;
-    private Duck enemyDuck;
-    private LinkedList<NewBoat> opponentBoats;
-    private LinkedList<Enemy> enemyObjects;
+    private final Boat playerBoat;
+    private final Duck enemyDuck;
+    //private LinkedList<Enemy> enemyObjects;
 
-    //HUD
-    private HUD hud;
-
-    //River environment
-    private EnvironmentalConditions environmentalConditions;
-
-    GameScreen(){
+    GameScreen(BoatRace boatRace){
+        parent = boatRace;
         camera = new OrthographicCamera(); //no 3d perspective
-        viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
+        viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
         //set up texture atlas
-        textureAtlas = new TextureAtlas("images6.atlas");
+        textureAtlas = new TextureAtlas("images3.atlas");
 
-        //set up textures
         playerBoatTexture = textureAtlas.findRegion("player");
-        playerBoatTexture.flip(false,true);
         enemyDuckTexture = textureAtlas.findRegion("duck_in_a_top_hat");
-        backgroundTexture = textureAtlas.findRegion("sea3");
-        landTexture = textureAtlas.findRegion("land1");
-        fullHUDTexture = textureAtlas.findRegion("full_paddle");
-        halfHUDTexture = textureAtlas.findRegion("half_paddle");
-
-        //Environmental conditions
-        environmentalConditions = new EnvironmentalConditions();
-        environmentalConditions.getWind().setForce(new Force( -2.0f, -6.0f));
-        environmentalConditions.getWind().setGust(new Gust(new Force(-2.0f, -3.0f), 5.0f, 0.08f));
-        environmentalConditions.getCurrent().setForce(new Force(-0.8f, -8.0f));
-
-        //Set lane size
-        backgroundTextureSize = 106;
+        background = textureAtlas.findRegion("sea2");
+        backgroundOffset = 0;
 
         //set up game objects
-        playerBoat = new NewBoat();
-        playerBoat.getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(playerBoatTexture)});
-        opponentBoats = new LinkedList<NewBoat>();
-        for (int i = 0; i < 4; i++) {
-            opponentBoats.add(new NewBoat());
-            opponentBoats.get(i).getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(playerBoatTexture)});
-            if (i < 2) {
-                opponentBoats.get(i).getSpriteObj().getSprite().setX((i - 2) * backgroundTextureSize);
-            } else {
-                opponentBoats.get(i).getSpriteObj().getSprite().setX((i - 1) * backgroundTextureSize);
-            }
-            opponentBoats.get(i).getRowers().setMaxForce(new Random().nextFloat() * 300);
-            opponentBoats.get(i).setThrottle(1.0f);
-        }
-
-        //enemyDuck = new Duck(2,3,WORLD_WIDTH/2,WORLD_HEIGHT*3/4, enemyDuckTexture,0);
-
-        //hud
-        hud = new HUD(playerBoat, fullHUDTexture, halfHUDTexture);
+        playerBoat = new Boat(2,2,10,
+                10, playerBoatTexture, 10, 10, true);
+        enemyDuck = new Duck(2,3,WORLD_WIDTH/2,WORLD_HEIGHT*3/4,
+                enemyDuckTexture,0);
 
         batch = new SpriteBatch();
     }
 
     @Override
-    public void render(float avgDelta) {
-        float delta = Gdx.graphics.getRawDeltaTime();
-
-        Gdx.gl.glClearColor(0.0f,0.0f,0.0f,1.0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    public void render(float delta) {
         batch.begin();
 
-        detectInput();
+        detectInput(delta);
 
         //draw background
-        batch.disableBlending();
-        renderBackground();
-        batch.enableBlending();
-
-        //draw heads up display
-        hud.draw(batch, viewport);
-
-        //draw enemies
-        //renderEnemies();
+        batch.draw(background,0,0,WORLD_WIDTH,WORLD_HEIGHT);
 
         //draw player
-        Sprite playerBoatSprite = playerBoat.getSpriteObj().getSprite();
-        batch.draw(playerBoatTexture, (viewport.getWorldWidth() - playerBoatTexture.getRegionWidth()) / 2, (viewport.getWorldHeight() - playerBoatTexture.getRegionHeight()) / 2, playerBoatSprite.getOriginX(), playerBoatSprite.getOriginY(), playerBoatSprite.getWidth(), playerBoatSprite.getHeight(), playerBoatSprite.getScaleX(), playerBoatSprite.getScaleY(), -playerBoatSprite.getRotation());
-
-        //draw opponents
-        for (NewBoat opponentBoat :opponentBoats) {
-            Sprite opponentBoatSprite = opponentBoat.getSpriteObj().getSprite();
-            batch.draw(playerBoatTexture, ((viewport.getWorldWidth() - playerBoatTexture.getRegionWidth()) / 2) + (opponentBoatSprite.getX() - playerBoatSprite.getX()), ((viewport.getWorldHeight() - playerBoatTexture.getRegionHeight()) / 2) + (opponentBoatSprite.getY() - playerBoatSprite.getY()), opponentBoatSprite.getOriginX(), opponentBoatSprite.getOriginY(), opponentBoatSprite.getWidth(), opponentBoatSprite.getHeight(), opponentBoatSprite.getScaleX(), opponentBoatSprite.getScaleY(), -opponentBoatSprite.getRotation());
-        }
-
-        System.out.print(backgroundTextureSize);
-        System.out.print(" ");
-        System.out.println(playerBoatSprite.getX());
+        playerBoat.draw(batch);
+        enemyDuck.draw(batch);
 
         //detect collisions
-        //detectCollisions();
+        detectCollisions();
+
+        //detect inputs
+        detectInput(delta);
 
         //updates
-        playerBoat.update(delta, environmentalConditions);
-        for (NewBoat opponentBoat :opponentBoats) {
-            opponentBoat.update(delta, environmentalConditions);
-        }
+        playerBoat.update(delta);
 
         batch.end();
-    }
-
-
-    private void initialiseBackground(){
-
-    }
-
-    private void renderBackground(){
-
-        //Draw river
-        if ((float) viewport.getWorldWidth() / viewport.getWorldHeight() < minAspectRatio) {
-            backgroundTextureSize = (int) (viewport.getWorldWidth() / laneWidthsScreen);
-        } else {
-            backgroundTextureSize = (int) (viewport.getWorldHeight() / (laneWidthsScreen / minAspectRatio));
-        }
-
-        riverCountX = (riverCountX + environmentalConditions.getCurrent().getForce().getX() / 10) % backgroundTextureSize;
-        riverCountY = (riverCountY + environmentalConditions.getCurrent().getForce().getY() / 10) % backgroundTextureSize;
-
-        for (int i = -1; i < 8; i++) {
-            for (int j = -1; j < (viewport.getWorldHeight() / backgroundTextureSize) + 1; j++) {
-                batch.draw(backgroundTexture, (int) ((viewport.getWorldWidth() - laneWidthsRiver * backgroundTextureSize) / 2 + i * backgroundTextureSize) + riverCountX - playerBoat.getSpriteObj().getSprite().getX(), j * backgroundTextureSize + (riverCountY - playerBoat.getSpriteObj().getSprite().getY()) % backgroundTextureSize, backgroundTextureSize, backgroundTextureSize);
-            }
-        }
-
-        //Draw land
-        for (int i = 1; i < (int) ((viewport.getWorldWidth() - laneWidthsRiver) / 2) + 2; i++) {
-            for (int j = -1; j < (viewport.getWorldHeight() / backgroundTextureSize) + 1; j++) {
-                batch.draw(landTexture, (int) ((viewport.getWorldWidth() - laneWidthsRiver * backgroundTextureSize) / 2 - i * backgroundTextureSize) - playerBoat.getSpriteObj().getSprite().getX(), j * backgroundTextureSize - playerBoat.getSpriteObj().getSprite().getY() % backgroundTextureSize, backgroundTextureSize, backgroundTextureSize);
-            }
-        }
-
-        for (int i = 0; i < (int) ((viewport.getWorldWidth() - laneWidthsRiver) / 2) + 1; i++) {
-            for (int j = -1; j < (viewport.getWorldHeight() / backgroundTextureSize) + 1; j++) {
-                batch.draw(landTexture, (int) ((viewport.getWorldWidth() + laneWidthsRiver * backgroundTextureSize) / 2 + i * backgroundTextureSize) - playerBoat.getSpriteObj().getSprite().getX(), j * backgroundTextureSize - playerBoat.getSpriteObj().getSprite().getY() % backgroundTextureSize, backgroundTextureSize, backgroundTextureSize);
-            }
-        }
-    }
-
-    private void renderEnemies(){
-        Iterator iterator = enemyObjects.iterator();
-        while(iterator.hasNext()){
-            Enemy e = (Enemy) iterator.next();
-            /*if(e.intersects(playerBoat.boundingBox)){
-                iterator.remove();
-                playerBoat.damage(e);
-                System.out.println("damage");
-            }else {
-                e.draw(batch);
-            }*/
-        }
     }
 
     private void detectCollisions(){
@@ -213,22 +91,29 @@ public class GameScreen implements Screen {
 
     }
 
-    private void detectInput(){
+    private void detectInput(float delta){
         //keyboard input
-        //Background movement
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            playerBoat.setThrottle(1.0f);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            playerBoat.setThrottle(-1.0f);
-        } else {
-            playerBoat.setThrottle(0.0f);
+
+        //strategy: determine the max distance the ship can move
+        //check each key that matters and move accordingly
+
+        float leftLimit, rightLimit, upLimit, downLimit;
+        leftLimit = -playerBoat.boundingBox.x;
+        downLimit = -playerBoat.boundingBox.y;
+        rightLimit = WORLD_WIDTH-playerBoat.boundingBox.x - playerBoat.boundingBox.width;
+        upLimit = WORLD_WIDTH-playerBoat.boundingBox.y - playerBoat.boundingBox.height;
+
+        if(Gdx.input.isKeyPressed(Input.Keys.D) && rightLimit > 0){
+            playerBoat.translate(Math.min(playerBoat.movementSpeed*delta, rightLimit),0f);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            playerBoat.setSteering(-1.0f);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            playerBoat.setSteering(1.0f);
-        } else {
-            playerBoat.setSteering(0.0f);
+        if(Gdx.input.isKeyPressed(Input.Keys.A) && leftLimit < 0){
+            playerBoat.translate(Math.max(-playerBoat.movementSpeed*delta, leftLimit),0f);
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.W) && upLimit > 0){
+            playerBoat.translate(0f, Math.min(playerBoat.movementSpeed*delta, upLimit));
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.S) && downLimit < 0){
+            playerBoat.translate(0f, Math.max(-playerBoat.movementSpeed*delta, downLimit));
         }
 
     }
@@ -261,6 +146,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
+
     }
 }
