@@ -1,26 +1,35 @@
 package com.quackthulu.boatrace2020;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class BoatRace extends Game {
 
-	GameScreen gameScreen;
+	static public MainMenu MENU_SCREEN;
+	static public SettingsScreen SETTINGS_SCREEN;
+	static public GameScreen GAME_SCREEN;
+	static public Lose LOSE_SCREEN;
+	static public Win WIN_SCREEN;
+	public Settings settings;
+
 
 	@Override
 	public void create() {
-		gameScreen = new GameScreen();
-		setScreen(gameScreen);
+		settings = new Settings();
+		MENU_SCREEN = new MainMenu(this);
+		SETTINGS_SCREEN = new SettingsScreen(this);
+		GAME_SCREEN = new GameScreen();
+		LOSE_SCREEN = new Lose(this);
+		WIN_SCREEN = new Win(this);
+		setScreen(MENU_SCREEN);
 	}
+
 
 
 	@Override
 	public void dispose() {
-		gameScreen.dispose();
 		System.exit(0);
 	}
 
@@ -31,6 +40,11 @@ public class BoatRace extends Game {
 
 	@Override
 	public void resize(int width, int height) {
-		gameScreen.resize(width, height);
+		getScreen().resize(width, height);
 	}
+
+	public Settings getPreferences() {
+		return settings;
+	}
+
 }
