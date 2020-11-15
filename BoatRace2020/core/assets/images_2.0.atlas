@@ -1,0 +1,27 @@
+
+images_2.0.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+duck_in_a_top_hat
+  rotate: false
+  xy: 0, 733
+  size: 1200, 1200
+  orig: 1200, 1200
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 0, 0
+  size: 66, 113
+  orig: 66, 113
+  offset: 0, 0
+  index: -1
+sea
+  rotate: false
+  xy: 0, 113
+  size: 1280, 620
+  orig: 1280, 620
+  offset: 0, 0
+  index: -1
