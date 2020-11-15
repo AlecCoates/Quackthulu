@@ -8,12 +8,22 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.quackthulu.boatrace2020.basics.Force;
 import com.quackthulu.boatrace2020.basics.TimedTexture;
 
+<<<<<<< Updated upstream
+=======
+import java.awt.*;
+import java.util.*;
+
+>>>>>>> Stashed changes
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -44,6 +54,7 @@ public class GameScreen implements Screen {
     private float riverCountY = 0;
 
     //game objects
+    private LinkedList<SpriteObj> spriteObjs;
     private NewBoat playerBoat;
     private Duck enemyDuck;
     //private LinkedList<Enemy> enemyObjects;
@@ -76,8 +87,29 @@ public class GameScreen implements Screen {
         environmentalConditions.getCurrent().setForce(new Force(-0.8f, -8.0f));
 
         //set up game objects
+        spriteObjs = new LinkedList<>();
         playerBoat = new NewBoat();
         playerBoat.getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(playerBoatTexture)});
+<<<<<<< Updated upstream
+=======
+        spriteObjs.add(playerBoat.getSpriteObj());
+        opponentBoats = new LinkedList<>();
+        for (int i = 0; i < 4; i++) {
+            opponentBoats.add(new NewBoat());
+            opponentBoats.get(i).getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(playerBoatTexture)});
+            spriteObjs.add(opponentBoats.get(i).getSpriteObj());
+            if (i < 2) {
+                opponentBoats.get(i).getSpriteObj().getSprite().setX((i - 2) * backgroundTextureSize);
+            } else {
+                opponentBoats.get(i).getSpriteObj().getSprite().setX((i - 1) * backgroundTextureSize);
+            }
+            opponentBoats.get(i).getRowers().setMaxForce(new Random().nextFloat() * 300);
+            opponentBoats.get(i).setThrottle(1.0f);
+        }
+
+
+
+>>>>>>> Stashed changes
         //enemyDuck = new Duck(2,3,WORLD_WIDTH/2,WORLD_HEIGHT*3/4, enemyDuckTexture,0);
 
         //hud
@@ -111,12 +143,28 @@ public class GameScreen implements Screen {
         Sprite playerBoatSprite = playerBoat.getSpriteObj().getSprite();
         batch.draw(playerBoatTexture, (viewport.getWorldWidth() - playerBoatTexture.getRegionWidth()) / 2, (viewport.getWorldHeight() - playerBoatTexture.getRegionHeight()) / 2, playerBoat.getSpriteObj().getSprite().getOriginX(), playerBoatSprite.getOriginY(), playerBoatSprite.getWidth(), playerBoatSprite.getHeight(), playerBoatSprite.getScaleX(), playerBoatSprite.getScaleY(), -playerBoatSprite.getRotation());
 
+<<<<<<< Updated upstream
+=======
+        //draw opponents
+        for (NewBoat opponentBoat :opponentBoats) {
+            Sprite opponentBoatSprite = opponentBoat.getSpriteObj().getSprite();
+            batch.draw(playerBoatTexture, ((viewport.getWorldWidth() - playerBoatTexture.getRegionWidth()) / 2) + (opponentBoatSprite.getX() - playerBoatSprite.getX()), ((viewport.getWorldHeight() - playerBoatTexture.getRegionHeight()) / 2) + (opponentBoatSprite.getY() - playerBoatSprite.getY()), opponentBoatSprite.getOriginX(), opponentBoatSprite.getOriginY(), opponentBoatSprite.getWidth(), opponentBoatSprite.getHeight(), opponentBoatSprite.getScaleX(), opponentBoatSprite.getScaleY(), -opponentBoatSprite.getRotation());
+        }
+>>>>>>> Stashed changes
 
         //detect collisions
         //detectCollisions();
 
+        boolean coll = false;
         //updates
+<<<<<<< Updated upstream
         playerBoat.update(delta, environmentalConditions);
+=======
+        playerBoat.update(delta, environmentalConditions, spriteObjs);
+        for (NewBoat opponentBoat :opponentBoats) {
+            opponentBoat.update(delta, environmentalConditions, spriteObjs);
+        }
+>>>>>>> Stashed changes
 
         batch.end();
     }

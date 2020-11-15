@@ -3,6 +3,8 @@ package com.quackthulu.boatrace2020;
 import com.quackthulu.boatrace2020.basics.Force;
 import com.sun.org.apache.bcel.internal.Const;
 
+import java.util.List;
+
 public class NewBoat {
     private SpriteObj spriteObj;
     private DynamicObj dynamicObj;
@@ -28,9 +30,13 @@ public class NewBoat {
         this.health = maxHealth;
     }
 
-    public void update(float delta, EnvironmentalConditions env) {
-        dynamicObj.update(delta, env, spriteObj);
+    public void update(float delta, EnvironmentalConditions env, List<SpriteObj> collisionObjs) {
+        dynamicObj.update(delta, env, collisionObjs, spriteObj);
         spriteObj.updateTexture(delta);
+    }
+
+    private void collision() {
+
     }
 
     public void setThrottle(float throttle) {

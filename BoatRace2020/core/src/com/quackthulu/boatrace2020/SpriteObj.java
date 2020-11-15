@@ -1,6 +1,8 @@
 package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Shape2D;
 import com.quackthulu.boatrace2020.basics.TimedTexture;
 
@@ -9,8 +11,10 @@ public class SpriteObj {
     private TimedTexture[] timedTextures;
     private int currentTexture;
     private float elapsedTextureTime;
-    private Shape2D customBounds;
+    private Polygon customBounds;
     private boolean isCollider;
+    private Object collisionHandler;
+    private DynamicObj dynamicObj;
 
     public SpriteObj() {
         this(new TimedTexture[] {});
@@ -70,15 +74,33 @@ public class SpriteObj {
         return isCollider;
     }
 
-    public void setBounds(Shape2D bounds) {
+    public void setBounds(Polygon bounds) {
         customBounds = bounds;
     }
 
-    public Shape2D getBounds() {
+    public Polygon getBounds() {
+        Polygon poly;
         if (customBounds != null) {
-            return customBounds;
+            poly = new Polygon(customBounds.getVertices());
         } else {
-            return sprite.getBoundingRectangle();
+            poly = rectangleToPolygon(sprite.getBoundingRectangle());
         }
+        poly.setOrigin(sprite.getOriginX(), sprite.getOriginY());
+        poly.setPosition(sprite.getX(), sprite.getY());
+        poly.setRotation(sprite.getRotation());
+        poly.setScale(sprite.getScaleX(), sprite.getScaleY());
+        return poly;
+    }
+
+    private Polygon rectangleToPolygon(Rectangle rect) {
+        return new Polygon(new float[] {rect.x, rect.y, (rect.x + rect.width), rect.y, (rect.x + rect.width), (rect.y + rect.height), rect.x, (rect.y + rect.height)});
+    }
+
+    public DynamicObj getDynamicObj() {
+        return dynamicObj;
+    }
+
+    public void setDynamicObj(DynamicObj dynamicObj) {
+        this.dynamicObj = dynamicObj;
     }
 }
