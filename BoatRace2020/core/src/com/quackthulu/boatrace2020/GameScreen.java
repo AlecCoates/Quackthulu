@@ -18,12 +18,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.quackthulu.boatrace2020.basics.Force;
 import com.quackthulu.boatrace2020.basics.TimedTexture;
 
-<<<<<<< Updated upstream
-=======
 import java.awt.*;
 import java.util.*;
-
->>>>>>> Stashed changes
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -50,6 +46,10 @@ public class GameScreen implements Screen {
     //Background
     private Background background;
     private ArrayList<Background> backgrounds;
+    private float laneWidthsRiver = 7.0f;
+    private float laneWidthsScreen = 7.5f;
+    private float minAspectRatio = 1.8f;
+    private int backgroundTextureSize = 64;
     private float riverCountX = 0;
     private float riverCountY = 0;
 
@@ -58,6 +58,7 @@ public class GameScreen implements Screen {
     private NewBoat playerBoat;
     private Duck enemyDuck;
     //private LinkedList<Enemy> enemyObjects;
+    private LinkedList<NewBoat> opponentBoats;
     private LinkedList<Enemy> enemyObjects;
 
     //HUD
@@ -90,8 +91,6 @@ public class GameScreen implements Screen {
         spriteObjs = new LinkedList<>();
         playerBoat = new NewBoat();
         playerBoat.getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(playerBoatTexture)});
-<<<<<<< Updated upstream
-=======
         spriteObjs.add(playerBoat.getSpriteObj());
         opponentBoats = new LinkedList<>();
         for (int i = 0; i < 4; i++) {
@@ -107,9 +106,6 @@ public class GameScreen implements Screen {
             opponentBoats.get(i).setThrottle(1.0f);
         }
 
-
-
->>>>>>> Stashed changes
         //enemyDuck = new Duck(2,3,WORLD_WIDTH/2,WORLD_HEIGHT*3/4, enemyDuckTexture,0);
 
         //hud
@@ -143,28 +139,21 @@ public class GameScreen implements Screen {
         Sprite playerBoatSprite = playerBoat.getSpriteObj().getSprite();
         batch.draw(playerBoatTexture, (viewport.getWorldWidth() - playerBoatTexture.getRegionWidth()) / 2, (viewport.getWorldHeight() - playerBoatTexture.getRegionHeight()) / 2, playerBoat.getSpriteObj().getSprite().getOriginX(), playerBoatSprite.getOriginY(), playerBoatSprite.getWidth(), playerBoatSprite.getHeight(), playerBoatSprite.getScaleX(), playerBoatSprite.getScaleY(), -playerBoatSprite.getRotation());
 
-<<<<<<< Updated upstream
-=======
         //draw opponents
         for (NewBoat opponentBoat :opponentBoats) {
             Sprite opponentBoatSprite = opponentBoat.getSpriteObj().getSprite();
             batch.draw(playerBoatTexture, ((viewport.getWorldWidth() - playerBoatTexture.getRegionWidth()) / 2) + (opponentBoatSprite.getX() - playerBoatSprite.getX()), ((viewport.getWorldHeight() - playerBoatTexture.getRegionHeight()) / 2) + (opponentBoatSprite.getY() - playerBoatSprite.getY()), opponentBoatSprite.getOriginX(), opponentBoatSprite.getOriginY(), opponentBoatSprite.getWidth(), opponentBoatSprite.getHeight(), opponentBoatSprite.getScaleX(), opponentBoatSprite.getScaleY(), -opponentBoatSprite.getRotation());
         }
->>>>>>> Stashed changes
 
         //detect collisions
         //detectCollisions();
 
         boolean coll = false;
         //updates
-<<<<<<< Updated upstream
-        playerBoat.update(delta, environmentalConditions);
-=======
         playerBoat.update(delta, environmentalConditions, spriteObjs);
         for (NewBoat opponentBoat :opponentBoats) {
             opponentBoat.update(delta, environmentalConditions, spriteObjs);
         }
->>>>>>> Stashed changes
 
         batch.end();
     }
