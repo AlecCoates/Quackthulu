@@ -1,6 +1,8 @@
 package com.quackthulu.boatrace2020;
 
 import com.quackthulu.boatrace2020.basics.Force;
+import com.sun.org.apache.bcel.internal.Const;
+
 
 public class NewBoat {
     private SpriteObj spriteObj;

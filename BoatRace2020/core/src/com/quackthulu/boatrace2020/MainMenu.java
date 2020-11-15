@@ -42,7 +42,6 @@ public class MainMenu implements Screen {
         TextButton settings = new TextButton("Settings",skin);
         TextButton quit = new TextButton("Quit",skin);
 
-
         //Adding buttons to the table
         table.add(startGame).fillX().uniformX();
         table.row().pad(20,0,20,0);
