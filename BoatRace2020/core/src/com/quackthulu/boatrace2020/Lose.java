@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -15,14 +16,15 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 
-
-public class MainMenu implements Screen {
+public class Lose implements Screen {
     private Stage stage;
     private BoatRace parent;
-    MainMenu(BoatRace boatRace){
+    private Label LoseLable;
+    Lose(BoatRace boatRace){
         parent = boatRace;
 
     }
+
     @Override
     public void show() {
         // stage acts as a controller in which it reacts to user input
@@ -38,37 +40,21 @@ public class MainMenu implements Screen {
         //Button creation
         Skin skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
 
-        TextButton startGame = new TextButton("Start Game",skin);
-        TextButton settings = new TextButton("Settings",skin);
-        TextButton quit = new TextButton("Quit",skin);
-
-
-        //Adding buttons to the table
-        table.add(startGame).fillX().uniformX();
-        table.row().pad(20,0,20,0);
-        table.add(settings).fillX().uniformX();
-        table.row();
-        table.add(quit).fillX().uniformX();
-
-        quit.addListener(new ChangeListener(){
-            @Override
-                    public  void changed(ChangeEvent event, Actor actor){
-                Gdx.app.exit();
-            }
-        });
-        startGame.addListener(new ChangeListener() {
+        //return to main menu button
+        final TextButton returnButton = new TextButton("Retry", skin);
+        returnButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.setScreen(BoatRace.GAME_SCREEN);
-            }
-        });
-        settings.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                parent.setScreen(BoatRace.SETTINGS_SCREEN);
+                parent.setScreen(BoatRace.MENU_SCREEN);
             }
         });
 
+        LoseLable = new Label("You Lose!",skin);
+
+        table.add(LoseLable).colspan(2);
+        table.row().pad(10,0,0,10);
+        table.row().pad(10,0,0,10);
+        table.add(returnButton).colspan(2);
     }
 
     @Override
@@ -77,7 +63,6 @@ public class MainMenu implements Screen {
         Gdx.gl.glClearColor(0f,0f,0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //Telling stage to act and draw itself
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
         stage.draw();
     }
@@ -105,7 +90,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
-        // dispose of assets that arent needed at the time
-        stage.dispose();
+
     }
+
 }

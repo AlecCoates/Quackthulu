@@ -10,6 +10,8 @@ public class BoatRace extends Game {
 	static public MainMenu MENU_SCREEN;
 	static public SettingsScreen SETTINGS_SCREEN;
 	static public GameScreen GAME_SCREEN;
+	static public Lose LOSE_SCREEN;
+	static public Win WIN_SCREEN;
 	Settings settings;
 
 	@Override
@@ -18,6 +20,8 @@ public class BoatRace extends Game {
 		MENU_SCREEN = new MainMenu(this);
 		SETTINGS_SCREEN = new SettingsScreen(this);
 		GAME_SCREEN = new GameScreen();
+		LOSE_SCREEN = new Lose(this);
+		WIN_SCREEN = new Win(this);
 		setScreen(MENU_SCREEN);
 	}
 
