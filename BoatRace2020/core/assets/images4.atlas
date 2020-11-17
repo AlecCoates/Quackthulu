@@ -56,7 +56,7 @@ player
 sea
   rotate: false
   xy: 2, 169
-  size: 1269, 556
-  orig: 1269, 556
+  size: 1280, 620
+  orig: 1280, 620
   offset: 0, 0
   index: -1

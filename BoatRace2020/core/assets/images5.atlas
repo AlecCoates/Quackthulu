@@ -53,17 +53,10 @@ player
   orig: 66, 113
   offset: 0, 0
   index: -1
-sea
+sea2
   rotate: false
   xy: 0, 161
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-land
-  rotate: false
-  xy: 0, 161
-  size: 16, 16
-  orig: 16, 16
+  size: 1269, 556
+  orig: 1269, 556
   offset: 0, 0
   index: -1

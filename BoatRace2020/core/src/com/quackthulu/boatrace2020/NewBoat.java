@@ -2,7 +2,6 @@ package com.quackthulu.boatrace2020;
 
 import com.quackthulu.boatrace2020.basics.Force;
 import com.sun.org.apache.bcel.internal.Const;
-
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;

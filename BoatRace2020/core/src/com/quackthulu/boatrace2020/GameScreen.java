@@ -1,5 +1,6 @@
 package com.quackthulu.boatrace2020;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -18,7 +19,6 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.quackthulu.boatrace2020.basics.Force;
 import com.quackthulu.boatrace2020.basics.TimedTexture;
-
 import java.awt.*;
 import java.util.*;
 import java.util.ArrayList;
@@ -78,18 +78,23 @@ public class GameScreen implements Screen {
         //set up texture atlas
         textureAtlas = new TextureAtlas("images6.atlas");
 
+        //set up textures
         playerBoatTexture = textureAtlas.findRegion("player");
+        playerBoatTexture.flip(false,true);
         enemyDuckTexture = textureAtlas.findRegion("duck_in_a_top_hat");
         backgroundTexture = textureAtlas.findRegion("sea3");
         landTexture = textureAtlas.findRegion("land1");
         fullHUDTexture = textureAtlas.findRegion("full_paddle");
         halfHUDTexture = textureAtlas.findRegion("half_paddle");
 
-        //
+        //Environmental conditions
         environmentalConditions = new EnvironmentalConditions();
         environmentalConditions.getWind().setForce(new Force( -0.05f, -0.1f));
         environmentalConditions.getWind().setGust(new Gust(new Force(-0.05f, -0.1f), 5.0f, 0.08f));
         environmentalConditions.getCurrent().setForce(new Force(-0.05f, -0.3f));
+
+        //Set lane size
+        backgroundTextureSize = 106;
 
         //set up game objects
         spriteObjs = new LinkedList<>();
@@ -273,7 +278,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        batch.dispose();
     }
 
     public int getBackgroundTextureSize() {
