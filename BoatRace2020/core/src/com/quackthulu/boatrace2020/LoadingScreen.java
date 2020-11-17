@@ -14,7 +14,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        parent.setScreen(BoatRace.MENU_SCREEN);
+        parent.changeScreen(BoatRace.MENU);
 
     }
 

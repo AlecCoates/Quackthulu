@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class GameScreen implements Screen {
+    private BoatRace parent;
 
     //screen
     private OrthographicCamera camera;
@@ -61,7 +62,8 @@ public class GameScreen implements Screen {
     //River environment
     private EnvironmentalConditions environmentalConditions;
 
-    GameScreen(){
+    GameScreen(BoatRace boatRace){
+        parent = boatRace;
         camera = new OrthographicCamera(); //no 3d perspective
         viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 

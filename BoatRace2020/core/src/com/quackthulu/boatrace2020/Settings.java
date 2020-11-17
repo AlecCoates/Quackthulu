@@ -23,7 +23,7 @@ public class Settings {
     }
 
     public float getSoundVolume(){
-        return  getPrefs().getFloat(PREF_SOUND_VOL,0.5f);
+        return  getPrefs().getFloat(PREF_SOUND_VOL,0.1f);
     }
     public void setSoundVolume(float volume){
         getPrefs().putFloat(PREF_SOUND_VOL,volume);

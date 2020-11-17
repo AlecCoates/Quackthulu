@@ -1,0 +1,14 @@
+1) Press Start Game button in Main Menu top begin the game
+2) Press Settings to disable/enable or turn up or down the volume of the game
+3) Press Quit to leave the game
+4) Press Return to return to the main menu
+5) Once Start Game has been pressed, select Boat Type for your races, and press select to begin
+6) Race 1 will begin starting your timer and setting off your opponents, your goal is to be first across the finish line with the quickest time
+7) Use W A S D to move forward, left, down, right, respectively.
+8) Stay within your lane or else a time penalty shall be added towards your final time.
+9) Avoid obstacles by rowing out of the way, or else health and speed of your boat will be penalised.
+10) If you win the race by acquiring the fastest time you will be qualified for the next race.
+11) there is 4 races in total each ones complexity and difficulty increasing each time.
+12) Race 4 is the final race, where you will battle it out for the championship.
+13) Enjoy the game!
+ 
