@@ -13,8 +13,9 @@ public class SpriteObj {
     private float elapsedTextureTime;
     private Polygon customBounds;
     private boolean isCollider;
-    private Object collisionHandler;
-    private DynamicObj dynamicObj;
+    public Obstacle obstacle;
+    public DynamicObj dynamicObj;
+    public GameScreen gameScreen;
 
     public SpriteObj() {
         this(new TimedTexture[] {});
@@ -29,7 +30,6 @@ public class SpriteObj {
         this.timedTextures = timedTextures;
         this.currentTexture = 0;
         this.elapsedTextureTime = 0.0f;
-        this.customBounds = null;
         this.isCollider = true;
         if (this.timedTextures.length > 0) {
             this.sprite.setTexture(timedTextures[0].getTexture().getTexture());
@@ -83,10 +83,10 @@ public class SpriteObj {
         if (customBounds != null) {
             poly = new Polygon(customBounds.getVertices());
         } else {
-            poly = rectangleToPolygon(sprite.getBoundingRectangle());
+            poly = new Polygon(new float[] {0, 0, sprite.getWidth(), 0, sprite.getWidth(), sprite.getHeight(), 0, sprite.getHeight()});
         }
         poly.setOrigin(sprite.getOriginX(), sprite.getOriginY());
-        poly.setPosition(sprite.getX(), sprite.getY());
+        poly.setPosition(sprite.getX() * gameScreen.getBackgroundTextureSize(), sprite.getY() * gameScreen.getBackgroundTextureSize());
         poly.setRotation(sprite.getRotation());
         poly.setScale(sprite.getScaleX(), sprite.getScaleY());
         return poly;
@@ -96,11 +96,4 @@ public class SpriteObj {
         return new Polygon(new float[] {rect.x, rect.y, (rect.x + rect.width), rect.y, (rect.x + rect.width), (rect.y + rect.height), rect.x, (rect.y + rect.height)});
     }
 
-    public DynamicObj getDynamicObj() {
-        return dynamicObj;
-    }
-
-    public void setDynamicObj(DynamicObj dynamicObj) {
-        this.dynamicObj = dynamicObj;
-    }
 }
