@@ -18,19 +18,19 @@ public class AI {
 
     public void update() {
         boat.setThrottle(new Random().nextFloat() * 0.1f + 0.9f);
-        List<float[]> useableSpaces = new LinkedList<>();
-        useableSpaces.add(boat.lane.clone());
+        List<float[]> usableSpaces = new LinkedList<>();
+        usableSpaces.add(boat.lane.clone());
         if (boat.getSpriteObj().gameScreen.getEnemyObjects() == null) return;
         for (SpriteObj enemyObject : boat.getSpriteObj().gameScreen.getEnemyObjects()) {
             Rectangle boundingRect = enemyObject.getBounds().getBoundingRectangle();
-            List<float[]> newUseableSpaces = new LinkedList<>();
-            for (int i = 0; i < useableSpaces.size(); i++) {
-                if ((boundingRect.x > useableSpaces.get(i)[0] && boundingRect.x < useableSpaces.get(i)[1]) || (boundingRect.x + boundingRect.width > useableSpaces.get(i)[0] && boundingRect.x + boundingRect.width < useableSpaces.get(i)[1])) {
-                    
-                    useableSpaces.remove(i);
+            List<float[]> newUsableSpaces = new LinkedList<>();
+            for (int i = 0; i < usableSpaces.size(); i++) {
+                if ((boundingRect.x > usableSpaces.get(i)[0] && boundingRect.x < usableSpaces.get(i)[1]) || (boundingRect.x + boundingRect.width > usableSpaces.get(i)[0] && boundingRect.x + boundingRect.width < usableSpaces.get(i)[1])) {
+
+                    usableSpaces.remove(i);
                 }
             }
-            useableSpaces.addAll(newUseableSpaces);
+            usableSpaces.addAll(newUsableSpaces);
         }
         //boat.setSteering();
     }
