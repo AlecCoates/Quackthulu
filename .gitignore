@@ -47,6 +47,7 @@ nb-configuration.xml
 .DS_Store
 
 # Misc
+*.log
 *.swp
 release.properties
 pom.xml.releaseBackup
