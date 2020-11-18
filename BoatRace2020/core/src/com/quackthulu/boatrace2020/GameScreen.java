@@ -34,7 +34,7 @@ public class GameScreen implements Screen {
     //graphics
     private SpriteBatch batch;
     private TextureAtlas textureAtlas;
-    private TextureRegion backgroundTexture, landTexture, playerBoatTexture, enemyDuckTexture, fullHUDTexture, halfHUDTexture;
+    private TextureRegion backgroundTexture, landTexture, flagTexture, playerBoatTexture, enemyDuckTexture, fullHUDTexture, halfHUDTexture;
 
     //timing
     private float timer = 0;
@@ -76,14 +76,14 @@ public class GameScreen implements Screen {
         viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
         //set up texture atlas
-        textureAtlas = new TextureAtlas("images6.atlas");
+        textureAtlas = new TextureAtlas("images9.atlas");
 
         //set up textures
         playerBoatTexture = textureAtlas.findRegion("player");
-        playerBoatTexture.flip(false,true);
-        enemyDuckTexture = textureAtlas.findRegion("duck_in_a_top_hat");
-        backgroundTexture = textureAtlas.findRegion("sea3");
-        landTexture = textureAtlas.findRegion("land1");
+        enemyDuckTexture = textureAtlas.findRegion("duck_in_a_top_hat2");
+        backgroundTexture = textureAtlas.findRegion("sea5");
+        landTexture = textureAtlas.findRegion("land2");
+        flagTexture = textureAtlas.findRegion("flag1");
         fullHUDTexture = textureAtlas.findRegion("full_paddle");
         halfHUDTexture = textureAtlas.findRegion("half_paddle");
 
@@ -205,8 +205,8 @@ public class GameScreen implements Screen {
 
         //Draw Start & finish Line
         for (int i = 0; i < (int) Math.ceil(laneWidthsRiver); i++) {
-            batch.draw(landTexture, (int) ((viewport.getWorldWidth() - laneWidthsRiver * backgroundTextureSize) / 2 + i * backgroundTextureSize) - playerBoat.getSpriteObj().getSprite().getX() * backgroundTextureSize, (viewport.getWorldHeight() / 2) - playerBoat.getSpriteObj().getSprite().getY() * backgroundTextureSize, backgroundTextureSize, backgroundTextureSize);
-            batch.draw(landTexture, (int) ((viewport.getWorldWidth() - laneWidthsRiver * backgroundTextureSize) / 2 + i * backgroundTextureSize) - playerBoat.getSpriteObj().getSprite().getX() * backgroundTextureSize, (viewport.getWorldHeight() / 2) + raceLength * backgroundTextureSize - playerBoat.getSpriteObj().getSprite().getY() * backgroundTextureSize, backgroundTextureSize, backgroundTextureSize);
+            batch.draw(flagTexture, (int) ((viewport.getWorldWidth() - laneWidthsRiver * backgroundTextureSize) / 2 + i * backgroundTextureSize) - playerBoat.getSpriteObj().getSprite().getX() * backgroundTextureSize, (viewport.getWorldHeight() / 2) - playerBoat.getSpriteObj().getSprite().getY() * backgroundTextureSize, backgroundTextureSize, backgroundTextureSize);
+            batch.draw(flagTexture, (int) ((viewport.getWorldWidth() - laneWidthsRiver * backgroundTextureSize) / 2 + i * backgroundTextureSize) - playerBoat.getSpriteObj().getSprite().getX() * backgroundTextureSize, (viewport.getWorldHeight() / 2) + raceLength * backgroundTextureSize - playerBoat.getSpriteObj().getSprite().getY() * backgroundTextureSize, backgroundTextureSize, backgroundTextureSize);
         }
 
         //Draw land
