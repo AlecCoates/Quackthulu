@@ -71,8 +71,12 @@ public class Boat implements CollisionCallback {
 
     public void setSteering(float steering) {
         float cosTheta = (float) Math.cos(Math.acos(dynamicObj.getVelocity().getY() / dynamicObj.getVelocity().getLinearVelocity()) - Math.toRadians(spriteObj.getSprite().getRotation()));
-        if (!(cosTheta >= -1)) cosTheta = 1;
-        dynamicObj.setTorque((steering * rowers.getAgility()) * (1.1f + cosTheta) / 2);
+        if (cosTheta > 0) {
+            cosTheta = 1;
+        } else {
+            cosTheta = -1;
+        };
+        dynamicObj.setTorque((steering * rowers.getAgility()) * cosTheta / 2);
     }
 
     public SpriteObj getSpriteObj() {
