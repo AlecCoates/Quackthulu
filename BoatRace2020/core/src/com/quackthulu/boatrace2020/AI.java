@@ -21,7 +21,7 @@ public class AI {
         boat.setThrottle(new Random().nextFloat() * riskTaking * 0.2f + 0.8f);
         //if (boat.getSpriteObj().gameScreen.getEnemyObjects() == null) return;
         List<Rectangle> boundingRects = new LinkedList<>();
-        for (SpriteObj enemyObject : boat.getSpriteObj().gameScreen.getEnemyObjects()) {
+        for (SpriteObj enemyObject : boat.getSpriteObj().gameScreen.getSpriteObjs()) {
             Rectangle boundingRect = enemyObject.getBounds().getBoundingRectangle();
             if ((boundingRect.x + boundingRect.width > boat.lane[0] || boundingRect.x < boat.lane[1]) && Math.abs(boundingRect.y - boat.getSpriteObj().getSprite().getX()) < vision) {
                 boundingRects.add(boundingRect);

@@ -293,4 +293,8 @@ public class GameScreen implements Screen {
     public LinkedList<SpriteObj> getEnemyObjects() {
         return enemyObjects;
     }
+
+    public LinkedList<SpriteObj> getSpriteObjs() {
+        return spriteObjs;
+    }
 }
