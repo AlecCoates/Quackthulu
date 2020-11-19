@@ -27,13 +27,7 @@ public class AI {
                 boundingRects.add(boundingRect);
             }
         }
-        Collections.sort(boundingRects, (rect1, rect2) -> {
-            if (rect1.y - rect2.y > 0) {
-                return 1;
-            } else {
-                return -1;
-            }
-        });
+        Collections.sort(boundingRects, new RectangleComparator());
         float[] laneSelector;
         if (boundingRects.size() == 0) {
             laneSelector = boat.lane.clone();
