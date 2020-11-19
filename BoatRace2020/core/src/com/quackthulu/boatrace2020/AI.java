@@ -2,7 +2,6 @@ package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -10,7 +9,7 @@ import java.util.Random;
 public class AI {
     public Float riskTaking;
     public Float vision;
-    public NewBoat boat;
+    public Boat boat;
 
     public AI() {
         riskTaking = 1.0f;

@@ -1,29 +1,17 @@
 package com.quackthulu.boatrace2020;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.quackthulu.boatrace2020.basics.Force;
 import com.quackthulu.boatrace2020.basics.TimedTexture;
-import java.awt.*;
+
 import java.util.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public class GameScreen implements Screen {
@@ -52,7 +40,7 @@ public class GameScreen implements Screen {
     private ArrayList<Background> backgrounds;
     private int noOfBoats = 5;
     private float laneWidthsRiver = noOfBoats + 1.0f;
-    private float laneWidthsScreen = 7.5f;
+    private float laneWidthsScreen = 6.5f;
     private float minAspectRatio = 1.8f;
     private float boatWidthsLane = 4.0f;
     private float raceLength = 10.0f;
@@ -61,8 +49,8 @@ public class GameScreen implements Screen {
     private float riverCountY = 0;
 
     //game objects
-    private NewBoat playerBoat;
-    private LinkedList<NewBoat> opponentBoats;
+    private Boat playerBoat;
+    private LinkedList<Boat> opponentBoats;
     private LinkedList<SpriteObj> spriteObjs;
     private LinkedList<SpriteObj> enemyObjects;
 
@@ -103,7 +91,7 @@ public class GameScreen implements Screen {
 
         //set up game objects
         spriteObjs = new LinkedList<>();
-        playerBoat = new NewBoat();
+        playerBoat = new Boat();
         playerBoat.getSpriteObj().gameScreen = this;
         playerBoat.getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(playerBoatTexture)});
         playerBoat.lane = new float[] {-0.5f, 0.5f};
@@ -111,7 +99,7 @@ public class GameScreen implements Screen {
         spriteObjs.add(playerBoat.getSpriteObj());
         opponentBoats = new LinkedList<>();
         for (int i = 0; i < 4; i++) {
-            opponentBoats.add(new NewBoat());
+            opponentBoats.add(new Boat());
             opponentBoats.get(i).getSpriteObj().gameScreen = this;
             opponentBoats.get(i).getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(playerBoatTexture)});
             opponentBoats.get(i).ai = new AI();
@@ -152,7 +140,7 @@ public class GameScreen implements Screen {
 
         //check race finish
         if (playerBoat.getSpriteObj().getSprite().getY() > raceLength * backgroundTextureSize && !playerBoat.finishedRace()) playerBoat.setFinishingTime(timer);
-        for (NewBoat opponentBoat : opponentBoats) {
+        for (Boat opponentBoat : opponentBoats) {
             if (opponentBoat.getSpriteObj().getSprite().getY() > raceLength * backgroundTextureSize && !opponentBoat.finishedRace()) opponentBoat.setFinishingTime(timer);
         }
 
@@ -165,7 +153,7 @@ public class GameScreen implements Screen {
         batch.draw(playerBoatTexture, (viewport.getWorldWidth() - playerBoatTexture.getRegionWidth()) / 2, (viewport.getWorldHeight() - playerBoatTexture.getRegionHeight()) / 2, playerBoat.getSpriteObj().getSprite().getOriginX(), playerBoatSprite.getOriginY(), playerBoatSprite.getWidth(), playerBoatSprite.getHeight(), playerBoatSprite.getScaleX(), playerBoatSprite.getScaleY(), playerBoatSprite.getRotation());
 
         //draw opponents
-        for (NewBoat opponentBoat : opponentBoats) {
+        for (Boat opponentBoat : opponentBoats) {
             Sprite opponentBoatSprite = opponentBoat.getSpriteObj().getSprite();
             opponentBoatSprite.setScale(backgroundTextureSize / opponentBoatSprite.getWidth() / boatWidthsLane, backgroundTextureSize / opponentBoatSprite.getWidth() / boatWidthsLane);
             batch.draw(playerBoatTexture, ((viewport.getWorldWidth() - playerBoatTexture.getRegionWidth()) / 2) + (opponentBoatSprite.getX() - playerBoatSprite.getX()) * backgroundTextureSize, ((viewport.getWorldHeight() - playerBoatTexture.getRegionHeight()) / 2) + (opponentBoatSprite.getY() - playerBoatSprite.getY()) * backgroundTextureSize, opponentBoatSprite.getOriginX(), opponentBoatSprite.getOriginY(), opponentBoatSprite.getWidth(), opponentBoatSprite.getHeight(), opponentBoatSprite.getScaleX(), opponentBoatSprite.getScaleY(), opponentBoatSprite.getRotation());
@@ -173,7 +161,7 @@ public class GameScreen implements Screen {
 
         //updates
         playerBoat.update(delta, environmentalConditions, spriteObjs);
-        for (NewBoat opponentBoat : opponentBoats) {
+        for (Boat opponentBoat : opponentBoats) {
             opponentBoat.update(delta, environmentalConditions, spriteObjs);
         }
 

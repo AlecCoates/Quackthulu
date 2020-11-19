@@ -4,16 +4,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 public class HUD {
-    private NewBoat boat;
+    private Boat boat;
     private TextureRegion fullDamageIcon, halfDamageIcon;
     private int damageIconWidth, damageIconHeight;
 
-    public HUD(NewBoat boat, TextureRegion fullDamageIcon, TextureRegion halfDamageIcon){
+    public HUD(Boat boat, TextureRegion fullDamageIcon, TextureRegion halfDamageIcon){
         this.boat = boat;
         this.fullDamageIcon = fullDamageIcon;
         this.halfDamageIcon = halfDamageIcon;
