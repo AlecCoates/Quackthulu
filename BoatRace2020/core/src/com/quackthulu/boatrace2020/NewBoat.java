@@ -45,7 +45,7 @@ public class NewBoat implements CollisionCallback {
             penaltyTime += 4 * delta;
         }
         if (ai != null) {
-            ai.update();
+            ai.update(delta);
         }
     }
 
@@ -86,10 +86,6 @@ public class NewBoat implements CollisionCallback {
 
     public Rowers getRowers() {
         return rowers;
-    }
-
-    public AI getAI() {
-        return ai;
     }
 
     public float getManeuverability() {

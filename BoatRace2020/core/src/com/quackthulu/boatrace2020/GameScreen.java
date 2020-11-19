@@ -60,10 +60,9 @@ public class GameScreen implements Screen {
     private float riverCountY = 0;
 
     //game objects
-    private LinkedList<SpriteObj> spriteObjs;
     private NewBoat playerBoat;
-    private Duck enemyDuck;
     private LinkedList<NewBoat> opponentBoats;
+    private LinkedList<SpriteObj> spriteObjs;
     private LinkedList<SpriteObj> enemyObjects;
 
     //HUD
@@ -150,9 +149,7 @@ public class GameScreen implements Screen {
         detectInput();
 
         //draw background
-        batch.disableBlending();
         renderBackground(delta);
-        batch.enableBlending();
 
         //check race finish
         if (playerBoat.getSpriteObj().getSprite().getY() > raceLength * backgroundTextureSize && !playerBoat.finishedRace()) playerBoat.setFinishingTime(timer);
@@ -185,6 +182,8 @@ public class GameScreen implements Screen {
     }
 
     private void renderBackground(float delta){
+        batch.disableBlending();
+
         //Draw river
         if (viewport.getWorldWidth() / viewport.getWorldHeight() < minAspectRatio) {
             backgroundTextureSize = (int) (viewport.getWorldWidth() / laneWidthsScreen);
@@ -214,6 +213,8 @@ public class GameScreen implements Screen {
                 batch.draw(landTexture, (int) ((viewport.getWorldWidth() + laneWidthsRiver * backgroundTextureSize) / 2 + i * backgroundTextureSize) - playerBoat.getSpriteObj().getSprite().getX() * backgroundTextureSize, j * backgroundTextureSize - (playerBoat.getSpriteObj().getSprite().getY() * backgroundTextureSize) % backgroundTextureSize, backgroundTextureSize, backgroundTextureSize);
             }
         }
+
+        batch.enableBlending();
 
         //Draw buoys
         for (int i = 0; i < noOfBoats + 1; i++) {
@@ -273,7 +274,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
     @Override
@@ -284,6 +285,7 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         batch.dispose();
+
     }
 
     public int getBackgroundTextureSize() {

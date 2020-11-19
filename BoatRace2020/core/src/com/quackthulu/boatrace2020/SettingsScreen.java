@@ -117,11 +117,11 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }
