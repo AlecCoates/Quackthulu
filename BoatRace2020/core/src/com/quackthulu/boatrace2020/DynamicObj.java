@@ -1,6 +1,9 @@
 package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.FloatArray;
 import com.quackthulu.boatrace2020.basics.CustomMath;
 import com.quackthulu.boatrace2020.basics.Force;
@@ -50,12 +53,19 @@ public class DynamicObj {
             spriteObj.getSprite().setX(spriteObj.getSprite().getX() + velocity.getX() * delta);
             spriteObj.getSprite().setY(spriteObj.getSprite().getY() + velocity.getY() * delta);
             SpriteObj collision = null;
+            int wallCollision = 0;
             for (SpriteObj collisionObj : collisionObjs) {
                 if (spriteObj != collisionObj && spriteObj.getIsCollider() && collisionObj.getIsCollider() && Intersector.intersectPolygons(new FloatArray(spriteObj.getBounds().getTransformedVertices()), new FloatArray(collisionObj.getBounds().getTransformedVertices()))) {
                     collision = collisionObj;
                 }
             }
-            if (collision != null) {
+            Rectangle spriteBoundingRect = spriteObj.getBounds().getBoundingRectangle();
+            if (spriteBoundingRect.x < -0.465f * spriteObj.gameScreen.getLaneWidthsRiver() * spriteObj.gameScreen.getBackgroundTextureSize()) {
+                wallCollision = -1;
+            } else if (spriteBoundingRect.x + 1.0f * spriteBoundingRect.width > 0.545f * spriteObj.gameScreen.getLaneWidthsRiver() * spriteObj.gameScreen.getBackgroundTextureSize()) {
+                wallCollision = 1;
+            }
+            if (collision != null || wallCollision != 0) {
                 spriteObj.getSprite().setRotation(oldRotation);
                 spriteObj.getSprite().setX(oldX);
                 spriteObj.getSprite().setY(oldY);
@@ -63,15 +73,25 @@ public class DynamicObj {
                     update(delta / 2, env, collisionObjs, spriteObj, true);
                 }
                 if (!(collided)) {
-                    float totalKineticX = 0.5f * mass * (float) CustomMath.signPow(velocity.getX(), 2);
-                    float totalKineticY = 0.5f * mass * (float) CustomMath.signPow(velocity.getY(), 2);
-                    totalKineticX += 0.5f * collision.dynamicObj.getMass() * (float) CustomMath.signPow(collision.dynamicObj.getVelocity().getX(), 2);
-                    totalKineticY += 0.5f * collision.dynamicObj.getMass() * (float) CustomMath.signPow(collision.dynamicObj.getVelocity().getY(), 2);
-                    velocity.setX((float) CustomMath.signSqrt(totalKineticX / mass));
-                    velocity.setY((float) CustomMath.signSqrt(totalKineticY / mass));
-                    collision.dynamicObj.getVelocity().setX((float) CustomMath.signSqrt(totalKineticX / mass));
-                    collision.dynamicObj.getVelocity().setY((float) CustomMath.signSqrt(totalKineticY / mass));
-                    collisionCallback.collision(collision);
+                    if (collision != null) {
+                        if (collision.dynamicObj != null) {
+                            float totalKineticX = 0.5f * mass * (float) CustomMath.signPow(velocity.getX(), 2);
+                            float totalKineticY = 0.5f * mass * (float) CustomMath.signPow(velocity.getY(), 2);
+                            totalKineticX += 0.5f * collision.dynamicObj.getMass() * (float) CustomMath.signPow(collision.dynamicObj.getVelocity().getX(), 2);
+                            totalKineticY += 0.5f * collision.dynamicObj.getMass() * (float) CustomMath.signPow(collision.dynamicObj.getVelocity().getY(), 2);
+                            velocity.setX((float) CustomMath.signSqrt(totalKineticX / mass));
+                            velocity.setY((float) CustomMath.signSqrt(totalKineticY / mass));
+                            collision.dynamicObj.getVelocity().setX((float) CustomMath.signSqrt(totalKineticX / mass));
+                            collision.dynamicObj.getVelocity().setY((float) CustomMath.signSqrt(totalKineticY / mass));
+                            collisionCallback.collision(collision);
+                        } else {
+                            velocity.setX(0);
+                            velocity.setY(0);
+                        }
+                    }
+                    if (wallCollision != 0) {
+                        velocity.setX(-0.2f * wallCollision);
+                    }
                 }
             }
         }

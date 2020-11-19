@@ -74,7 +74,7 @@ public class SpriteObj {
         return isCollider;
     }
 
-    public void setBounds(Polygon bounds) {
+    public void setCustomBounds(Polygon bounds) {
         customBounds = bounds;
     }
 
