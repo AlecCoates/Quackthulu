@@ -52,7 +52,7 @@ public class MainMenu implements Screen {
 
         quit.addListener(new ChangeListener(){
             @Override
-                    public  void changed(ChangeEvent event, Actor actor){
+            public  void changed(ChangeEvent event, Actor actor){
                 Gdx.app.exit();
             }
         });

@@ -55,7 +55,7 @@ public class DynamicObj {
             SpriteObj collision = null;
             int wallCollision = 0;
             for (SpriteObj collisionObj : collisionObjs) {
-                if (spriteObj != collisionObj && spriteObj.getIsCollider() && collisionObj.getIsCollider() && Intersector.intersectPolygons(new FloatArray(spriteObj.getBounds().getTransformedVertices()), new FloatArray(collisionObj.getBounds().getTransformedVertices()))) {
+                if (spriteObj != collisionObj  && Intersector.intersectPolygons(new FloatArray(spriteObj.getBounds().getTransformedVertices()), new FloatArray(collisionObj.getBounds().getTransformedVertices()))) {
                     collision = collisionObj;
                 }
             }
@@ -65,7 +65,7 @@ public class DynamicObj {
             } else if (spriteBoundingRect.x + 1.0f * spriteBoundingRect.width > 0.545f * spriteObj.gameScreen.getLaneWidthsRiver() * spriteObj.gameScreen.getBackgroundTextureSize()) {
                 wallCollision = 1;
             }
-            if (collision != null || wallCollision != 0) {
+            if ((collision != null && spriteObj.getIsCollider() && collision.getIsCollider()) || wallCollision != 0) {
                 spriteObj.getSprite().setRotation(oldRotation);
                 spriteObj.getSprite().setX(oldX);
                 spriteObj.getSprite().setY(oldY);
@@ -83,7 +83,6 @@ public class DynamicObj {
                             velocity.setY((float) CustomMath.signSqrt(totalKineticY / mass));
                             collision.dynamicObj.getVelocity().setX((float) CustomMath.signSqrt(totalKineticX / mass));
                             collision.dynamicObj.getVelocity().setY((float) CustomMath.signSqrt(totalKineticY / mass));
-                            collisionCallback.collision(collision);
                         } else {
                             velocity.setX(0);
                             velocity.setY(0);
@@ -93,6 +92,9 @@ public class DynamicObj {
                         velocity.setX(-0.2f * wallCollision);
                     }
                 }
+            }
+            if (collision != null && !(collided)) {
+                collisionCallback.collision(collision);
             }
         }
     }

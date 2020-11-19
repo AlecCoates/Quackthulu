@@ -35,7 +35,9 @@ public class NewBoat implements CollisionCallback {
         this.maneuverability = 1.0f;
         this.maxHealth = 5;
         this.health = maxHealth;
-        this.spriteObj.obstacle = new Obstacle(1);
+        this.spriteObj.setDamage(1);
+        this.spriteObj.dynamicObj = dynamicObj;
+        this.dynamicObj.collisionCallback = this;
     }
 
     public void update(float delta, EnvironmentalConditions env, List<SpriteObj> collisionObjs) {
@@ -60,9 +62,7 @@ public class NewBoat implements CollisionCallback {
         }
         if (newCollision) {
             collisions.put(collisionObj, spriteObj.gameScreen.getTimer());
-            if (collisionObj.obstacle != null) {
-                health -= collisionObj.obstacle.getDamage();
-            }
+            health -= collisionObj.getDamage();
         }
     }
 

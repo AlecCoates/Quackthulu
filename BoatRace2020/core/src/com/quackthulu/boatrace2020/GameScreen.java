@@ -83,6 +83,7 @@ public class GameScreen implements Screen {
 
         //set up textures
         backgroundSprite = new SpriteObj(new TimedTexture[] {new TimedTexture(textureAtlas.findRegion("sea5"), 0.5f), new TimedTexture(textureAtlas.findRegion("sea5b"), 0.5f)});
+        backgroundSprite.setIsCollider(false);
         landTexture = textureAtlas.findRegion("land2");
         flagTexture = textureAtlas.findRegion("flag1");
         buoyTexture = textureAtlas.findRegion("buoy1");
@@ -104,8 +105,6 @@ public class GameScreen implements Screen {
         spriteObjs = new LinkedList<>();
         playerBoat = new NewBoat();
         playerBoat.getSpriteObj().gameScreen = this;
-        playerBoat.getDynamicObj().collisionCallback = playerBoat;
-        playerBoat.getSpriteObj().dynamicObj = playerBoat.getDynamicObj();
         playerBoat.getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(playerBoatTexture)});
         playerBoat.lane = new float[] {-0.5f, 0.5f};
         playerBoat.getDynamicObj().setMass(0.9f);
@@ -114,8 +113,6 @@ public class GameScreen implements Screen {
         for (int i = 0; i < 4; i++) {
             opponentBoats.add(new NewBoat());
             opponentBoats.get(i).getSpriteObj().gameScreen = this;
-            opponentBoats.get(i).getDynamicObj().collisionCallback = opponentBoats.get(i);
-            opponentBoats.get(i).getSpriteObj().dynamicObj = opponentBoats.get(i).getDynamicObj();
             opponentBoats.get(i).getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(playerBoatTexture)});
             opponentBoats.get(i).ai = new AI();
             opponentBoats.get(i).ai.boat = opponentBoats.get(i);

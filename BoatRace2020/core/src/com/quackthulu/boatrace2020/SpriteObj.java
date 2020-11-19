@@ -14,7 +14,7 @@ public class SpriteObj {
     private float elapsedTextureTime;
     private Polygon customBounds;
     private boolean isCollider;
-    public Obstacle obstacle;
+    private int damage;
     public DynamicObj dynamicObj;
     public GameScreen gameScreen;
 
@@ -32,6 +32,7 @@ public class SpriteObj {
         this.currentTexture = 0;
         this.elapsedTextureTime = 0.0f;
         this.isCollider = true;
+        this.damage = 0;
         if (this.timedTextures.length > 0) {
             this.sprite.setTexture(timedTextures[0].getTexture().getTexture());
         }
@@ -99,5 +100,13 @@ public class SpriteObj {
 
     public TextureRegion getTexture() {
         return timedTextures[currentTexture].getTexture();
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 }
