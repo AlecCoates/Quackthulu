@@ -24,7 +24,6 @@ public class MainMenu implements Screen {
 
     MainMenu(BoatRace boatRace) {
         parent = boatRace;
-
     }
 
     @Override
@@ -81,42 +80,42 @@ public class MainMenu implements Screen {
             }
         });
     }
-        @Override
-        public void render ( float delta){
-            //Clears screen, allowing next items to be drawn
-            Gdx.gl.glClearColor(0f, 0f, 0f, 1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+  
+    @Override
+    public void render ( float delta){
+        //Clears screen, allowing next items to be drawn
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            //Telling stage to act and draw itself
-            stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-            stage.draw();
-        }
+        //Telling stage to act and draw itself
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.draw();
+    }
 
-        @Override
-        public void resize ( int width, int height){
-            //informs stage screen size has changed, viewport should be recalculated
-            stage.getViewport().update(width, height, true);
-        }
+    @Override
+    public void resize ( int width, int height){
+        //informs stage screen size has changed, viewport should be recalculated
+        stage.getViewport().update(width, height, true);
+    }
 
-        @Override
-        public void pause () {
+    @Override
+    public void pause () {
 
-        }
+    }
 
-        @Override
-        public void resume () {
+    @Override
+    public void resume () {
+        
+    }
 
-        }
+    @Override
+    public void hide () {
+      dispose();
+    }
 
-        @Override
-        public void hide () {
-
-        }
-
-        @Override
-        public void dispose () {
-            // dispose of assets that arent needed at the time
-            stage.dispose();
-        }
-
+    @Override
+    public void dispose () {
+        // dispose of assets that arent needed at the time
+        stage.dispose();
+    }
 }

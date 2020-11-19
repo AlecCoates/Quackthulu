@@ -1,6 +1,9 @@
 package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Shape2D;
 import com.quackthulu.boatrace2020.basics.TimedTexture;
 
@@ -9,8 +12,11 @@ public class SpriteObj {
     private TimedTexture[] timedTextures;
     private int currentTexture;
     private float elapsedTextureTime;
-    private Shape2D customBounds;
+    private Polygon customBounds;
     private boolean isCollider;
+    private int damage;
+    public DynamicObj dynamicObj;
+    public GameScreen gameScreen;
 
     public SpriteObj() {
         this(new TimedTexture[] {});
@@ -25,8 +31,8 @@ public class SpriteObj {
         this.timedTextures = timedTextures;
         this.currentTexture = 0;
         this.elapsedTextureTime = 0.0f;
-        this.customBounds = null;
         this.isCollider = true;
+        this.damage = 0;
         if (this.timedTextures.length > 0) {
             this.sprite.setTexture(timedTextures[0].getTexture().getTexture());
         }
@@ -70,15 +76,37 @@ public class SpriteObj {
         return isCollider;
     }
 
-    public void setBounds(Shape2D bounds) {
+    public void setCustomBounds(Polygon bounds) {
         customBounds = bounds;
     }
 
-    public Shape2D getBounds() {
+    public Polygon getBounds() {
+        Polygon poly;
         if (customBounds != null) {
-            return customBounds;
+            poly = new Polygon(customBounds.getVertices());
         } else {
-            return sprite.getBoundingRectangle();
+            poly = new Polygon(new float[] {0, 0, sprite.getWidth(), 0, sprite.getWidth(), sprite.getHeight(), 0, sprite.getHeight()});
         }
+        poly.setOrigin(sprite.getOriginX(), sprite.getOriginY());
+        poly.setPosition(sprite.getX() * gameScreen.getBackgroundTextureSize(), sprite.getY() * gameScreen.getBackgroundTextureSize());
+        poly.setRotation(sprite.getRotation());
+        poly.setScale(sprite.getScaleX(), sprite.getScaleY());
+        return poly;
+    }
+
+    private Polygon rectangleToPolygon(Rectangle rect) {
+        return new Polygon(new float[] {rect.x, rect.y, (rect.x + rect.width), rect.y, (rect.x + rect.width), (rect.y + rect.height), rect.x, (rect.y + rect.height)});
+    }
+
+    public TextureRegion getTexture() {
+        return timedTextures[currentTexture].getTexture();
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 }

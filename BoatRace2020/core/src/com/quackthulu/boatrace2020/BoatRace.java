@@ -23,7 +23,12 @@ public class BoatRace extends Game {
 	@Override
 	public void create() {
 		MENU_SCREEN = new MainMenu(this);
+		SETTINGS_SCREEN = new SettingsScreen(this);
+		GAME_SCREEN = new GameScreen(this);
+		LOSE_SCREEN = new Lose(this);
+		WIN_SCREEN = new Win(this);
 		setScreen(MENU_SCREEN);
+    
 		settings = new Settings();
 
 		music = Gdx.audio.newMusic(Gdx.files.internal("music/Daniel_Birch_-_02_-_One_Man.mp3"));
@@ -36,6 +41,7 @@ public class BoatRace extends Game {
 			music.pause();
 		}
 	}
+  
 	public void changeScreen(int screen){
 		switch (screen){
 			case MENU:

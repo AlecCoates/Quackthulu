@@ -22,7 +22,6 @@ public class SettingsScreen implements Screen {
 
     public SettingsScreen(BoatRace boatRace) {
         parent = boatRace;
-
     }
 
     @Override
@@ -128,11 +127,11 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

@@ -17,6 +17,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 
 public class Lose implements Screen {
+
     private Stage stage;
     private BoatRace parent;
     private Label LoseLable;
