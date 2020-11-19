@@ -190,15 +190,6 @@ public class GameScreen implements Screen {
         } else {
             backgroundTextureSize = (int) (viewport.getWorldHeight() / (laneWidthsScreen / minAspectRatio));
         }
-        System.out.print(viewport.getWorldWidth());
-        System.out.print(", ");
-        System.out.print(viewport.getWorldHeight());
-        System.out.print(", ");
-        System.out.print(viewport.getScreenWidth());
-        System.out.print(", ");
-        System.out.print(viewport.getScreenHeight());
-        System.out.print(", ");
-        System.out.println(backgroundTextureSize);
         riverCountX = (riverCountX + environmentalConditions.getCurrent().getForce().getX() * 2.35f) % backgroundTextureSize;
         riverCountY = (riverCountY + environmentalConditions.getCurrent().getForce().getY() * 2.35f) % backgroundTextureSize;
 
