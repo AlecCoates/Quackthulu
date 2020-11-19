@@ -62,7 +62,7 @@ public class DynamicObj {
             Rectangle spriteBoundingRect = spriteObj.getBounds().getBoundingRectangle();
             if (spriteBoundingRect.x < -0.465f * spriteObj.gameScreen.getLaneWidthsRiver() * spriteObj.gameScreen.getBackgroundTextureSize()) {
                 wallCollision = -1;
-            } else if (spriteBoundingRect.x + 1.0f * spriteBoundingRect.width > 0.545f * spriteObj.gameScreen.getLaneWidthsRiver() * spriteObj.gameScreen.getBackgroundTextureSize()) {
+            } else if (spriteBoundingRect.x + 1.0f * spriteBoundingRect.width > 0.54f * spriteObj.gameScreen.getLaneWidthsRiver() * spriteObj.gameScreen.getBackgroundTextureSize()) {
                 wallCollision = 1;
             }
             if ((collision != null && spriteObj.getIsCollider() && collision.getIsCollider()) || wallCollision != 0) {

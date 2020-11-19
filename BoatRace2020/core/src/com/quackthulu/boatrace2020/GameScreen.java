@@ -169,9 +169,7 @@ public class GameScreen implements Screen {
     }
 
     private void renderBackground(float delta){
-        batch.disableBlending();
-
-        //Draw river
+        //Calculate screen variables
         if (viewport.getWorldWidth() / viewport.getWorldHeight() < minAspectRatio) {
             backgroundTextureSize = (int) (viewport.getWorldWidth() / laneWidthsScreen);
         } else {
@@ -180,6 +178,10 @@ public class GameScreen implements Screen {
         riverCountX = (riverCountX + environmentalConditions.getCurrent().getForce().getX() * 2.35f) % backgroundTextureSize;
         riverCountY = (riverCountY + environmentalConditions.getCurrent().getForce().getY() * 2.35f) % backgroundTextureSize;
 
+        //Disable unnecessary transparency blending to increase performance
+        batch.disableBlending();
+
+        //Draw river
         backgroundSprite.updateTexture(delta);
         for (int i = -1; i < (int) Math.ceil(laneWidthsRiver + 1); i++) {
             for (int j = -1; j < (viewport.getWorldHeight() / backgroundTextureSize) + 1; j++) {
@@ -201,6 +203,7 @@ public class GameScreen implements Screen {
             }
         }
 
+        //Re-enable transparency blending for textures that contain transparency
         batch.enableBlending();
 
         //Draw buoys
