@@ -51,7 +51,7 @@ public class GameScreen implements Screen {
     private Boat playerBoat;
     private LinkedList<Boat> opponentBoats;
     private LinkedList<SpriteObj> spriteObjs;
-    private LinkedList<SpriteObj> enemyObjects;
+    private LinkedList<NewEnemy> enemyObjects;
 
     //HUD
     private HUD hud;
