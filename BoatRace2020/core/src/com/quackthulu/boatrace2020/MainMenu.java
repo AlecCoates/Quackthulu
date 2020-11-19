@@ -19,10 +19,11 @@ import javax.swing.event.ChangeEvent;
 public class MainMenu implements Screen {
     private Stage stage;
     private BoatRace parent;
+
     MainMenu(BoatRace boatRace){
         parent = boatRace;
-
     }
+
     @Override
     public void show() {
         // stage acts as a controller in which it reacts to user input

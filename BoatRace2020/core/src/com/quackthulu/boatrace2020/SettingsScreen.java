@@ -18,9 +18,9 @@ public class SettingsScreen implements Screen {
     private Label titleLabel;
     private Label volumeSoundLabel;
     private Label soundEnabledLabel;
+
     public SettingsScreen(BoatRace boatRace) {
         parent = boatRace;
-
     }
 
     @Override

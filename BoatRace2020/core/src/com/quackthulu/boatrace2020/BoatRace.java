@@ -1,9 +1,6 @@
 package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class BoatRace extends Game {
 
@@ -20,7 +17,7 @@ public class BoatRace extends Game {
 		settings = new Settings();
 		MENU_SCREEN = new MainMenu(this);
 		SETTINGS_SCREEN = new SettingsScreen(this);
-		GAME_SCREEN = new GameScreen();
+		GAME_SCREEN = new GameScreen(this);
 		LOSE_SCREEN = new Lose(this);
 		WIN_SCREEN = new Win(this);
 		setScreen(MENU_SCREEN);
