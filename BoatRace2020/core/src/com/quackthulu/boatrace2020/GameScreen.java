@@ -35,7 +35,8 @@ public class GameScreen implements Screen {
     //graphics
     private SpriteBatch batch;
     private TextureAtlas textureAtlas;
-    private TextureRegion backgroundTexture, landTexture, flagTexture, buoyTexture, playerBoatTexture, enemyDuckTexture, fullHUDTexture, halfHUDTexture;
+    private TextureRegion landTexture, flagTexture, buoyTexture, playerBoatTexture, enemyDuckTexture, fullHUDTexture, halfHUDTexture;
+    private SpriteObj backgroundSprite;
 
     //timing
     private float timer = 0;
@@ -77,15 +78,15 @@ public class GameScreen implements Screen {
         viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
         //set up texture atlas
-        textureAtlas = new TextureAtlas("images10.atlas");
+        textureAtlas = new TextureAtlas("images11.atlas");
 
         //set up textures
-        backgroundTexture = textureAtlas.findRegion("sea5");
+        backgroundSprite = new SpriteObj(new TimedTexture[] {new TimedTexture(textureAtlas.findRegion("sea5"), 0.5f), new TimedTexture(textureAtlas.findRegion("sea5b"), 0.5f)});
         landTexture = textureAtlas.findRegion("land2");
         flagTexture = textureAtlas.findRegion("flag1");
         buoyTexture = textureAtlas.findRegion("buoy1");
         playerBoatTexture = textureAtlas.findRegion("player");
-        enemyDuckTexture = textureAtlas.findRegion("duck_in_a_top_hat2");
+        enemyDuckTexture = textureAtlas.findRegion("duck_in_top_hat2");
         fullHUDTexture = textureAtlas.findRegion("full_paddle");
         halfHUDTexture = textureAtlas.findRegion("half_paddle");
 
@@ -150,7 +151,7 @@ public class GameScreen implements Screen {
 
         //draw background
         batch.disableBlending();
-        renderBackground();
+        renderBackground(delta);
         batch.enableBlending();
 
         //check race finish
@@ -183,7 +184,7 @@ public class GameScreen implements Screen {
         batch.end();
     }
 
-    private void renderBackground(){
+    private void renderBackground(float delta){
         //Draw river
         if (viewport.getWorldWidth() / viewport.getWorldHeight() < minAspectRatio) {
             backgroundTextureSize = (int) (viewport.getWorldWidth() / laneWidthsScreen);
@@ -193,9 +194,10 @@ public class GameScreen implements Screen {
         riverCountX = (riverCountX + environmentalConditions.getCurrent().getForce().getX() * 2.35f) % backgroundTextureSize;
         riverCountY = (riverCountY + environmentalConditions.getCurrent().getForce().getY() * 2.35f) % backgroundTextureSize;
 
+        backgroundSprite.updateTexture(delta);
         for (int i = -1; i < (int) Math.ceil(laneWidthsRiver + 1); i++) {
             for (int j = -1; j < (viewport.getWorldHeight() / backgroundTextureSize) + 1; j++) {
-                batch.draw(backgroundTexture, (int) ((viewport.getWorldWidth() - laneWidthsRiver * backgroundTextureSize) / 2 + i * backgroundTextureSize) + riverCountX - playerBoat.getSpriteObj().getSprite().getX() * backgroundTextureSize, j * backgroundTextureSize + (riverCountY - playerBoat.getSpriteObj().getSprite().getY() * backgroundTextureSize) % backgroundTextureSize, backgroundTextureSize, backgroundTextureSize);
+                batch.draw(backgroundSprite.getTexture(), (int) ((viewport.getWorldWidth() - laneWidthsRiver * backgroundTextureSize) / 2 + i * backgroundTextureSize) + riverCountX - playerBoat.getSpriteObj().getSprite().getX() * backgroundTextureSize, j * backgroundTextureSize + (riverCountY - playerBoat.getSpriteObj().getSprite().getY() * backgroundTextureSize) % backgroundTextureSize, backgroundTextureSize, backgroundTextureSize);
             }
         }
 

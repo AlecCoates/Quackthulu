@@ -1,6 +1,7 @@
 package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Shape2D;
@@ -96,4 +97,7 @@ public class SpriteObj {
         return new Polygon(new float[] {rect.x, rect.y, (rect.x + rect.width), rect.y, (rect.x + rect.width), (rect.y + rect.height), rect.x, (rect.y + rect.height)});
     }
 
+    public TextureRegion getTexture() {
+        return timedTextures[currentTexture].getTexture();
+    }
 }
