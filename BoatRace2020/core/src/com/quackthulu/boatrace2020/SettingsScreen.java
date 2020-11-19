@@ -2,6 +2,7 @@ package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -25,6 +26,7 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void show() {
+
         // stage acts as a controller in which it reacts to user input
         stage = new Stage(new ScreenViewport());
 
@@ -41,12 +43,13 @@ public class SettingsScreen implements Screen {
         //Button creation
         Skin skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
 
-        final Slider volumeSoundSlider = new Slider(0f,1f,0.1f,false,skin);
+        final Slider volumeSoundSlider = new Slider(0f,1f,0.02f,false,skin);
         volumeSoundSlider.setValue(parent.getPreferences().getSoundVolume());
         volumeSoundSlider.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
                 parent.getPreferences().setSoundVolume(volumeSoundSlider.getValue());
+                parent.music.setVolume(volumeSoundSlider.getValue());
                 return false;
             }
         });
@@ -59,6 +62,11 @@ public class SettingsScreen implements Screen {
             public boolean handle(Event event) {
                 boolean enabled = soundCheckbox.isChecked();
                 parent.getPreferences().setSoundEnabled(enabled);
+                if (!enabled) {
+                    parent.music.pause();
+                } else {
+                    parent.music.play();
+                }
                 return false;
             }
         });
@@ -68,7 +76,7 @@ public class SettingsScreen implements Screen {
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.setScreen(BoatRace.MENU_SCREEN);
+                parent.changeScreen(BoatRace.MENU);
             }
         });
 
@@ -88,7 +96,9 @@ public class SettingsScreen implements Screen {
 
 
     }
+    //public void changeVolume(float volume){
 
+    //}
     @Override
     public void render(float delta) {
         //Clears screen, allowing next items to be drawn

@@ -2,7 +2,9 @@ package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g3d.particles.values.LineSpawnShapeValue;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -20,7 +22,7 @@ public class MainMenu implements Screen {
     private Stage stage;
     private BoatRace parent;
 
-    MainMenu(BoatRace boatRace){
+    MainMenu(BoatRace boatRace) {
         parent = boatRace;
     }
 
@@ -39,72 +41,80 @@ public class MainMenu implements Screen {
         //Button creation
         Skin skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
 
-        TextButton startGame = new TextButton("Start Game",skin);
-        TextButton settings = new TextButton("Settings",skin);
-        TextButton quit = new TextButton("Quit",skin);
+        TextButton startGame = new TextButton("Start Game", skin);
+        TextButton instructions = new TextButton("Instructions", skin);
+        TextButton settings = new TextButton("Settings", skin);
+        TextButton quit = new TextButton("Quit", skin);
 
         //Adding buttons to the table
         table.add(startGame).fillX().uniformX();
-        table.row().pad(20,0,20,0);
+        table.row().pad(20, 0, 20, 0);
         table.add(settings).fillX().uniformX();
-        table.row();
+        table.row().pad(20,0,20,0);
+        table.add(instructions).fillX().uniformX();
+        table.row().pad(20,0,20,0);
         table.add(quit).fillX().uniformX();
 
-        quit.addListener(new ChangeListener(){
+        instructions.addListener(new ChangeListener() {
             @Override
-            public  void changed(ChangeEvent event, Actor actor){
+            public void changed(ChangeEvent event, Actor actor) {
+                parent.changeScreen(BoatRace.INSTRUCTIONS);
+            }
+        });
+        quit.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.exit();
             }
         });
         startGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.setScreen(BoatRace.GAME_SCREEN);
+                parent.changeScreen(BoatRace.GAME);
             }
         });
         settings.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.setScreen(BoatRace.SETTINGS_SCREEN);
+                parent.changeScreen(BoatRace.SETTINGS);
             }
         });
-
     }
-
+  
     @Override
-    public void render(float delta) {
+    public void render ( float delta){
         //Clears screen, allowing next items to be drawn
-        Gdx.gl.glClearColor(0f,0f,0f,1);
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Telling stage to act and draw itself
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize ( int width, int height){
         //informs stage screen size has changed, viewport should be recalculated
-        stage.getViewport().update(width,height,true);
+        stage.getViewport().update(width, height, true);
     }
 
     @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
+    public void pause () {
 
     }
 
     @Override
-    public void hide() {
-        dispose();
+    public void resume () {
+        
     }
 
     @Override
-    public void dispose() {
+    public void hide () {
+      dispose();
+    }
+
+    @Override
+    public void dispose () {
         // dispose of assets that arent needed at the time
         stage.dispose();
     }
