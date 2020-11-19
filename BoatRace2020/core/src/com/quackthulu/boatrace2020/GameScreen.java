@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class GameScreen implements Screen {
-
     //screen
     private BoatRace parent;
     private OrthographicCamera camera;

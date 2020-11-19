@@ -42,7 +42,7 @@ public class Win implements Screen {
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.setScreen(BoatRace.MENU_SCREEN);
+                parent.changeScreen(BoatRace.MENU);
             }
         });
 
