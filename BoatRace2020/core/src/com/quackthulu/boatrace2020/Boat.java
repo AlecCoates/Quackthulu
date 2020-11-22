@@ -14,7 +14,7 @@ public class Boat implements CollisionCallback {
     private float maneuverability;
     private int maxHealth;
     private int health;
-    private Map<SpriteObj, Float> collisions = new HashMap<SpriteObj, Float>();
+    private Map<SpriteObj, Float> collisions = new HashMap<>();
     private float finishingTime = -1;
     private float penaltyTime = 0;
     public float[] lane = new float[] {0,0};
@@ -113,7 +113,6 @@ public class Boat implements CollisionCallback {
 
     public void setFinishingTime(float finishingTime) {
         this.finishingTime = finishingTime + penaltyTime;
-        System.out.println(this.finishingTime);
     }
 
     public boolean finishedRace() {
