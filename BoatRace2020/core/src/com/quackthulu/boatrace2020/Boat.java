@@ -1,6 +1,7 @@
 package com.quackthulu.boatrace2020;
 
 import com.quackthulu.boatrace2020.basics.Force;
+import sun.util.locale.LocaleSyntaxException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,12 @@ public class Boat implements CollisionCallback {
         }
         if (ai != null) {
             ai.update(delta);
+        }
+        if (getHealth()== 0) {
+            spriteObj.gameScreen.parent.changeScreen(BoatRace.LOSE);
+        }
+        if(finishedRace()){
+            spriteObj.gameScreen.parent.changeScreen(BoatRace.WIN);
         }
     }
 
@@ -114,6 +121,10 @@ public class Boat implements CollisionCallback {
     public void setFinishingTime(float finishingTime) {
         this.finishingTime = finishingTime + penaltyTime;
         System.out.println(this.finishingTime);
+    }
+
+    public float getFinishingTime() {
+        return finishingTime;
     }
 
     public boolean finishedRace() {

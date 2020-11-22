@@ -26,6 +26,7 @@ public class Lose implements Screen {
 
     }
 
+
     @Override
     public void show() {
         // stage acts as a controller in which it reacts to user input

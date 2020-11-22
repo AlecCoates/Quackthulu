@@ -16,7 +16,7 @@ import java.util.LinkedList;
 
 public class GameScreen implements Screen {
     //screen
-    private BoatRace parent;
+    public BoatRace parent;
     private OrthographicCamera camera;
     public ExtendViewport viewport;
 

@@ -19,6 +19,9 @@ public class BoatRace extends Game {
 	public final static int GAME = 1;
 	public final static int SETTINGS = 2;
 	public final static int INSTRUCTIONS = 3;
+	public final static int LOSE = 4;
+	public final static int WIN = 5;
+
 
 	@Override
 	public void create() {
@@ -59,6 +62,14 @@ public class BoatRace extends Game {
 			case INSTRUCTIONS:
 				if(INSTRUCTIONS_SCREEN == null) INSTRUCTIONS_SCREEN = new InstructionsScreen(this);
 				this.setScreen(INSTRUCTIONS_SCREEN);
+				break;
+			case LOSE:
+				if(LOSE_SCREEN == null) LOSE_SCREEN = new Lose(this);
+				this.setScreen(LOSE_SCREEN);
+				break;
+			case WIN:
+				if(WIN_SCREEN == null) WIN_SCREEN = new Win(this);
+				this.setScreen(WIN_SCREEN);
 				break;
 		}
 	}
