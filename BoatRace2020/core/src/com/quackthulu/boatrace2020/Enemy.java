@@ -1,25 +1,14 @@
 package com.quackthulu.boatrace2020;
 
-public class Enemy {
-    private SpriteObj spriteObj;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-    public Enemy() {
-        this(new SpriteObj());
+public class Enemy extends GameObject{
+    float movementSpeed;
+
+    public Enemy(int xCenter, int yCenter, int width, int height, TextureRegion thisObjectTexture, float movementSpeed) {
+        super(xCenter, yCenter, width, height, 2, thisObjectTexture);
+        this.movementSpeed = movementSpeed;
     }
 
-    public Enemy(SpriteObj spriteObj) {
-        this.spriteObj = spriteObj;
-    }
 
-    public Enemy(SpriteObj spriteObj, int damageOutput) {
-        this.spriteObj = spriteObj;
-    }
-
-    public SpriteObj getSpriteObj() {
-        return spriteObj;
-    }
-
-    public void update(float delta, EnvironmentalConditions env) {
-        spriteObj.updateTexture(delta);
-    }
 }

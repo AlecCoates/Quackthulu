@@ -2,8 +2,9 @@ package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 public class AI {
     public Float riskTaking;
@@ -12,52 +13,35 @@ public class AI {
 
     public AI() {
         riskTaking = 1.0f;
-        vision = 100.0f;
+        vision = 1.0f;
     }
 
     public void update(float delta) {
-        boat.setThrottle(new Random().nextFloat() * riskTaking * 0.2f + 0.8f);
-
-        int backgroundSize = boat.getSpriteObj().gameScreen.getBackgroundTextureSize();
-        List<Rectangle> boundingRects = new LinkedList<>();
-        for (SpriteObj enemyObject : boat.getSpriteObj().gameScreen.getSpriteObjs()) {
+        boat.setThrottle(new Random().nextFloat() * 0.1f + 0.9f);
+        List<float[]> usableSpaces = new LinkedList<>();
+        usableSpaces.add(boat.lane.clone());
+        if (boat.getSpriteObj().gameScreen.getEnemyObjects() == null) return;
+        for (SpriteObj enemyObject : boat.getSpriteObj().gameScreen.getEnemyObjects()) {
             Rectangle boundingRect = enemyObject.getBounds().getBoundingRectangle();
-            boundingRect.x /= backgroundSize;
-            boundingRect.y /= backgroundSize;
-            boundingRect.width /= backgroundSize;
-            boundingRect.height /= backgroundSize;
-            if (enemyObject != boat.getSpriteObj() && (boundingRect.x + boundingRect.width > boat.lane[0] || boundingRect.x < boat.lane[1]) && boundingRect.y - boat.getSpriteObj().getSprite().getY() < vision && boundingRect.y - boat.getSpriteObj().getSprite().getY() > 0) {
-                boundingRects.add(boundingRect);
-            }
-        }
-        boundingRects.sort(new RectangleComparator());
-        float[] laneSelector;
-        if (boundingRects.size() == 0) {
-            laneSelector = boat.lane.clone();
-        } else {
-            Rectangle boundingRect = boundingRects.get(0);
-            Rectangle boatRect = boat.getSpriteObj().getSprite().getBoundingRectangle();
-            boatRect.x /= backgroundSize;
-            boatRect.y /= backgroundSize;
-            boatRect.width /= backgroundSize;
-            boatRect.height /= backgroundSize;
-            if (boundingRect.x - boat.lane[0] > boat.lane[1] - boundingRect.x + boundingRect.width) {
-                if (boundingRect.x - boat.lane[0] > boatRect.width * 1.5f) {
-                    laneSelector = new float[] {boat.lane[0], boundingRect.x};
-                } else {
-                    laneSelector = new float[] {boundingRect.x - boatRect.width * 1.5f, boundingRect.x};
-                }
-            } else {
-                if (boat.lane[1] - boundingRect.x + boundingRect.width > boatRect.width * 1.5) {
-                    laneSelector = new float[] {boundingRect.x + boundingRect.width, boat.lane[1]};
-                } else {
-                    laneSelector = new float[] {boundingRect.x + boundingRect.width, boundingRect.x + boundingRect.width + boatRect.width * 1.5f};
+            List<float[]> newUsableSpaces = new LinkedList<>();
+            List<Integer> removeUsableSpaces = new LinkedList<>();
+            for (int i = 0; i < usableSpaces.size(); i++) {
+                if ((boundingRect.x > usableSpaces.get(i)[0] && boundingRect.x < usableSpaces.get(i)[1]) || (boundingRect.x + boundingRect.width > usableSpaces.get(i)[0] && boundingRect.x + boundingRect.width < usableSpaces.get(i)[1])) {
+                    if (boundingRect.x > usableSpaces.get(i)[0]) {
+                        newUsableSpaces.add(new float[] {usableSpaces.get(i)[0], boundingRect.x});
+                    }
+                    if (boundingRect.x + boundingRect.width < usableSpaces.get(i)[1]) {
+                        newUsableSpaces.add(new float[] {boundingRect.x + boundingRect.width, usableSpaces.get(i)[1]});
+                    }
+                    removeUsableSpaces.add(i);
                 }
             }
+            for (int rem : removeUsableSpaces) {
+                //usableSpaces.remove(rem);
+            }
+            //usableSpaces.addAll(newUsableSpaces);
         }
-        if (boat.lane[0] < -2.0f) {
-            System.out.println(Arrays.toString(laneSelector));
-        }
+        System.out.println(usableSpaces.size());
         //boat.setSteering();
     }
 }

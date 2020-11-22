@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Shape2D;
 import com.quackthulu.boatrace2020.basics.TimedTexture;
-import org.w3c.dom.css.Rect;
 
 public class SpriteObj {
     private Sprite sprite;

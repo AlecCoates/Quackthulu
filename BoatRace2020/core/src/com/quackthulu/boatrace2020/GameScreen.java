@@ -51,7 +51,7 @@ public class GameScreen implements Screen {
     private Boat playerBoat;
     private LinkedList<Boat> opponentBoats;
     private LinkedList<SpriteObj> spriteObjs;
-    private LinkedList<Enemy> enemyObjects;
+    private LinkedList<SpriteObj> enemyObjects;
 
     //HUD
     private HUD hud;
@@ -106,28 +106,17 @@ public class GameScreen implements Screen {
             spriteObjs.add(opponentBoats.get(i).getSpriteObj());
             if (i < 2) {
                 opponentBoats.get(i).getSpriteObj().getSprite().setX(i - 2);
-                opponentBoats.get(i).lane = new float[] {-0.5f + (i - 2), 0.5f + (i - 2)};
+                playerBoat.lane = new float[] {-0.5f + (i - 2), 0.5f + (i - 2)};
             } else {
                 opponentBoats.get(i).getSpriteObj().getSprite().setX(i - 1);
-                opponentBoats.get(i).lane = new float[] {-0.5f + (i - 1), 0.5f + (i - 1)};
+                playerBoat.lane = new float[] {-0.5f + (i - 1), 0.5f + (i - 1)};
             }
             opponentBoats.get(i).getRowers().setMaxForce(new Random().nextFloat() * 2.5f);
             opponentBoats.get(i).setThrottle(1.0f);
         }
 
-        enemyObjects = new LinkedList<Enemy>();
-        for (int i = 0; i < 20; i++) {
-            enemyObjects.add(new Enemy());
-            enemyObjects.get(i).getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(enemyDuckTexture)});
-            enemyObjects.get(i).getSpriteObj().gameScreen = this;
-            enemyObjects.get(i).getSpriteObj().setDamage(1);
-            enemyObjects.get(i).getSpriteObj().setIsCollider(false);
-            Random rand = new Random();
-            Sprite enemyObjectSprite = enemyObjects.get(i).getSpriteObj().getSprite();
-            enemyObjectSprite.setX((rand.nextFloat() - 0.5f) * laneWidthsRiver);
-            enemyObjectSprite.setY(rand.nextFloat() * (raceLength - 1) + 1);
-            spriteObjs.add(enemyObjects.get(i).getSpriteObj());
-        }
+        //enemyDuck = new Duck(2,3,WORLD_WIDTH/2,WORLD_HEIGHT*3/4, enemyDuckTexture,0);
+
         //hud
         hud = new HUD(playerBoat, fullHUDTexture, halfHUDTexture);
 
@@ -154,17 +143,11 @@ public class GameScreen implements Screen {
             if (opponentBoat.getSpriteObj().getSprite().getY() > raceLength * backgroundTextureSize && !opponentBoat.finishedRace()) opponentBoat.setFinishingTime(timer);
         }
 
-        //get playerSprite
-        Sprite playerBoatSprite = playerBoat.getSpriteObj().getSprite();
-
         //draw enemies
-        for(Enemy enemy : enemyObjects){
-            Sprite enemySprite = enemy.getSpriteObj().getSprite();
-            enemySprite.setScale(backgroundTextureSize / enemySprite.getWidth() / 4, backgroundTextureSize / enemySprite.getWidth() / 4);
-            batch.draw(enemyDuckTexture, ((viewport.getWorldWidth() - playerBoatTexture.getRegionWidth()) / 2) + (enemySprite.getX() - playerBoatSprite.getX()) * backgroundTextureSize, ((viewport.getWorldHeight() - playerBoatTexture.getRegionHeight()) / 2) + (enemySprite.getY() - playerBoatSprite.getY()) * backgroundTextureSize, enemySprite.getOriginX(), enemySprite.getOriginY(), enemySprite.getWidth(), enemySprite.getHeight(), enemySprite.getScaleX(), enemySprite.getScaleY(), enemySprite.getRotation());
-        }
+        //renderEnemies();
 
         //draw player
+        Sprite playerBoatSprite = playerBoat.getSpriteObj().getSprite();
         playerBoatSprite.setScale((backgroundTextureSize / boatWidthsLane) / playerBoatSprite.getWidth(), backgroundTextureSize / playerBoatSprite.getWidth() / boatWidthsLane);
         batch.draw(playerBoatTexture, (viewport.getWorldWidth() - playerBoatTexture.getRegionWidth()) / 2, (viewport.getWorldHeight() - playerBoatTexture.getRegionHeight()) / 2, playerBoat.getSpriteObj().getSprite().getOriginX(), playerBoatSprite.getOriginY(), playerBoatSprite.getWidth(), playerBoatSprite.getHeight(), playerBoatSprite.getScaleX(), playerBoatSprite.getScaleY(), playerBoatSprite.getRotation());
 
@@ -175,16 +158,10 @@ public class GameScreen implements Screen {
             batch.draw(playerBoatTexture, ((viewport.getWorldWidth() - playerBoatTexture.getRegionWidth()) / 2) + (opponentBoatSprite.getX() - playerBoatSprite.getX()) * backgroundTextureSize, ((viewport.getWorldHeight() - playerBoatTexture.getRegionHeight()) / 2) + (opponentBoatSprite.getY() - playerBoatSprite.getY()) * backgroundTextureSize, opponentBoatSprite.getOriginX(), opponentBoatSprite.getOriginY(), opponentBoatSprite.getWidth(), opponentBoatSprite.getHeight(), opponentBoatSprite.getScaleX(), opponentBoatSprite.getScaleY(), opponentBoatSprite.getRotation());
         }
 
-        //draw hud
-        hud.draw(batch, viewport);
-
         //updates
         playerBoat.update(delta, environmentalConditions, spriteObjs);
         for (Boat opponentBoat : opponentBoats) {
             opponentBoat.update(delta, environmentalConditions, spriteObjs);
-        }
-        for(Enemy enemy : enemyObjects){
-            enemy.update(delta, environmentalConditions);
         }
 
         batch.end();
@@ -235,6 +212,19 @@ public class GameScreen implements Screen {
             }
         }
     }
+
+    private void renderEnemies(){
+        //for (Enemy e : enemyObjects) {
+            /*if(e.intersects(playerBoat.boundingBox)){
+                iterator.remove();
+                playerBoat.damage(e);
+                System.out.println("damage");
+            }else {
+                e.draw(batch);
+            }*/
+        //}
+    }
+
 
     private void detectInput(){
         //keyboard input
@@ -299,19 +289,7 @@ public class GameScreen implements Screen {
         return timer;
     }
 
-    public LinkedList<SpriteObj> getSpriteObjs() {
-        return spriteObjs;
-    }
-
     public LinkedList<SpriteObj> getEnemyObjects() {
-        LinkedList<SpriteObj> enemySpriteObjects = new LinkedList<SpriteObj>();
-        for(Enemy enemy : enemyObjects){
-            enemySpriteObjects.add(enemy.getSpriteObj());
-        }
-        return enemySpriteObjects;
-    }
-
-    public Boat getPlayerBoat() {
-        return playerBoat;
+        return enemyObjects;
     }
 }
