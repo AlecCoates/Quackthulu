@@ -31,10 +31,6 @@ public class BoatRace extends Game {
 	@Override
 	public void create() {
 		MENU_SCREEN = new MainMenu(this);
-		SETTINGS_SCREEN = new SettingsScreen(this);
-		GAME_SCREEN = new GameScreen(this);
-		LOSE_SCREEN = new Lose(this);
-		WIN_SCREEN = new Win(this);
 		setScreen(MENU_SCREEN);
     
 		settings = new Settings();
