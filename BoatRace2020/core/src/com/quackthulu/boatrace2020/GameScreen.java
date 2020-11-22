@@ -23,7 +23,7 @@ public class GameScreen implements Screen {
     //graphics
     private SpriteBatch batch;
     private TextureAtlas textureAtlas;
-    private TextureRegion landTexture, flagTexture, buoyTexture, playerBoatTexture, enemyDuckTexture, fullHUDTexture, halfHUDTexture;
+    private TextureRegion landTexture, flagTexture, buoyTexture, playerBuoyTexture, playerBoatTexture, enemyDuckTexture, fullHUDTexture, halfHUDTexture;
     private SpriteObj backgroundSprite;
 
     //timing
@@ -66,14 +66,15 @@ public class GameScreen implements Screen {
         viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
         //set up texture atlas
-        textureAtlas = new TextureAtlas("images11.atlas");
+        textureAtlas = new TextureAtlas("images13.atlas");
 
         //set up textures
         backgroundSprite = new SpriteObj(new TimedTexture[] {new TimedTexture(textureAtlas.findRegion("sea5"), 0.5f), new TimedTexture(textureAtlas.findRegion("sea5b"), 0.5f)});
         backgroundSprite.setIsCollider(false);
         landTexture = textureAtlas.findRegion("land2");
         flagTexture = textureAtlas.findRegion("flag1");
-        buoyTexture = textureAtlas.findRegion("buoy1");
+        buoyTexture = textureAtlas.findRegion("buoy");
+        playerBuoyTexture = textureAtlas.findRegion("orange_buoy");
         playerBoatTexture = textureAtlas.findRegion("player");
         enemyDuckTexture = textureAtlas.findRegion("duck_in_top_hat2");
         fullHUDTexture = textureAtlas.findRegion("full_paddle");
@@ -231,7 +232,11 @@ public class GameScreen implements Screen {
         //Draw buoys
         for (int i = 0; i < noOfBoats + 1; i++) {
             for (int j = -1; j < (raceLength * 3 / 2) - 2; j++) {
-                batch.draw(buoyTexture, (int) ((viewport.getWorldWidth() - (noOfBoats) * backgroundTextureSize) / 2 + i * backgroundTextureSize) - playerBoat.getSpriteObj().getSprite().getX() * backgroundTextureSize - backgroundTextureSize / 16, (viewport.getWorldHeight() / 2) + j * backgroundTextureSize * 2 / 3 + (1.5f - playerBoat.getSpriteObj().getSprite().getY()) * backgroundTextureSize - backgroundTextureSize / 4, backgroundTextureSize / 8, backgroundTextureSize / 8);
+                if (i >= noOfBoats / 2 && i <= noOfBoats / 2 + 1) {
+                    batch.draw(playerBuoyTexture, (int) ((viewport.getWorldWidth() - (noOfBoats) * backgroundTextureSize) / 2 + i * backgroundTextureSize) - playerBoat.getSpriteObj().getSprite().getX() * backgroundTextureSize - backgroundTextureSize / 16, (viewport.getWorldHeight() / 2) + j * backgroundTextureSize * 2 / 3 + (1.5f - playerBoat.getSpriteObj().getSprite().getY()) * backgroundTextureSize - backgroundTextureSize / 4, backgroundTextureSize / 8, backgroundTextureSize / 8);
+                } else {
+                    batch.draw(buoyTexture, (int) ((viewport.getWorldWidth() - (noOfBoats) * backgroundTextureSize) / 2 + i * backgroundTextureSize) - playerBoat.getSpriteObj().getSprite().getX() * backgroundTextureSize - backgroundTextureSize / 16, (viewport.getWorldHeight() / 2) + j * backgroundTextureSize * 2 / 3 + (1.5f - playerBoat.getSpriteObj().getSprite().getY()) * backgroundTextureSize - backgroundTextureSize / 4, backgroundTextureSize / 8, backgroundTextureSize / 8);
+                }
             }
         }
     }
