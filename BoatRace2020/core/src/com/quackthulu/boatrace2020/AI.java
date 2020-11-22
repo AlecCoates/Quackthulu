@@ -2,10 +2,8 @@ package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class AI {
     public Float riskTaking;
@@ -14,26 +12,35 @@ public class AI {
 
     public AI() {
         riskTaking = 1.0f;
-        vision = 10.0f;
+        vision = 100.0f;
     }
 
     public void update(float delta) {
         boat.setThrottle(new Random().nextFloat() * riskTaking * 0.2f + 0.8f);
-        //if (boat.getSpriteObj().gameScreen.getEnemyObjects() == null) return;
+
+        int backgroundSize = boat.getSpriteObj().gameScreen.getBackgroundTextureSize();
         List<Rectangle> boundingRects = new LinkedList<>();
         for (SpriteObj enemyObject : boat.getSpriteObj().gameScreen.getSpriteObjs()) {
             Rectangle boundingRect = enemyObject.getBounds().getBoundingRectangle();
-            if ((boundingRect.x + boundingRect.width > boat.lane[0] || boundingRect.x < boat.lane[1]) && Math.abs(boundingRect.y - boat.getSpriteObj().getSprite().getX()) < vision) {
+            boundingRect.x /= backgroundSize;
+            boundingRect.y /= backgroundSize;
+            boundingRect.width /= backgroundSize;
+            boundingRect.height /= backgroundSize;
+            if (enemyObject != boat.getSpriteObj() && (boundingRect.x + boundingRect.width > boat.lane[0] || boundingRect.x < boat.lane[1]) && boundingRect.y - boat.getSpriteObj().getSprite().getY() < vision && boundingRect.y - boat.getSpriteObj().getSprite().getY() > 0) {
                 boundingRects.add(boundingRect);
             }
         }
-        Collections.sort(boundingRects, new RectangleComparator());
+        boundingRects.sort(new RectangleComparator());
         float[] laneSelector;
         if (boundingRects.size() == 0) {
             laneSelector = boat.lane.clone();
         } else {
             Rectangle boundingRect = boundingRects.get(0);
             Rectangle boatRect = boat.getSpriteObj().getSprite().getBoundingRectangle();
+            boatRect.x /= backgroundSize;
+            boatRect.y /= backgroundSize;
+            boatRect.width /= backgroundSize;
+            boatRect.height /= backgroundSize;
             if (boundingRect.x - boat.lane[0] > boat.lane[1] - boundingRect.x + boundingRect.width) {
                 if (boundingRect.x - boat.lane[0] > boatRect.width * 1.5f) {
                     laneSelector = new float[] {boat.lane[0], boundingRect.x};
@@ -48,9 +55,9 @@ public class AI {
                 }
             }
         }
-        System.out.print(laneSelector[0]);
-        System.out.println(", ");
-        System.out.println(laneSelector[1]);
+        if (boat.lane[0] < -2.0f) {
+            System.out.println(Arrays.toString(laneSelector));
+        }
         //boat.setSteering();
     }
 }
