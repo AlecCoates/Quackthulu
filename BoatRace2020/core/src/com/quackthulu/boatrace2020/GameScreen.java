@@ -119,12 +119,12 @@ public class GameScreen implements Screen {
         for (int i = 0; i < 30; i++) {
             enemyObjects.add(new Enemy());
             enemyObjects.get(i).getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(enemyDuckTexture)});
+            enemyObjects.get(i).getSpriteObj().gameScreen = this;
             enemyObjects.get(i).setDamageOutput(2);
             Random rand = new Random();
-            int apple = Math.round(viewport.getMaxWorldWidth()/laneWidthsScreen);
-            enemyObjects.get(i).getSpriteObj().getSprite().setX((viewport.getWorldWidth() - laneWidthsRiver * backgroundTextureSize) / 2 + rand.nextInt((int)laneWidthsRiver * backgroundTextureSize));
-            enemyObjects.get(i).getSpriteObj().getSprite().setY(rand.nextInt(10000 - 200) + 200);
             Sprite enemyObjectSprite = enemyObjects.get(i).getSpriteObj().getSprite();
+            enemyObjectSprite.setX((viewport.getWorldWidth() - laneWidthsRiver * backgroundTextureSize) / 2 + rand.nextInt((int)laneWidthsRiver * backgroundTextureSize));
+            enemyObjectSprite.setY(rand.nextInt(10000 - 200) + 200);
             enemyObjectSprite.setScale(backgroundTextureSize / enemyObjectSprite.getWidth() / 4, backgroundTextureSize / enemyObjectSprite.getWidth() / 4);
         }
         //hud
