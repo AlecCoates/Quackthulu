@@ -19,6 +19,11 @@ import javax.swing.event.ChangeEvent;
 
 
 public class MainMenu implements Screen {
+    /**
+     * Main Menu class implements libGDX extension screen to create a main menu
+     * Main menu gives user 4 choices of buttons: begin game, instructions, settings, quit
+     * @author Aaron Price
+     */
     private Stage stage;
     private BoatRace parent;
 
@@ -55,6 +60,7 @@ public class MainMenu implements Screen {
         table.row().pad(20,0,20,0);
         table.add(quit).fillX().uniformX();
 
+        //add listeners to buttons so that they change to appropriate screen when clicked
         instructions.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

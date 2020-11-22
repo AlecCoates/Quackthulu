@@ -1,0 +1,110 @@
+images13.png
+size: 166, 245
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+buoy
+  rotate: false
+  xy: 133, 1
+  size: 32, 48
+  orig: 32, 48
+  offset: 0, 0
+  index: -1
+buoy1
+  rotate: false
+  xy: 140, 172
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+duck_in_top_hat2
+  rotate: false
+  xy: 67, 88
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+flag1
+  rotate: false
+  xy: 101, 88
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+full_paddle
+  rotate: false
+  xy: 135, 85
+  size: 28, 27
+  orig: 32, 32
+  offset: 2, 2
+  index: -1
+half_paddle
+  rotate: false
+  xy: 111, 172
+  size: 27, 27
+  orig: 32, 32
+  offset: 3, 2
+  index: -1
+jet_skii
+  rotate: false
+  xy: 137, 201
+  size: 24, 39
+  orig: 32, 48
+  offset: 4, 5
+  index: -1
+land2
+  rotate: false
+  xy: 133, 51
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+orange_buoy
+  rotate: false
+  xy: 111, 122
+  size: 32, 48
+  orig: 32, 48
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 1, 131
+  size: 66, 113
+  orig: 66, 113
+  offset: 0, 0
+  index: -1
+sea5
+  rotate: false
+  xy: 69, 209
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+sea5b
+  rotate: false
+  xy: 103, 209
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+speedboat
+  rotate: false
+  xy: 69, 122
+  size: 40, 85
+  orig: 64, 96
+  offset: 12, 9
+  index: -1
+tank
+  rotate: false
+  xy: 67, 1
+  size: 64, 85
+  orig: 64, 96
+  offset: 0, 10
+  index: -1
+viking_longboat
+  rotate: false
+  xy: 1, 1
+  size: 64, 128
+  orig: 64, 128
+  offset: 0, 0
+  index: -1

@@ -4,26 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-
-import javax.swing.*;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class InstructionsScreen implements Screen {
+    /**
+     * InstructionsScreen implements libGDX screen to create an instructions screen
+     * InstructionsScreen main function runs FileHandler and BufferedReader to read instructions txt file
+     * txt file is then displayed onto table as well as a return button
+     * @author Aaron Price
+     */
     private BoatRace parent;
     private Stage stage;
-    //private InstructionsText instructionsText;
-
-
 
     public InstructionsScreen(BoatRace parent) {
         this.parent = parent;
@@ -70,11 +68,6 @@ public class InstructionsScreen implements Screen {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-
-
-        //System.out.println(content);
-
-
 
         //return to main menu button
         final TextButton returnButton = new TextButton("Return",skin);

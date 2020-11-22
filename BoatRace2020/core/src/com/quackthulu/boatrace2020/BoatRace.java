@@ -4,7 +4,11 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
 
 public class BoatRace extends Game {
-	private LoadingScreen LOADING_SCREEN;
+	/**
+	 * BoatRace extends Game import and acts as a main class, and a controller acting as parent in all possible game screens
+	 * It features all of the games screens and menus, using changeScreen function to switch between screens
+	 * @author Aaron Price
+	 */
 	private MainMenu MENU_SCREEN;
 	private InstructionsScreen INSTRUCTIONS_SCREEN;
 	private SettingsScreen SETTINGS_SCREEN;
@@ -23,6 +27,7 @@ public class BoatRace extends Game {
 	public final static int WIN = 5;
 
 
+	//function sets MainMenu as the main screen and renders default settings 
 	@Override
 	public void create() {
 		MENU_SCREEN = new MainMenu(this);
@@ -44,7 +49,8 @@ public class BoatRace extends Game {
 			music.pause();
 		}
 	}
-  
+
+  	//function used to change screen
 	public void changeScreen(int screen){
 		switch (screen){
 			case MENU:
@@ -74,6 +80,7 @@ public class BoatRace extends Game {
 		}
 	}
 
+	//function disposes of assets not being used to clear memory
 	@Override
 	public void dispose() {
 		music.dispose();

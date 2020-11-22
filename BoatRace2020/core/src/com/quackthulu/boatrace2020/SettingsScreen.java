@@ -14,6 +14,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.Preferences;
 
 public class SettingsScreen implements Screen {
+    /**
+     * SettingsScreen implements libGDX screen to create a settings adjustment screen
+     * SettingsScreen uses Slider,Checkbox and button inbuilt from java to enable a adjustable sound settings with return button
+     * @author Aaron Price
+     */
     private BoatRace parent;
     private Stage stage;
     private Label titleLabel;
@@ -43,6 +48,7 @@ public class SettingsScreen implements Screen {
         //Button creation
         Skin skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
 
+        // Slider to edit volume of sound implemented
         final Slider volumeSoundSlider = new Slider(0f,1f,0.02f,false,skin);
         volumeSoundSlider.setValue(parent.getPreferences().getSoundVolume());
         volumeSoundSlider.addListener(new EventListener() {
@@ -80,10 +86,12 @@ public class SettingsScreen implements Screen {
             }
         });
 
+        //labels for table
         titleLabel = new Label("Settings",skin);
         volumeSoundLabel = new Label("Sound Volume",skin);
         soundEnabledLabel = new Label("Sound Enabled",skin);
 
+        //adding assets to table
         table.add(titleLabel).colspan(2);
         table.row().pad(10,0,0,10);
         table.add(volumeSoundLabel).left();
@@ -96,15 +104,14 @@ public class SettingsScreen implements Screen {
 
 
     }
-    //public void changeVolume(float volume){
 
-    //}
     @Override
     public void render(float delta) {
         //Clears screen, allowing next items to be drawn
         Gdx.gl.glClearColor(0f,0f,0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        //tells stage to act and draw itself
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
         stage.draw();
     }
