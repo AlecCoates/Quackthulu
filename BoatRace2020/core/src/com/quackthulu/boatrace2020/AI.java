@@ -54,6 +54,11 @@ public class AI {
                 }
             }
         }
+        if (boat.getSpriteObj().getSprite().getX() < (laneSelector[0] + laneSelector[1]) / 2) {
+            boat.setSteering(-0.2f);
+        } else {
+            boat.setSteering(0.2f);
+        }
         if (boat.lane[0] < -2.0f) {
             System.out.println(Arrays.toString(laneSelector));
         }

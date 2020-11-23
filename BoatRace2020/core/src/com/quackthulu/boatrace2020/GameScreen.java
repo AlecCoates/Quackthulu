@@ -74,9 +74,9 @@ public class GameScreen implements Screen {
 
         //Environmental conditions
         environmentalConditions = new EnvironmentalConditions();
-        environmentalConditions.getWind().setForce(new Force( -0.05f, -0.1f));
-        environmentalConditions.getWind().setGust(new Gust(new Force(-0.05f, -0.1f), 5.0f, 0.08f));
-        environmentalConditions.getCurrent().setForce(new Force(-0.05f, -0.3f));
+        environmentalConditions.getWind().setForce(new Force( -0.00f, -0.0f));
+        environmentalConditions.getWind().setGust(new Gust(new Force(-0.00f, -0.0f), 5.0f, 0.08f));
+        environmentalConditions.getCurrent().setForce(new Force(-0.00f, -0.0f));
 
         //Set lane size
         backgroundTextureSize = 106;
@@ -109,7 +109,7 @@ public class GameScreen implements Screen {
         }
 
         enemyObjects = new LinkedList<Enemy>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             enemyObjects.add(new Enemy());
             enemyObjects.get(i).getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(assets.getTexture(Assets.enemyDuckTexture))});
             enemyObjects.get(i).getSpriteObj().gameScreen = this;
@@ -117,8 +117,8 @@ public class GameScreen implements Screen {
             enemyObjects.get(i).getSpriteObj().setIsCollider(false);
             Random rand = new Random();
             Sprite enemyObjectSprite = enemyObjects.get(i).getSpriteObj().getSprite();
-            enemyObjectSprite.setX((rand.nextFloat() - 0.5f) * laneWidthsRiver);
-            enemyObjectSprite.setY(rand.nextFloat() * (raceLength - 1) + 1);
+            enemyObjectSprite.setX((rand.nextFloat() - 0.5f) * noOfBoats);
+            enemyObjectSprite.setY(rand.nextFloat() * (raceLength - 2) + 2);
             spriteObjs.add(enemyObjects.get(i).getSpriteObj());
         }
         //hud
