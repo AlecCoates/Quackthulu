@@ -78,7 +78,7 @@ public class Boat implements CollisionCallback {
         if (throttle < 0) {
             direction = -1;
         };
-        dynamicObj.setTorque((steering * rowers.getAgility()) * direction);
+        dynamicObj.setTorque(steering * rowers.getAgility() * direction);
     }
 
     public SpriteObj getSpriteObj() {
@@ -115,7 +115,6 @@ public class Boat implements CollisionCallback {
 
     public void setFinishingTime(float finishingTime) {
         this.finishingTime = finishingTime + penaltyTime;
-        System.out.println(this.finishingTime);
     }
 
     public float getFinishingTime() {
@@ -130,4 +129,11 @@ public class Boat implements CollisionCallback {
         return penaltyTime;
     }
 
+    public float getThrottle() {
+        return throttle;
+    }
+
+    public float getSteering() {
+        return steering;
+    }
 }

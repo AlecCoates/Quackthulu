@@ -40,7 +40,7 @@ public class GameScreen implements Screen {
     private float laneWidthsScreen = 6.5f;
     private float minAspectRatio = 1.8f;
     private float boatWidthsLane = 4.0f;
-    private float raceLength = 10.0f;
+    private float raceLength = 110.0f;
     private int backgroundTextureSize = 64;
     private float riverCountX = 0;
     private float riverCountY = 0;
@@ -74,9 +74,9 @@ public class GameScreen implements Screen {
 
         //Environmental conditions
         environmentalConditions = new EnvironmentalConditions();
-        environmentalConditions.getWind().setForce(new Force( -0.00f, -0.0f));
-        environmentalConditions.getWind().setGust(new Gust(new Force(-0.00f, -0.0f), 5.0f, 0.08f));
-        environmentalConditions.getCurrent().setForce(new Force(-0.00f, -0.0f));
+        environmentalConditions.getWind().setForce(new Force( -0.1f, -0.15f));
+        environmentalConditions.getWind().setGust(new Gust(new Force(-0.1f, -0.15f), 5.0f, 0.08f));
+        environmentalConditions.getCurrent().setForce(new Force(-0.2f, -0.4f));
 
         //Set lane size
         backgroundTextureSize = 106;
@@ -87,7 +87,6 @@ public class GameScreen implements Screen {
         playerBoat.getSpriteObj().gameScreen = this;
         playerBoat.getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(assets.getTexture(Assets.playerBoatTexture))});
         playerBoat.lane = new float[] {-0.5f, 0.5f};
-        playerBoat.getDynamicObj().setMass(0.9f);
         spriteObjs.add(playerBoat.getSpriteObj());
         opponentBoats = new LinkedList<>();
         for (int i = 0; i < 4; i++) {
@@ -104,12 +103,11 @@ public class GameScreen implements Screen {
                 opponentBoats.get(i).getSpriteObj().getSprite().setX(i - 1);
                 opponentBoats.get(i).lane = new float[] {-0.5f + (i - 1), 0.5f + (i - 1)};
             }
-            opponentBoats.get(i).getRowers().setMaxForce(new Random().nextFloat() * 2.5f);
             opponentBoats.get(i).setThrottle(1.0f);
         }
 
         enemyObjects = new LinkedList<Enemy>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 40; i++) {
             enemyObjects.add(new Enemy());
             enemyObjects.get(i).getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(assets.getTexture(Assets.enemyDuckTexture))});
             enemyObjects.get(i).getSpriteObj().gameScreen = this;
@@ -204,16 +202,6 @@ public class GameScreen implements Screen {
                 hud.draw(batch, viewport);
 
                 batch.end();
-
-
-                Rectangle boatRect = playerBoat.getSpriteObj().getBoundingRectangle();
-                boatRect.x /= backgroundTextureSize;
-                boatRect.y /= backgroundTextureSize;
-                boatRect.width /= backgroundTextureSize;
-                boatRect.height /= backgroundTextureSize;
-                //System.out.print(boatRect.x);
-                //System.out.print(", ");
-                //System.out.println(boatRect.x + boatRect.width);
             } catch(NullPointerException e) {
                 System.out.println(e.toString());
             }
@@ -347,5 +335,9 @@ public class GameScreen implements Screen {
 
     public Boat getPlayerBoat() {
         return playerBoat;
+    }
+
+    public EnvironmentalConditions getEnvironmentalConditions() {
+        return environmentalConditions;
     }
 }

@@ -11,11 +11,11 @@ public class AI {
 
     public AI() {
         riskTaking = 1.0f;
-        vision = 100.0f;
+        vision = 20.0f;
     }
 
     public void update(float delta) {
-        boat.setThrottle(new Random().nextFloat() * riskTaking * 0.2f + 0.8f);
+        boat.setThrottle(new Random().nextFloat() * 0.07f + Math.min(riskTaking, 1.0f) * 0.18f + 0.75f);
 
         int backgroundSize = boat.getSpriteObj().gameScreen.getBackgroundTextureSize();
         List<Rectangle> boundingRects = new LinkedList<>();
@@ -25,10 +25,11 @@ public class AI {
             boundingRect.y /= backgroundSize;
             boundingRect.width /= backgroundSize;
             boundingRect.height /= backgroundSize;
-            if (enemyObject != boat.getSpriteObj() && (boundingRect.x + boundingRect.width > boat.lane[0] || boundingRect.x < boat.lane[1]) && boundingRect.y - boat.getSpriteObj().getSprite().getY() < vision && boundingRect.y - boat.getSpriteObj().getSprite().getY() > 0) {
+            if (enemyObject != boat.getSpriteObj() && ((boundingRect.x > boat.lane[0] && boundingRect.x < boat.lane[1]) || (boundingRect.x + boundingRect.width > boat.lane[0] && boundingRect.x + boundingRect.width < boat.lane[1])) && boundingRect.y - boat.getSpriteObj().getSprite().getY() < vision && boundingRect.y - boat.getSpriteObj().getSprite().getY() > 0) {
                 boundingRects.add(boundingRect);
             }
         }
+
         boundingRects.sort(new RectangleComparator());
         float[] laneSelector;
         if (boundingRects.size() == 0) {
@@ -54,14 +55,22 @@ public class AI {
                 }
             }
         }
-        if (boat.getSpriteObj().getSprite().getX() < (laneSelector[0] + laneSelector[1]) / 2) {
-            boat.setSteering(-0.2f);
+
+        float targetVelocityX = 0.2f * riskTaking * (((laneSelector[0] + laneSelector[1]) / 2) - boat.getSpriteObj().getSprite().getX());
+        float neutralAngle = (float) Math.toDegrees(Math.asin((boat.getSpriteObj().gameScreen.getEnvironmentalConditions().getCurrent().getForce().getX() + boat.getSpriteObj().gameScreen.getEnvironmentalConditions().getWind().getForce().getX() + boat.getSpriteObj().gameScreen.getEnvironmentalConditions().getWind().getGust().getForce().getX()) / (boat.getThrottle() * boat.getRowers().getMaxForce())));
+
+        if ((boat.getDynamicObj().getVelocity().getX() > targetVelocityX)) {
+            boat.setSteering(0.15f + new Random().nextFloat() * 0.15f);
         } else {
-            boat.setSteering(0.2f);
+            boat.setSteering(-0.15f + new Random().nextFloat() * -0.15f);
         }
-        if (boat.lane[0] < -2.0f) {
-            System.out.println(Arrays.toString(laneSelector));
+
+        float boatRotation = boat.getSpriteObj().getSprite().getRotation() % 360;
+        if (boatRotation - neutralAngle < -7 * riskTaking || boatRotation - neutralAngle > 180) {
+            boat.setSteering(0.15f + new Random().nextFloat() * 0.15f);
         }
-        //boat.setSteering();
+        if (boatRotation - neutralAngle > 7 * riskTaking || boatRotation - neutralAngle < -180) {
+            boat.setSteering(-0.15f + new Random().nextFloat() * -0.15f);
+        }
     }
 }
