@@ -2,10 +2,8 @@ package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Assets {
     private final static  String FILE_TEXTURE_ATLAS = "images13.atlas";

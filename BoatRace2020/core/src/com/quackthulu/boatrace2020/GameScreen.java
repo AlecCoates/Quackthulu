@@ -5,14 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.quackthulu.boatrace2020.basics.Force;
 import com.quackthulu.boatrace2020.basics.TimedTexture;
 
-import java.awt.*;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -37,8 +35,6 @@ public class GameScreen implements Screen {
 
 
     //Background
-    private Background background;
-    private ArrayList<Background> backgrounds;
     private int noOfBoats = 5;
     private float laneWidthsRiver = noOfBoats + 1.0f;
     private float laneWidthsScreen = 6.5f;

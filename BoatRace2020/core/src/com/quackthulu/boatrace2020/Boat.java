@@ -1,7 +1,6 @@
 package com.quackthulu.boatrace2020;
 
 import com.quackthulu.boatrace2020.basics.Force;
-import sun.util.locale.LocaleSyntaxException;
 
 import java.util.HashMap;
 import java.util.List;

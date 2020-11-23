@@ -12,10 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-
 public class Lose implements Screen {
 
     private Stage stage;

@@ -1,15 +1,12 @@
 package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.FloatArray;
 import com.quackthulu.boatrace2020.basics.CustomMath;
 import com.quackthulu.boatrace2020.basics.Force;
 import com.quackthulu.boatrace2020.basics.Velocity;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class DynamicObj {

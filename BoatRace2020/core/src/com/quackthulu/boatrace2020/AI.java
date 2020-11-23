@@ -2,7 +2,6 @@ package com.quackthulu.boatrace2020;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class AI {
