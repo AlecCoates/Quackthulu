@@ -41,9 +41,9 @@ public class PickBoatMenu implements Screen{
         stage.addActor(table);
 
         //Button creation
-        Skin skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skins/pixthulhu/skin/pixthulhu-ui.json"));
 
-        ButtonGroup<CheckBox> boatCheckboxes = new ButtonGroup<CheckBox>();
+        ButtonGroup<CheckBox> boatCheckboxes = new ButtonGroup<>();
         boatCheckboxes.add(new CheckBox(null,skin));
         boatCheckboxes.add(new CheckBox(null,skin));
         boatCheckboxes.add(new CheckBox(null,skin));
@@ -61,36 +61,27 @@ public class PickBoatMenu implements Screen{
         }
 
         //return to main menu button
-        final TextButton returnButton = new TextButton("Return",skin);
+        /*final TextButton returnButton = new TextButton("Return",skin);
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 parent.changeScreen(BoatRace.MENU);
             }
-        });
+        });*/
 
         //continue to game
         final TextButton continueButton = new TextButton("Continue",skin);
         continueButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.setBoatNumber(boatNumber);
+                parent.playerBoatNumber = boatNumber;
                 parent.changeScreen(BoatRace.GAME);
-            }
-        });
-
-        //to instructions
-        final TextButton instructButton = new TextButton("Boat Stats",skin);
-        instructButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(BoatRace.INSTRUCTIONS);
             }
         });
 
         titleLabel = new Label("Pick Your Boat",skin);
 
-        boatLabelArray = new Array<Label>();
+        boatLabelArray = new Array<>();
         boatLabelArray.add(new Label("Tank",skin));
         boatLabelArray.add(new Label("Speed Boat",skin));
         boatLabelArray.add(new Label("Dragon Long Boat",skin));
@@ -98,8 +89,6 @@ public class PickBoatMenu implements Screen{
         boatLabelArray.add(new Label("Normal boat",skin));
 
         table.add(titleLabel).colspan(2);
-        table.row().pad(10,0,0,10);
-        table.add(instructButton);
         table.row().pad(10,0,0,10);
         checkBoxArray = new Array<>(boatCheckboxes.getButtons());
         for(int i = 0; i<checkBoxArray.size; i++){
@@ -109,8 +98,8 @@ public class PickBoatMenu implements Screen{
         }
         table.row().pad(10,0,0,10);
         table.add(continueButton).colspan(2);
-        table.row().pad(10,0,0,10);
-        table.add(returnButton).colspan(2);
+        //table.row().pad(10,0,0,10);
+        //table.add(returnButton).colspan(2);
     }
 
     @Override

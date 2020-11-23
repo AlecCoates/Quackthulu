@@ -58,9 +58,6 @@ public class GameScreen implements Screen {
     //River environment
     private EnvironmentalConditions environmentalConditions;
 
-    //player boat number
-    private int playerBoatNumber = 0;
-
     GameScreen(BoatRace boatRace){
         parent = boatRace;
         camera = new OrthographicCamera(); //no 3d perspective
@@ -75,14 +72,6 @@ public class GameScreen implements Screen {
         backgroundSprite = new SpriteObj(new TimedTexture[] {new TimedTexture(assets.getTexture(Assets.backgroundTexture), 0.3f), new TimedTexture(assets.getTexture(Assets.backgroundTexture2), 0.3f)});
         backgroundSprite.setIsCollider(false);
 
-        textureRegionArrayList = new ArrayList<TextureRegion>();
-        textureRegionArrayList.add(tankBoatTexture);
-        textureRegionArrayList.add(speedBoatTexture);
-        textureRegionArrayList.add(vikingBoatTexture);
-        textureRegionArrayList.add(jetSkiTexture);
-        textureRegionArrayList.add(normalBoatTexture);
-        playerBoatTexture = textureRegionArrayList.get(playerBoatNumber);
-
         //Declare environmental conditions
         environmentalConditions = new EnvironmentalConditions();
         environmentalConditions.getWind().setForce(new Force( -0.05f, -0.07f));
@@ -96,14 +85,14 @@ public class GameScreen implements Screen {
         spriteObjs = new LinkedList<>();
         playerBoat = new Boat();
         playerBoat.getSpriteObj().gameScreen = this;
-        playerBoat.getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(assets.getTexture(Assets.playerBoatTexture))});
+        playerBoat.getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(assets.getBoatTexture(parent.playerBoatNumber))});
         playerBoat.lane = new float[] {-0.5f, 0.5f};
         spriteObjs.add(playerBoat.getSpriteObj());
         opponentBoats = new LinkedList<>();
         for (int i = 0; i < 4; i++) {
             opponentBoats.add(new Boat());
             opponentBoats.get(i).getSpriteObj().gameScreen = this;
-            opponentBoats.get(i).getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(assets.getTexture(Assets.playerBoatTexture))});
+            opponentBoats.get(i).getSpriteObj().setTimedTextures(new TimedTexture[] {new TimedTexture(assets.getTexture(Assets.speedBoatTexture))});
             opponentBoats.get(i).ai = new AI();
             opponentBoats.get(i).ai.boat = opponentBoats.get(i);
             spriteObjs.add(opponentBoats.get(i).getSpriteObj());
@@ -195,18 +184,18 @@ public class GameScreen implements Screen {
                 for (Enemy enemy : enemyObjects) {
                     Sprite enemySprite = enemy.getSpriteObj().getSprite();
                     enemySprite.setScale(backgroundTextureSize / enemySprite.getWidth() / 4, backgroundTextureSize / enemySprite.getWidth() / 4);
-                    safeDraw(assets.getTexture(Assets.enemyDuckTexture), ((viewport.getWorldWidth() - assets.getTexture(Assets.playerBoatTexture).getRegionWidth()) / 2) + (enemySprite.getX() - playerBoatSprite.getX()) * backgroundTextureSize, ((viewport.getWorldHeight() - assets.getTexture(Assets.playerBoatTexture).getRegionHeight()) / 2) + (enemySprite.getY() - playerBoatSprite.getY()) * backgroundTextureSize, enemySprite.getOriginX(), enemySprite.getOriginY(), enemySprite.getWidth(), enemySprite.getHeight(), enemySprite.getScaleX(), enemySprite.getScaleY(), enemySprite.getRotation());
+                    safeDraw(assets.getTexture(Assets.enemyDuckTexture), ((viewport.getWorldWidth() - assets.getBoatTexture(parent.playerBoatNumber).getRegionWidth()) / 2) + (enemySprite.getX() - playerBoatSprite.getX()) * backgroundTextureSize, ((viewport.getWorldHeight() - assets.getBoatTexture(parent.playerBoatNumber).getRegionHeight()) / 2) + (enemySprite.getY() - playerBoatSprite.getY()) * backgroundTextureSize, enemySprite.getOriginX(), enemySprite.getOriginY(), enemySprite.getWidth(), enemySprite.getHeight(), enemySprite.getScaleX(), enemySprite.getScaleY(), enemySprite.getRotation());
                 }
 
                 //draw player
                 playerBoatSprite.setScale((backgroundTextureSize / boatWidthsLane) / playerBoatSprite.getWidth(), backgroundTextureSize / playerBoatSprite.getWidth() / boatWidthsLane);
-                safeDraw(assets.getTexture(Assets.playerBoatTexture), (viewport.getWorldWidth() - assets.getTexture(Assets.playerBoatTexture).getRegionWidth()) / 2, (viewport.getWorldHeight() - assets.getTexture(Assets.playerBoatTexture).getRegionHeight()) / 2, playerBoat.getSpriteObj().getSprite().getOriginX(), playerBoatSprite.getOriginY(), playerBoatSprite.getWidth(), playerBoatSprite.getHeight(), playerBoatSprite.getScaleX(), playerBoatSprite.getScaleY(), playerBoatSprite.getRotation());
+                safeDraw(assets.getBoatTexture(parent.playerBoatNumber), (viewport.getWorldWidth() - assets.getBoatTexture(parent.playerBoatNumber).getRegionWidth()) / 2, (viewport.getWorldHeight() - assets.getBoatTexture(parent.playerBoatNumber).getRegionHeight()) / 2, playerBoat.getSpriteObj().getSprite().getOriginX(), playerBoatSprite.getOriginY(), playerBoatSprite.getWidth(), playerBoatSprite.getHeight(), playerBoatSprite.getScaleX(), playerBoatSprite.getScaleY(), playerBoatSprite.getRotation());
 
                 //draw opponents
                 for (Boat opponentBoat : opponentBoats) {
                     Sprite opponentBoatSprite = opponentBoat.getSpriteObj().getSprite();
                     opponentBoatSprite.setScale(backgroundTextureSize / opponentBoatSprite.getWidth() / boatWidthsLane, backgroundTextureSize / opponentBoatSprite.getWidth() / boatWidthsLane);
-                    safeDraw(assets.getTexture(Assets.playerBoatTexture), ((viewport.getWorldWidth() - assets.getTexture(Assets.playerBoatTexture).getRegionWidth()) / 2) + (opponentBoatSprite.getX() - playerBoatSprite.getX()) * backgroundTextureSize, ((viewport.getWorldHeight() - assets.getTexture(Assets.playerBoatTexture).getRegionHeight()) / 2) + (opponentBoatSprite.getY() - playerBoatSprite.getY()) * backgroundTextureSize, opponentBoatSprite.getOriginX(), opponentBoatSprite.getOriginY(), opponentBoatSprite.getWidth(), opponentBoatSprite.getHeight(), opponentBoatSprite.getScaleX(), opponentBoatSprite.getScaleY(), opponentBoatSprite.getRotation());
+                    safeDraw(assets.getTexture(Assets.speedBoatTexture), ((viewport.getWorldWidth() - assets.getBoatTexture(parent.playerBoatNumber).getRegionWidth()) / 2) + (opponentBoatSprite.getX() - playerBoatSprite.getX()) * backgroundTextureSize, ((viewport.getWorldHeight() - assets.getBoatTexture(parent.playerBoatNumber).getRegionHeight()) / 2) + (opponentBoatSprite.getY() - playerBoatSprite.getY()) * backgroundTextureSize, opponentBoatSprite.getOriginX(), opponentBoatSprite.getOriginY(), opponentBoatSprite.getWidth(), opponentBoatSprite.getHeight(), opponentBoatSprite.getScaleX(), opponentBoatSprite.getScaleY(), opponentBoatSprite.getRotation());
                 }
 
                 //draw hud

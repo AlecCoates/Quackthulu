@@ -10,15 +10,15 @@ public class BoatRace extends Game {
 	 * @author Aaron Price
 	 */
 	private MainMenu MENU_SCREEN;
-	private LoadingScreen LOADING_SCREEN;
 	private InstructionsScreen INSTRUCTIONS_SCREEN;
 	private SettingsScreen SETTINGS_SCREEN;
 	private GameScreen GAME_SCREEN;
+	private PickBoatMenu PICK_BOAT_SCREEN;
 	private Lose LOSE_SCREEN;
 	private Win WIN_SCREEN;
 	public Settings settings;
 	public Music music;
-	public int boatNumber;
+	public int playerBoatNumber;
 
 
 	public final static int MENU = 0;
@@ -38,7 +38,7 @@ public class BoatRace extends Game {
 		GAME_SCREEN = new GameScreen(this);
 		LOSE_SCREEN = new Lose(this);
 		WIN_SCREEN = new Win(this);
-		PICK_BOAT_MENU = new PickBoatMenu(this);
+		PICK_BOAT_SCREEN = new PickBoatMenu(this);
 		setScreen(MENU_SCREEN);
 
 		settings = new Settings();
@@ -74,8 +74,9 @@ public class BoatRace extends Game {
 				this.setScreen(INSTRUCTIONS_SCREEN);
 				break;
 			case PICK_BOAT:
-				if (PICK_BOAT_MENU == null) PICK_BOAT_MENU = new PickBoatMenu(this);
-				this.setScreen(PICK_BOAT_MENU);
+				if (PICK_BOAT_SCREEN == null) PICK_BOAT_SCREEN = new PickBoatMenu(this);
+				this.setScreen(PICK_BOAT_SCREEN);
+				break;
 			case LOSE:
 				if (LOSE_SCREEN == null) LOSE_SCREEN = new Lose(this);
 				this.setScreen(LOSE_SCREEN);

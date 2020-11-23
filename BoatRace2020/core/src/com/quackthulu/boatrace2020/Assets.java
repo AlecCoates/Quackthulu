@@ -5,6 +5,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.ArrayList;
+
 public class Assets {
     private final static  String FILE_TEXTURE_ATLAS = "images13.atlas";
 
@@ -15,7 +17,11 @@ public class Assets {
 
     public final static String buoyTexture = "buoy";
     public final static String playerBuoyTexture = "orange_buoy";
-    public final static String playerBoatTexture = "viking_longboat";
+    public final static String tankBoatTexture = "tank";
+    public final static String speedBoatTexture = "speedboat";
+    public final static String vikingBoatTexture = "viking_longboat";
+    public final static String jetSkiTexture = "jet_skii";
+    public final static String normalBoatTexture = "player";
     public final static String enemyDuckTexture = "duck_in_top_hat2";
     public final static String fullHUDTexture = "full_paddle";
     public final static String halfHUDTexture = "half_paddle";
@@ -41,6 +47,24 @@ public class Assets {
     public TextureRegion getTexture(String textureName) {
         if (loaded) {
             return manager.get(textureAtlas).findRegion(textureName);
+        } else {
+            return null;
+        }
+    }
+
+    public TextureRegion getBoatTexture(int boatNumber) {
+        if (loaded) {
+            switch (boatNumber) {
+                case 0:
+                    return manager.get(textureAtlas).findRegion(Assets.tankBoatTexture);
+                case 1:
+                    return manager.get(textureAtlas).findRegion(Assets.speedBoatTexture);
+                case 2:
+                    return manager.get(textureAtlas).findRegion(Assets.vikingBoatTexture);
+                case 3:
+                    return manager.get(textureAtlas).findRegion(Assets.jetSkiTexture);
+            }
+            return manager.get(textureAtlas).findRegion(Assets.normalBoatTexture);
         } else {
             return null;
         }
