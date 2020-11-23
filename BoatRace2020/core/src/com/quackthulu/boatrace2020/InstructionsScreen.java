@@ -35,7 +35,7 @@ public class InstructionsScreen implements Screen {
 
 
         //Button creation
-        Skin skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skins/pixthulhu/skin/pixthulhu-ui.json"));
 
         //inputs processor for screen
         Gdx.input.setInputProcessor(stage);

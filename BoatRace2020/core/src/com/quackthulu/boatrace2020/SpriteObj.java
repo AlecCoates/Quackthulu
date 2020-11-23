@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Shape2D;
 import com.quackthulu.boatrace2020.basics.TimedTexture;
-import org.w3c.dom.css.Rect;
 
 public class SpriteObj {
     private Sprite sprite;
@@ -95,8 +93,24 @@ public class SpriteObj {
         return poly;
     }
 
-    private Polygon rectangleToPolygon(Rectangle rect) {
-        return new Polygon(new float[] {rect.x, rect.y, (rect.x + rect.width), rect.y, (rect.x + rect.width), (rect.y + rect.height), rect.x, (rect.y + rect.height)});
+    public Rectangle getBoundingRectangle() {
+        final float[] vertices = getBounds().getTransformedVertices();
+
+        float minx = vertices[0];
+        float miny = vertices[1];
+        float maxx = vertices[0];
+        float maxy = vertices[1];
+
+        for (int i = 0; i < vertices.length-1; i+=2) {
+            minx = Math.min(vertices[i], minx);
+            maxx = Math.max(vertices[i], maxx);
+        }
+        for (int i = 1; i < vertices.length; i+=2) {
+            miny = Math.min(vertices[i], miny);
+            maxy = Math.max(vertices[i], maxy);
+        }
+
+        return new Rectangle(minx, miny, maxx - minx, maxy - miny);
     }
 
     public TextureRegion getTexture() {

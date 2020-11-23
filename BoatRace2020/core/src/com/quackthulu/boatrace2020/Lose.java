@@ -12,10 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-
 public class Lose implements Screen {
 
     private Stage stage;
@@ -40,7 +36,7 @@ public class Lose implements Screen {
         stage.addActor(table);
 
         //Button creation
-        Skin skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skins/pixthulhu/skin/pixthulhu-ui.json"));
 
         //return to main menu button
         final TextButton returnButton = new TextButton("Retry", skin);

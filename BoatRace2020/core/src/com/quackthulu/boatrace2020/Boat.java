@@ -1,7 +1,6 @@
 package com.quackthulu.boatrace2020;
 
 import com.quackthulu.boatrace2020.basics.Force;
-import sun.util.locale.LocaleSyntaxException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +17,8 @@ public class Boat implements CollisionCallback {
     private Map<SpriteObj, Float> collisions = new HashMap<>();
     private float finishingTime = -1;
     private float penaltyTime = 0;
+    private float throttle = 0;
+    private float steering = 0;
     public float[] lane = new float[] {0,0};
 
     public Boat() {
@@ -49,12 +50,6 @@ public class Boat implements CollisionCallback {
         if (ai != null) {
             ai.update(delta);
         }
-        if (getHealth()== 0) {
-            spriteObj.gameScreen.parent.changeScreen(BoatRace.LOSE);
-        }
-        if(finishedRace()){
-            spriteObj.gameScreen.parent.changeScreen(BoatRace.WIN);
-        }
     }
 
     public void collision(SpriteObj collisionObj) {
@@ -73,17 +68,17 @@ public class Boat implements CollisionCallback {
     }
 
     public void setThrottle(float throttle) {
+        this.throttle = throttle;
         dynamicObj.setForce(new Force(throttle * rowers.getMaxForce() * (float) Math.sin(Math.toRadians(-spriteObj.getSprite().getRotation())), throttle * rowers.getMaxForce() * (float) Math.cos(Math.toRadians(-spriteObj.getSprite().getRotation()))));
     }
 
     public void setSteering(float steering) {
-        float cosTheta = (float) Math.cos(Math.acos(dynamicObj.getVelocity().getY() / dynamicObj.getVelocity().getLinearVelocity()) - Math.toRadians(spriteObj.getSprite().getRotation()));
-        if (cosTheta > 0) {
-            cosTheta = 1;
-        } else {
-            cosTheta = -1;
+        this.steering = steering;
+        float direction = 1;
+        if (throttle < 0) {
+            direction = -1;
         };
-        dynamicObj.setTorque((steering * rowers.getAgility()) * cosTheta / 2);
+        dynamicObj.setTorque(steering * rowers.getAgility() * direction);
     }
 
     public SpriteObj getSpriteObj() {
@@ -120,7 +115,6 @@ public class Boat implements CollisionCallback {
 
     public void setFinishingTime(float finishingTime) {
         this.finishingTime = finishingTime + penaltyTime;
-        System.out.println(this.finishingTime);
     }
 
     public float getFinishingTime() {
@@ -135,4 +129,11 @@ public class Boat implements CollisionCallback {
         return penaltyTime;
     }
 
+    public float getThrottle() {
+        return throttle;
+    }
+
+    public float getSteering() {
+        return steering;
+    }
 }
