@@ -58,6 +58,9 @@ public class GameScreen implements Screen {
     //River environment
     private EnvironmentalConditions environmentalConditions;
 
+    //player boat number
+    private int playerBoatNumber = 0;
+
     GameScreen(BoatRace boatRace){
         parent = boatRace;
         camera = new OrthographicCamera(); //no 3d perspective
@@ -71,6 +74,14 @@ public class GameScreen implements Screen {
         //set up textures
         backgroundSprite = new SpriteObj(new TimedTexture[] {new TimedTexture(assets.getTexture(Assets.backgroundTexture), 0.3f), new TimedTexture(assets.getTexture(Assets.backgroundTexture2), 0.3f)});
         backgroundSprite.setIsCollider(false);
+
+        textureRegionArrayList = new ArrayList<TextureRegion>();
+        textureRegionArrayList.add(tankBoatTexture);
+        textureRegionArrayList.add(speedBoatTexture);
+        textureRegionArrayList.add(vikingBoatTexture);
+        textureRegionArrayList.add(jetSkiTexture);
+        textureRegionArrayList.add(normalBoatTexture);
+        playerBoatTexture = textureRegionArrayList.get(playerBoatNumber);
 
         //Declare environmental conditions
         environmentalConditions = new EnvironmentalConditions();
