@@ -36,7 +36,7 @@ public class AI {
             laneSelector = boat.lane.clone();
         } else {
             Rectangle boundingRect = boundingRects.get(0);
-            Rectangle boatRect = boat.getSpriteObj().getSprite().getBoundingRectangle();
+            Rectangle boatRect = boat.getSpriteObj().getBoundingRectangle();
             boatRect.x /= backgroundSize;
             boatRect.y /= backgroundSize;
             boatRect.width /= backgroundSize;

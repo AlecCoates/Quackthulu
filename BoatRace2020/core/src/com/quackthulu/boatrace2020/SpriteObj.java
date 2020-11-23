@@ -95,6 +95,26 @@ public class SpriteObj {
         return poly;
     }
 
+    public Rectangle getBoundingRectangle() {
+        final float[] vertices = getBounds().getTransformedVertices();
+
+        float minx = vertices[0];
+        float miny = vertices[1];
+        float maxx = vertices[0];
+        float maxy = vertices[1];
+
+        for (int i = 0; i < vertices.length-1; i+=2) {
+            minx = vertices[i] < minx ? vertices[i] : minx;
+            maxx = vertices[i] > maxx ? vertices[i] : maxx;
+        }
+        for (int i = 1; i < vertices.length; i+=2) {
+            miny = vertices[i] < miny ? vertices[i] : miny;
+            maxy = vertices[i] > maxy ? vertices[i] : maxy;
+        }
+
+        return new Rectangle(minx, miny, maxx - minx, maxy - miny);
+    }
+
     private Polygon rectangleToPolygon(Rectangle rect) {
         return new Polygon(new float[] {rect.x, rect.y, (rect.x + rect.width), rect.y, (rect.x + rect.width), (rect.y + rect.height), rect.x, (rect.y + rect.height)});
     }

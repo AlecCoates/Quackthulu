@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.quackthulu.boatrace2020.basics.Force;
 import com.quackthulu.boatrace2020.basics.TimedTexture;
 
+import java.awt.*;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -206,6 +208,16 @@ public class GameScreen implements Screen {
                 hud.draw(batch, viewport);
 
                 batch.end();
+
+
+                Rectangle boatRect = playerBoat.getSpriteObj().getBoundingRectangle();
+                boatRect.x /= backgroundTextureSize;
+                boatRect.y /= backgroundTextureSize;
+                boatRect.width /= backgroundTextureSize;
+                boatRect.height /= backgroundTextureSize;
+                //System.out.print(boatRect.x);
+                //System.out.print(", ");
+                //System.out.println(boatRect.x + boatRect.width);
             } catch(NullPointerException e) {
                 System.out.println(e.toString());
             }
