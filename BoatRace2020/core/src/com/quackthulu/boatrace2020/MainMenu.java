@@ -44,7 +44,7 @@ public class MainMenu implements Screen {
         stage.addActor(table);
 
         //Button creation
-        Skin skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skins/pixthulhu/skin/pixthulhu-ui.json"));
 
         TextButton startGame = new TextButton("Start Game", skin);
         TextButton instructions = new TextButton("Instructions", skin);

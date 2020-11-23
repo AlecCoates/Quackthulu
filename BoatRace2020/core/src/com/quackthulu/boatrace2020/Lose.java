@@ -36,7 +36,7 @@ public class Lose implements Screen {
         stage.addActor(table);
 
         //Button creation
-        Skin skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skins/pixthulhu/skin/pixthulhu-ui.json"));
 
         //return to main menu button
         final TextButton returnButton = new TextButton("Retry", skin);

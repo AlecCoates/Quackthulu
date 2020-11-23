@@ -46,7 +46,7 @@ public class SettingsScreen implements Screen {
         stage.addActor(table);
 
         //Button creation
-        Skin skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skins/pixthulhu/skin/pixthulhu-ui.json"));
 
         // Slider to edit volume of sound implemented
         final Slider volumeSoundSlider = new Slider(0f,1f,0.02f,false,skin);
