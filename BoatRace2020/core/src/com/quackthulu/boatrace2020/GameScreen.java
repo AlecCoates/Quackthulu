@@ -153,12 +153,23 @@ public class GameScreen implements Screen {
 
                 detectInput();
 
-                //check race finish
-                if (playerBoat.getSpriteObj().getSprite().getY() > raceLength && !playerBoat.finishedRace())
-                    playerBoat.setFinishingTime(timer);
+                //Physics updates
+                playerBoat.update(delta, environmentalConditions, spriteObjs);
                 for (Boat opponentBoat : opponentBoats) {
-                    if (opponentBoat.getSpriteObj().getSprite().getY() > raceLength && !opponentBoat.finishedRace())
+                    opponentBoat.update(delta, environmentalConditions, spriteObjs);
+                }
+                for (Enemy enemy : enemyObjects) {
+                    enemy.update(delta, environmentalConditions);
+                }
+
+                //check if boats have finished race
+                if (!playerBoat.finishedRace() && playerBoat.getSpriteObj().getSprite().getY() > raceLength) {
+                    playerBoat.setFinishingTime(timer);
+                }
+                for (Boat opponentBoat : opponentBoats) {
+                    if (!opponentBoat.finishedRace() && opponentBoat.getSpriteObj().getSprite().getY() > raceLength) {
                         opponentBoat.setFinishingTime(timer);
+                    }
                 }
 
                 if (playerBoat.getHealth() == 0) {
@@ -193,15 +204,6 @@ public class GameScreen implements Screen {
 
                 //draw hud
                 hud.draw(batch, viewport);
-
-                //updates
-                playerBoat.update(delta, environmentalConditions, spriteObjs);
-                for (Boat opponentBoat : opponentBoats) {
-                    opponentBoat.update(delta, environmentalConditions, spriteObjs);
-                }
-                for (Enemy enemy : enemyObjects) {
-                    enemy.update(delta, environmentalConditions);
-                }
 
                 batch.end();
             } catch(NullPointerException e) {
