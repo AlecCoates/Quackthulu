@@ -58,7 +58,7 @@ public class BoatRace extends Game {
 				this.setScreen(MENU_SCREEN);
 				break;
 			case GAME:
-				if(GAME_SCREEN == null) GAME_SCREEN = new GameScreen(this);
+				GAME_SCREEN = new GameScreen(this);
 				this.setScreen(GAME_SCREEN);
 				break;
 			case SETTINGS:

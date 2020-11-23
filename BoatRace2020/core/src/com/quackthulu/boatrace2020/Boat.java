@@ -49,12 +49,6 @@ public class Boat implements CollisionCallback {
         if (ai != null) {
             ai.update(delta);
         }
-        if (getHealth()== 0) {
-            spriteObj.gameScreen.parent.changeScreen(BoatRace.LOSE);
-        }
-        if(finishedRace()){
-            spriteObj.gameScreen.parent.changeScreen(BoatRace.WIN);
-        }
     }
 
     public void collision(SpriteObj collisionObj) {
