@@ -69,14 +69,14 @@ public class GameScreen implements Screen {
         assets.manager.finishLoading();
 
         //set up textures
-        backgroundSprite = new SpriteObj(new TimedTexture[] {new TimedTexture(assets.getTexture(Assets.backgroundTexture), 0.5f), new TimedTexture(assets.getTexture(Assets.backgroundTexture2), 0.5f)});
+        backgroundSprite = new SpriteObj(new TimedTexture[] {new TimedTexture(assets.getTexture(Assets.backgroundTexture), 0.3f), new TimedTexture(assets.getTexture(Assets.backgroundTexture2), 0.3f)});
         backgroundSprite.setIsCollider(false);
 
-        //Environmental conditions
+        //Declare environmental conditions
         environmentalConditions = new EnvironmentalConditions();
-        environmentalConditions.getWind().setForce(new Force( -0.1f, -0.15f));
-        environmentalConditions.getWind().setGust(new Gust(new Force(-0.1f, -0.15f), 5.0f, 0.08f));
-        environmentalConditions.getCurrent().setForce(new Force(-0.2f, -0.4f));
+        environmentalConditions.getWind().setForce(new Force( -0.05f, -0.07f));
+        environmentalConditions.getWind().setGust(new Gust(new Force(-0.05f, -0.07f), 5.0f, 0.08f));
+        environmentalConditions.getCurrent().setForce(new Force(-0.08f, -0.18f));
 
         //Set lane size
         backgroundTextureSize = 106;

@@ -15,7 +15,7 @@ public class Assets {
 
     public final static String buoyTexture = "buoy";
     public final static String playerBuoyTexture = "orange_buoy";
-    public final static String playerBoatTexture = "player";
+    public final static String playerBoatTexture = "viking_longboat";
     public final static String enemyDuckTexture = "duck_in_top_hat2";
     public final static String fullHUDTexture = "full_paddle";
     public final static String halfHUDTexture = "half_paddle";
