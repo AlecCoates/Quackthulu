@@ -150,9 +150,9 @@ public class GameScreen implements Screen {
         renderBackground(delta);
 
         //check race finish
-        if (playerBoat.getSpriteObj().getSprite().getY() > raceLength * backgroundTextureSize && !playerBoat.finishedRace()) playerBoat.setFinishingTime(timer);
+        if (playerBoat.getSpriteObj().getSprite().getY() > raceLength && !playerBoat.finishedRace()) playerBoat.setFinishingTime(timer);
         for (Boat opponentBoat : opponentBoats) {
-            if (opponentBoat.getSpriteObj().getSprite().getY() > raceLength * backgroundTextureSize && !opponentBoat.finishedRace()) opponentBoat.setFinishingTime(timer);
+            if (opponentBoat.getSpriteObj().getSprite().getY() > raceLength && !opponentBoat.finishedRace()) opponentBoat.setFinishingTime(timer);
         }
 
         //get playerSprite
