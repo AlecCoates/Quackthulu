@@ -217,7 +217,7 @@ public class GameScreen implements Screen {
                         }
                     }
                     parent.boats = newBoats;
-                    if (playerBoat.getFinishingTime() != slowestTime || anyDead){
+                    if (playerBoat.getFinishingTime() != slowestTime || anyDead || parent.level == 1){
                         parent.changeScreen(BoatRace.WIN);
                     } else {
                         parent.changeScreen(BoatRace.LOSE);
