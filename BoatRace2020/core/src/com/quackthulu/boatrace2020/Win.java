@@ -43,7 +43,7 @@ public class Win implements Screen {
         table.row().pad(10,0,0,10);
 
         //return to main menu button
-        if (parent.LEVEL != 4){
+        if (parent.level != 4){
             TextButton nextButton = new TextButton("Next Stage",skin);
             nextButton.addListener(new ChangeListener() {
                 @Override
@@ -52,8 +52,7 @@ public class Win implements Screen {
                 }
             });
             table.add(nextButton).colspan(2);
-        }
-        else {
+        } else {
             final TextButton returnButton = new TextButton("Quit", skin);
             returnButton.addListener(new ChangeListener() {
                 @Override

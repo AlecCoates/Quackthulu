@@ -4,6 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class BoatRace extends Game {
 	/**
@@ -21,10 +22,10 @@ public class BoatRace extends Game {
 	private InterScreen INT_SCREEN;
 	public Settings settings;
 	public Music music;
-	public LinkedList<Boat> qualifiedBoats;
 
 	public int playerBoatNumber = 0;
-  public int level = 0;
+  	public int level = 0;
+  	public List<Integer> boats = new LinkedList<>();
 
 	public final static int MENU = 0;
 	public final static int GAME = 1;
@@ -33,7 +34,7 @@ public class BoatRace extends Game {
 	public final static int PICK_BOAT = 4;
 	public final static int LOSE = 5;
 	public final static int WIN = 6;
-  public final static int INTER = 7;
+	public final static int INTER = 7;
 
 
 	//function sets MainMenu as the main screen and renders default settings
@@ -45,7 +46,7 @@ public class BoatRace extends Game {
 		LOSE_SCREEN = new Lose(this);
 		WIN_SCREEN = new Win(this);
 		PICK_BOAT_SCREEN = new PickBoatMenu(this);
-		Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+		//Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 		setScreen(MENU_SCREEN);
 
 		settings = new Settings();
@@ -65,12 +66,12 @@ public class BoatRace extends Game {
 	public void changeScreen(int screen){
 		switch (screen){
 			case MENU:
-				if (LEVEL >= 4) LEVEL = 0;
+				if (level >= 4) level = 0;
 				if (MENU_SCREEN == null) MENU_SCREEN = new MainMenu(this);
 				this.setScreen(MENU_SCREEN);
 				break;
 			case GAME:
-			    LEVEL += 1;
+			    level += 1;
 				GAME_SCREEN = new GameScreen(this);
 				this.setScreen(GAME_SCREEN);
 				break;
@@ -87,7 +88,7 @@ public class BoatRace extends Game {
 				this.setScreen(PICK_BOAT_SCREEN);
 				break;
 			case LOSE:
-				LEVEL = 0;
+				level = 0;
 				if (LOSE_SCREEN == null) LOSE_SCREEN = new Lose(this);
 				this.setScreen(LOSE_SCREEN);
 				break;
@@ -95,16 +96,13 @@ public class BoatRace extends Game {
 				if (WIN_SCREEN == null) WIN_SCREEN = new Win(this);
 				this.setScreen(WIN_SCREEN);
 				break;
-      case INTER:
-        if(INT_SCREEN == null) INT_SCREEN = new InterScreen(this);
-        this.setScreen(INT_SCREEN);
-        break;
+      		case INTER:
+      			if(INT_SCREEN == null) INT_SCREEN = new InterScreen(this);
+        		this.setScreen(INT_SCREEN);
+        		break;
 		}
 	}
 
-	public void qualifiedBoatResults(LinkedList qualifiedBoats){
-
-	}
 
 	//function disposes of assets not being used to clear memory
 	@Override

@@ -39,7 +39,7 @@ public class InterScreen implements Screen {
         //Button creation
         Skin skin = new Skin(Gdx.files.internal("skins/pixthulhu/skin/pixthulhu-ui.json"));
 
-        TextButton nextLevel = new TextButton("To Stage "+ (parent.LEVEL+1), skin);
+        TextButton nextLevel = new TextButton("To Stage " + (parent.level+1), skin);
         TextButton settings = new TextButton("Settings", skin);
         TextButton quit = new TextButton("Quit", skin);
 
