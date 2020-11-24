@@ -48,6 +48,7 @@ public class GameScreen implements Screen {
     //game objects
     private Boat playerBoat;
     private LinkedList<Boat> opponentBoats;
+    private LinkedList<LinkedList<Float>> opponentBoatsRotations;
     private LinkedList<SpriteObj> spriteObjs;
     private LinkedList<Enemy> enemyObjects;
 
@@ -88,6 +89,7 @@ public class GameScreen implements Screen {
         playerBoat.lane = new float[] {-0.5f, 0.5f};
         spriteObjs.add(playerBoat.getSpriteObj());
         opponentBoats = new LinkedList<>();
+        opponentBoatsRotations = new LinkedList<>();
         for (int i = 0; i < 4; i++) {
             opponentBoats.add(new Boat(BoatsStats.getBoatStats(new Random().nextInt(BoatsStats.numOfBoats())), assets));
             opponentBoats.get(i).getSpriteObj().gameScreen = this;
@@ -102,6 +104,7 @@ public class GameScreen implements Screen {
                 opponentBoats.get(i).lane = new float[] {-0.5f + (i - 1), 0.5f + (i - 1)};
             }
             opponentBoats.get(i).setThrottle(1.0f);
+            opponentBoatsRotations.add(new LinkedList<Float>());
         }
 
         enemyObjects = new LinkedList<Enemy>();
@@ -156,6 +159,14 @@ public class GameScreen implements Screen {
                     enemy.update(delta, environmentalConditions);
                 }
 
+                //Keeps a list of recent AI boat rotations so we can smooth them out later
+                for (int i = 0; i < opponentBoatsRotations.size(); i++) {
+                    if (opponentBoatsRotations.get(i).size() > 30) {
+                        opponentBoatsRotations.get(i).remove();
+                    }
+                    opponentBoatsRotations.get(i).add(opponentBoats.get(i).getSpriteObj().getSprite().getRotation());
+                }
+
                 //check if boats have finished race
                 if (!playerBoat.finishedRace() && playerBoat.getSpriteObj().getSprite().getY() > raceLength) {
                     playerBoat.setFinishingTime(timer);
@@ -190,11 +201,16 @@ public class GameScreen implements Screen {
                 safeDraw(playerBoat.getSpriteObj().getTexture(), (viewport.getWorldWidth() - assets.getBoatTexture(parent.playerBoatNumber).getRegionWidth()) / 2, (viewport.getWorldHeight() - assets.getBoatTexture(parent.playerBoatNumber).getRegionHeight()) / 2, playerBoat.getSpriteObj().getSprite().getOriginX(), playerBoatSprite.getOriginY(), playerBoatSprite.getWidth(), playerBoatSprite.getHeight(), playerBoatSprite.getScaleX(), playerBoatSprite.getScaleY(), playerBoatSprite.getRotation());
 
                 //draw opponents
-                for (Boat opponentBoat : opponentBoats) {
+                for (int i = 0; i < opponentBoats.size(); i++) {
+                    Boat opponentBoat = opponentBoats.get(i);
+                    Float avgRotation = 0.0f;
+                    for (Float opponentBoatRotation : opponentBoatsRotations.get(i)) avgRotation += opponentBoatRotation;
+                    avgRotation = avgRotation / (float) opponentBoatsRotations.get(i).size();
                     Sprite opponentBoatSprite = opponentBoat.getSpriteObj().getSprite();
                     opponentBoatSprite.setScale(backgroundTextureSize / opponentBoatSprite.getWidth() / boatWidthsLane, backgroundTextureSize / opponentBoatSprite.getWidth() / boatWidthsLane);
-                    safeDraw(opponentBoat.getSpriteObj().getTexture(), ((viewport.getWorldWidth() - assets.getBoatTexture(parent.playerBoatNumber).getRegionWidth()) / 2) + (opponentBoatSprite.getX() - playerBoatSprite.getX()) * backgroundTextureSize, ((viewport.getWorldHeight() - assets.getBoatTexture(parent.playerBoatNumber).getRegionHeight()) / 2) + (opponentBoatSprite.getY() - playerBoatSprite.getY()) * backgroundTextureSize, opponentBoatSprite.getOriginX(), opponentBoatSprite.getOriginY(), opponentBoatSprite.getWidth(), opponentBoatSprite.getHeight(), opponentBoatSprite.getScaleX(), opponentBoatSprite.getScaleY(), opponentBoatSprite.getRotation());
+                    safeDraw(opponentBoat.getSpriteObj().getTexture(), ((viewport.getWorldWidth() - assets.getBoatTexture(parent.playerBoatNumber).getRegionWidth()) / 2) + (opponentBoatSprite.getX() - playerBoatSprite.getX()) * backgroundTextureSize, ((viewport.getWorldHeight() - assets.getBoatTexture(parent.playerBoatNumber).getRegionHeight()) / 2) + (opponentBoatSprite.getY() - playerBoatSprite.getY()) * backgroundTextureSize, opponentBoatSprite.getOriginX(), opponentBoatSprite.getOriginY(), opponentBoatSprite.getWidth(), opponentBoatSprite.getHeight(), opponentBoatSprite.getScaleX(), opponentBoatSprite.getScaleY(), avgRotation);
                 }
+                for (Boat opponentBoat : opponentBoats) {}
 
                 //draw hud
                 hud.draw(batch, viewport);
