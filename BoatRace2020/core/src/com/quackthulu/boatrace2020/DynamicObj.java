@@ -21,7 +21,7 @@ public class DynamicObj {
 
     public DynamicObj() {
         this.mass = 1.0f;
-        this.dragMult = 0.8f;
+        this.dragMult = 1.0f;
         this.velocity = new Velocity();
         this.rotationalVelocity = 0.0f;
         this.force = new Force();
@@ -37,7 +37,7 @@ public class DynamicObj {
     }
 
     public void update(float delta, EnvironmentalConditions env, List<SpriteObj> collisionObjs, SpriteObj spriteObj, boolean collided) {
-        float tempRotationalVelocity = calcVelocity(delta, rotationalVelocity, torque);
+        float tempRotationalVelocity = calcVelocity(delta, rotationalVelocity / 5, torque);
         float tempVelocityX = calcVelocity(delta, velocity.getX(), force.getX() + env.getCurrent().getForce().getX() + env.getWind().getForce().getX() + env.getWind().getGust().getForce().getX());
         float tempVelocityY = calcVelocity(delta, velocity.getY(), force.getY() + env.getCurrent().getForce().getY() + env.getWind().getForce().getY() + env.getWind().getGust().getForce().getY());
         rotationalVelocity += tempRotationalVelocity;
@@ -97,7 +97,7 @@ public class DynamicObj {
     }
 
     private float calcVelocity(float delta, float velocity, float force) {
-        return delta * (force - (dragMult * velocity / mass));
+        return (float) (delta * (force - (dragMult * CustomMath.signPow(velocity, 2))) / mass);
     }
 
     //Getters & setters
@@ -139,5 +139,9 @@ public class DynamicObj {
 
     public void setTorque(float torque) {
         this.torque = torque;
+    }
+
+    public void setDragMult(float dragMult) {
+        this.dragMult = dragMult;
     }
 }

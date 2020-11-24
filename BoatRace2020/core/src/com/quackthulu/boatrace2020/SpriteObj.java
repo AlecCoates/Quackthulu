@@ -22,19 +22,12 @@ public class SpriteObj {
     }
 
     public SpriteObj(TimedTexture[] timedTextures) {
-        this(new Sprite(), timedTextures);
-    }
-
-    public SpriteObj(Sprite sprite, TimedTexture[] timedTextures) {
-        this.sprite = sprite;
-        this.timedTextures = timedTextures;
+        this.sprite = new Sprite();
+        this.setTimedTextures(timedTextures);
         this.currentTexture = 0;
         this.elapsedTextureTime = 0.0f;
         this.isCollider = true;
         this.damage = 0;
-        if (this.timedTextures.length > 0) {
-            this.sprite.setTexture(timedTextures[0].getTexture().getTexture());
-        }
     }
 
     public void updateTexture(float delta) {
@@ -60,8 +53,8 @@ public class SpriteObj {
         this.timedTextures = timedTextures;
         if (timedTextures.length > 0) {
             sprite.setTexture(timedTextures[0].getTexture().getTexture());
+            sprite.setSize(timedTextures[0].getTexture().getRegionWidth(), timedTextures[0].getTexture().getRegionHeight());
         }
-        sprite.setSize(timedTextures[0].getTexture().getRegionWidth(), timedTextures[0].getTexture().getRegionHeight());
         sprite.setOrigin(sprite.getWidth() / 2.0f, sprite.getHeight() / 2.0f);
         currentTexture = 0;
         elapsedTextureTime = 0.0f;
