@@ -60,17 +60,17 @@ public class AI {
         float neutralAngle = (float) Math.toDegrees(Math.asin((boat.getSpriteObj().gameScreen.getEnvironmentalConditions().getCurrent().getForce().getX() + boat.getSpriteObj().gameScreen.getEnvironmentalConditions().getWind().getForce().getX() + boat.getSpriteObj().gameScreen.getEnvironmentalConditions().getWind().getGust().getForce().getX()) / (boat.getThrottle() * boat.getRowers().getMaxForce())));
 
         if ((boat.getDynamicObj().getVelocity().getX() > targetVelocityX)) {
-            boat.setSteering(0.15f + new Random().nextFloat() * 0.15f);
+            boat.setSteering(30.0f + new Random().nextFloat() * 0.15f);
         } else {
-            boat.setSteering(-0.15f + new Random().nextFloat() * -0.15f);
+            boat.setSteering(-30.0f + new Random().nextFloat() * -0.15f);
         }
 
         float boatRotation = boat.getSpriteObj().getSprite().getRotation() % 360;
         if (boatRotation - neutralAngle < -7 * riskTaking || boatRotation - neutralAngle > 180) {
-            boat.setSteering(0.15f + new Random().nextFloat() * 0.15f);
+            boat.setSteering(30.0f + new Random().nextFloat() * 0.15f);
         }
         if (boatRotation - neutralAngle > 7 * riskTaking || boatRotation - neutralAngle < -180) {
-            boat.setSteering(-0.15f + new Random().nextFloat() * -0.15f);
+            boat.setSteering(-30.0f + new Random().nextFloat() * -0.15f);
         }
     }
 }
