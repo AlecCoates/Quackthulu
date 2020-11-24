@@ -3,6 +3,8 @@ package com.quackthulu.boatrace2020;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
 
+import java.util.LinkedList;
+
 public class BoatRace extends Game {
 	/**
 	 * BoatRace extends Game import and acts as a main class, and a controller acting as parent in all possible game screens
@@ -18,6 +20,7 @@ public class BoatRace extends Game {
 	private InterScreen INT_SCREEN;
 	public Settings settings;
 	public Music music;
+	public LinkedList<Boat> qualifiedBoats;
 
 
 	public final static int MENU = 0;
@@ -84,6 +87,10 @@ public class BoatRace extends Game {
                 this.setScreen(INT_SCREEN);
                 break;
 		}
+	}
+
+	public void qualifiedBoatResults(LinkedList qualifiedBoats){
+
 	}
 
 	//function disposes of assets not being used to clear memory

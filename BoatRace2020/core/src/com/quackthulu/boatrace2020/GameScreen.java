@@ -30,6 +30,7 @@ public class GameScreen implements Screen {
     private float quickestTime = 0;
     private int allFinished = 0;
     private int noOfParticipants = 0;
+    private int noDead = 0;
 
     //world parameters
     private int WORLD_HEIGHT = 600;
@@ -42,7 +43,7 @@ public class GameScreen implements Screen {
     private float laneWidthsScreen = 6.5f;
     private float minAspectRatio = 1.8f;
     private float boatWidthsLane = 4.0f;
-    private float raceLength = 110.0f;
+    private float raceLength = 10.0f;
     private int backgroundTextureSize = 64;
     private float riverCountX = 0;
     private float riverCountY = 0;
@@ -52,6 +53,7 @@ public class GameScreen implements Screen {
     private LinkedList<Boat> opponentBoats;
     private LinkedList<SpriteObj> spriteObjs;
     private LinkedList<Enemy> enemyObjects;
+    private LinkedList<Boat> qualifiedBoats;
 
     //HUD
     private HUD hud;
@@ -93,6 +95,7 @@ public class GameScreen implements Screen {
         spriteObjs.add(playerBoat.getSpriteObj());
 
         if (parent.LEVEL == 1) {
+            qualifiedBoats = new LinkedList<>();
             opponentBoats = new LinkedList<>();
             for (int i = 0; i < 4; i++) {
                 opponentBoats.add(new Boat());
@@ -112,10 +115,14 @@ public class GameScreen implements Screen {
                 opponentBoats.get(i).setThrottle(1.0f);
             }
         } else {
-            opponentBoats = new LinkedList<>();
-            for (int i = 0; i < (6 - parent.LEVEL); i++) {
-                opponentBoats.add(new Boat());
+            opponentBoats =  parent.qualifiedBoats;
+            noOfParticipants += opponentBoats.size();
+            /*for (Boat qualifiedOpponentBoat : qualifiedBoats){
+                opponentBoats.add(qualifiedOpponentBoat);
                 noOfParticipants += 1;
+            }*/
+            qualifiedBoats = new LinkedList<>();
+            for (int i = 0; i < (noOfParticipants - 1); i++) {
                 opponentBoats.get(i).getSpriteObj().gameScreen = this;
                 opponentBoats.get(i).getSpriteObj().setTimedTextures(new TimedTexture[]{new TimedTexture(assets.getTexture(Assets.playerBoatTexture))});
                 opponentBoats.get(i).ai = new AI();
@@ -190,29 +197,42 @@ public class GameScreen implements Screen {
                 if (!playerBoat.finishedRace() && playerBoat.getSpriteObj().getSprite().getY() > raceLength) {
                     playerBoat.setFinishingTime(timer);
                     allFinished += 1;
-                    System.out.println(playerBoat.finishingTime);
-                    if (playerBoat.finishingTime > slowestTime) {
-                        slowestTime = playerBoat.finishingTime;
+                    System.out.println(playerBoat.getFinishingTime());
+                    if (playerBoat.getFinishingTime() > slowestTime) {
+                        slowestTime = playerBoat.getFinishingTime();
                     }
                 }
                 for (Boat opponentBoat : opponentBoats) {
                     if (!opponentBoat.finishedRace() && opponentBoat.getSpriteObj().getSprite().getY() > raceLength) {
                         opponentBoat.setFinishingTime(timer);
                         allFinished += 1;
-                        System.out.println(opponentBoat.finishingTime);
-                        if (opponentBoat.finishingTime > slowestTime) {
-                            slowestTime = opponentBoat.finishingTime;
+                        System.out.println(opponentBoat.getFinishingTime());
+                        if (opponentBoat.getFinishingTime() > slowestTime) {
+                            slowestTime = opponentBoat.getFinishingTime();
                         }
-                        if (opponentBoat.finishingTime < quickestTime || quickestTime == 0) {
-                            quickestTime = opponentBoat.finishingTime;
+                        if (opponentBoat.getFinishingTime() < quickestTime || quickestTime == 0) {
+                            quickestTime = opponentBoat.getFinishingTime();
+                        }
+                    }
+
+                    if (opponentBoat.getHealth() == 0){
+                        noDead += 1;
+                        opponentBoat.setFinishingTime(Integer.MAX_VALUE);
+                    }
+                    if (allFinished == noOfParticipants-noDead){
+                        if (opponentBoat.getFinishingTime() != slowestTime){
+                            qualifiedBoats.add(opponentBoat);
                         }
                     }
                 }
+                if (allFinished == noOfParticipants - noDead){
+                    parent.qualifiedBoats = qualifiedBoats;
+                }
 
                 //checks race is finished
-                if (allFinished == noOfParticipants) {
-                    if (playerBoat.finishingTime == slowestTime) {
-                        System.out.println(playerBoat.finishingTime);
+                if (allFinished == noOfParticipants-noDead) {
+                    if (playerBoat.getFinishingTime() == slowestTime) {
+                        System.out.println(playerBoat.getFinishingTime());
                         System.out.println(slowestTime);
                         if (BoatRace.LEVEL != 1) {
                             parent.changeScreen(BoatRace.LOSE);
@@ -222,9 +242,12 @@ public class GameScreen implements Screen {
                     } else {
                         parent.changeScreen(BoatRace.WIN);
                     }
-                    if (playerBoat.finishingTime < quickestTime & BoatRace.LEVEL == 4) {
+                    if (playerBoat.getFinishingTime() < quickestTime & BoatRace.LEVEL == 4) {
                         parent.changeScreen(BoatRace.WIN);
                     }
+                }
+                if (playerBoat.getHealth() == 0){
+                    parent.changeScreen(BoatRace.LOSE);
                 }
                     //draw background
                     renderBackground(delta);
@@ -245,9 +268,11 @@ public class GameScreen implements Screen {
 
                     //draw opponents
                     for (Boat opponentBoat : opponentBoats) {
-                        Sprite opponentBoatSprite = opponentBoat.getSpriteObj().getSprite();
-                        opponentBoatSprite.setScale(backgroundTextureSize / opponentBoatSprite.getWidth() / boatWidthsLane, backgroundTextureSize / opponentBoatSprite.getWidth() / boatWidthsLane);
-                        safeDraw(assets.getTexture(Assets.playerBoatTexture), ((viewport.getWorldWidth() - assets.getTexture(Assets.playerBoatTexture).getRegionWidth()) / 2) + (opponentBoatSprite.getX() - playerBoatSprite.getX()) * backgroundTextureSize, ((viewport.getWorldHeight() - assets.getTexture(Assets.playerBoatTexture).getRegionHeight()) / 2) + (opponentBoatSprite.getY() - playerBoatSprite.getY()) * backgroundTextureSize, opponentBoatSprite.getOriginX(), opponentBoatSprite.getOriginY(), opponentBoatSprite.getWidth(), opponentBoatSprite.getHeight(), opponentBoatSprite.getScaleX(), opponentBoatSprite.getScaleY(), opponentBoatSprite.getRotation());
+                        if (spriteObjs.contains(opponentBoat.getSpriteObj())) {
+                            Sprite opponentBoatSprite = opponentBoat.getSpriteObj().getSprite();
+                            opponentBoatSprite.setScale(backgroundTextureSize / opponentBoatSprite.getWidth() / boatWidthsLane, backgroundTextureSize / opponentBoatSprite.getWidth() / boatWidthsLane);
+                            safeDraw(assets.getTexture(Assets.playerBoatTexture), ((viewport.getWorldWidth() - assets.getTexture(Assets.playerBoatTexture).getRegionWidth()) / 2) + (opponentBoatSprite.getX() - playerBoatSprite.getX()) * backgroundTextureSize, ((viewport.getWorldHeight() - assets.getTexture(Assets.playerBoatTexture).getRegionHeight()) / 2) + (opponentBoatSprite.getY() - playerBoatSprite.getY()) * backgroundTextureSize, opponentBoatSprite.getOriginX(), opponentBoatSprite.getOriginY(), opponentBoatSprite.getWidth(), opponentBoatSprite.getHeight(), opponentBoatSprite.getScaleX(), opponentBoatSprite.getScaleY(), opponentBoatSprite.getRotation());
+                        }
                     }
 
                     //draw hud

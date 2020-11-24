@@ -15,7 +15,7 @@ public class Boat implements CollisionCallback {
     private int maxHealth;
     private int health;
     private Map<SpriteObj, Float> collisions = new HashMap<>();
-    public float finishingTime = -1;
+    private float finishingTime = -1;
     private float penaltyTime = 0;
     private float throttle = 0;
     private float steering = 0;
@@ -34,7 +34,7 @@ public class Boat implements CollisionCallback {
         this.dynamicObj = dynamicObj;
         this.rowers = rowers;
         this.maneuverability = 1.0f;
-        this.maxHealth = 5;
+        this.maxHealth = 20;
         this.health = maxHealth;
         this.spriteObj.setDamage(1);
         this.spriteObj.dynamicObj = dynamicObj;
@@ -136,4 +136,5 @@ public class Boat implements CollisionCallback {
     public float getSteering() {
         return steering;
     }
+
 }
