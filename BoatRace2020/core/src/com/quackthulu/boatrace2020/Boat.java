@@ -37,7 +37,7 @@ public class Boat implements CollisionCallback {
         this.dynamicObj = dynamicObj;
         this.rowers = rowers;
         this.maneuverability = 1.0f;
-        this.maxHealth = 5;
+        this.maxHealth = 20;
         this.health = maxHealth;
         this.spriteObj.setDamage(1);
         this.spriteObj.dynamicObj = dynamicObj;
@@ -157,4 +157,5 @@ public class Boat implements CollisionCallback {
     public float getSteering() {
         return steering;
     }
+
 }
