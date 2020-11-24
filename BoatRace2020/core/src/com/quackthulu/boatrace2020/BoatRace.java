@@ -15,6 +15,7 @@ public class BoatRace extends Game {
 	private GameScreen GAME_SCREEN;
 	private Lose LOSE_SCREEN;
 	private Win WIN_SCREEN;
+	private InterScreen INT_SCREEN;
 	public Settings settings;
 	public Music music;
 
@@ -25,16 +26,14 @@ public class BoatRace extends Game {
 	public final static int INSTRUCTIONS = 3;
 	public final static int LOSE = 4;
 	public final static int WIN = 5;
+	public final static int INTER = 6;
+	public static int LEVEL = 0;
 
 
 	//function sets MainMenu as the main screen and renders default settings 
 	@Override
 	public void create() {
 		MENU_SCREEN = new MainMenu(this);
-		SETTINGS_SCREEN = new SettingsScreen(this);
-		GAME_SCREEN = new GameScreen(this);
-		LOSE_SCREEN = new Lose(this);
-		WIN_SCREEN = new Win(this);
 		setScreen(MENU_SCREEN);
     
 		settings = new Settings();
@@ -54,10 +53,12 @@ public class BoatRace extends Game {
 	public void changeScreen(int screen){
 		switch (screen){
 			case MENU:
+				if(LEVEL >= 4) LEVEL = 0;
 				if(MENU_SCREEN == null) MENU_SCREEN = new MainMenu(this);
 				this.setScreen(MENU_SCREEN);
 				break;
 			case GAME:
+			    LEVEL += 1;
 				GAME_SCREEN = new GameScreen(this);
 				this.setScreen(GAME_SCREEN);
 				break;
@@ -70,6 +71,7 @@ public class BoatRace extends Game {
 				this.setScreen(INSTRUCTIONS_SCREEN);
 				break;
 			case LOSE:
+				LEVEL = 0;
 				if(LOSE_SCREEN == null) LOSE_SCREEN = new Lose(this);
 				this.setScreen(LOSE_SCREEN);
 				break;
@@ -77,6 +79,10 @@ public class BoatRace extends Game {
 				if(WIN_SCREEN == null) WIN_SCREEN = new Win(this);
 				this.setScreen(WIN_SCREEN);
 				break;
+            case INTER:
+                if(INT_SCREEN == null) INT_SCREEN = new InterScreen(this);
+                this.setScreen(INT_SCREEN);
+                break;
 		}
 	}
 

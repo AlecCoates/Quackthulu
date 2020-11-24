@@ -15,7 +15,7 @@ public class Boat implements CollisionCallback {
     private int maxHealth;
     private int health;
     private Map<SpriteObj, Float> collisions = new HashMap<>();
-    private float finishingTime = -1;
+    public float finishingTime = -1;
     private float penaltyTime = 0;
     private float throttle = 0;
     private float steering = 0;
