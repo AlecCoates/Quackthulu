@@ -1,8 +1,11 @@
 package com.quackthulu.boatrace2020;
 
 import com.quackthulu.boatrace2020.basics.Force;
+import com.quackthulu.boatrace2020.basics.TimedTexture;
+import com.quackthulu.boatrace2020.basics.TimedTextureTemplate;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +41,24 @@ public class Boat implements CollisionCallback {
         this.health = maxHealth;
         this.spriteObj.setDamage(1);
         this.spriteObj.dynamicObj = dynamicObj;
+        this.dynamicObj.collisionCallback = this;
+    }
+
+    public Boat(BoatStats boatStats, Assets assets) {
+        List<TimedTexture> timedTextures = new LinkedList<>();
+        for (TimedTextureTemplate timedTextureTemplate : boatStats.getTimedTextures()) timedTextures.add(new TimedTexture(timedTextureTemplate, assets));
+        this.spriteObj = new SpriteObj(timedTextures.toArray(new TimedTexture[0]));
+        this.dynamicObj = new DynamicObj();
+        this.rowers = new Rowers();
+        this.maneuverability = boatStats.getManeuverability();
+        this.maxHealth = boatStats.getMaxHealth();
+        this.health = maxHealth;
+        this.spriteObj.setDamage(boatStats.getDamage());
+        this.spriteObj.setCustomBounds(boatStats.getCustomBounds());
+        this.spriteObj.setIsCollider(boatStats.isCollider());
+        this.spriteObj.dynamicObj = dynamicObj;
+        this.dynamicObj.setMass(boatStats.getMass());
+        this.dynamicObj.setDragMult(boatStats.getDragMult());
         this.dynamicObj.collisionCallback = this;
     }
 
@@ -78,7 +99,7 @@ public class Boat implements CollisionCallback {
         if (throttle < 0) {
             direction = -1;
         };
-        dynamicObj.setTorque(steering * rowers.getAgility() * direction);
+        dynamicObj.setTorque(steering * rowers.getAgility() * maneuverability * direction);
     }
 
     public SpriteObj getSpriteObj() {

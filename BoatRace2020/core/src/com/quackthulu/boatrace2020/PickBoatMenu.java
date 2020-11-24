@@ -18,10 +18,11 @@ public class PickBoatMenu implements Screen{
     private Label titleLabel;
     private Array<Label> boatLabelArray;
     private Array<CheckBox> checkBoxArray;
-    public int boatNumber = 0;
+    public int boatNumber;
 
     public PickBoatMenu(BoatRace boatRace) {
         parent = boatRace;
+        boatNumber = parent.playerBoatNumber;
     }
 
     @Override
@@ -44,24 +45,19 @@ public class PickBoatMenu implements Screen{
         Skin skin = new Skin(Gdx.files.internal("skins/pixthulhu/skin/pixthulhu-ui.json"));
 
         ButtonGroup<CheckBox> boatCheckboxes = new ButtonGroup<>();
-        boatCheckboxes.add(new CheckBox(null,skin));
-        boatCheckboxes.add(new CheckBox(null,skin));
-        boatCheckboxes.add(new CheckBox(null,skin));
-        boatCheckboxes.add(new CheckBox(null,skin));
-        boatCheckboxes.add(new CheckBox(null,skin));
-        for(int i = 0; i<boatCheckboxes.getButtons().size; i++){
+        for (int i = 0; i < BoatsStats.numOfBoats(); i++) {
             final int finalI = i;
+            boatCheckboxes.add(new CheckBox(null, skin));
             boatCheckboxes.getButtons().get(i).addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     boatNumber = finalI;
-                    System.out.println(boatNumber);
                 }
             });
         }
-
+        boatCheckboxes.getButtons().get(boatNumber).setChecked(true);
         //return to main menu button
-        /*final TextButton returnButton = new TextButton("Return",skin);
+        /*final TextButton returnButton = new TextButton("Return", skin);
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -70,7 +66,7 @@ public class PickBoatMenu implements Screen{
         });*/
 
         //continue to game
-        final TextButton continueButton = new TextButton("Continue",skin);
+        final TextButton continueButton = new TextButton("Continue", skin);
         continueButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -79,14 +75,12 @@ public class PickBoatMenu implements Screen{
             }
         });
 
-        titleLabel = new Label("Pick Your Boat",skin);
+        titleLabel = new Label("Pick Your Boat", skin);
 
         boatLabelArray = new Array<>();
-        boatLabelArray.add(new Label("Tank",skin));
-        boatLabelArray.add(new Label("Speed Boat",skin));
-        boatLabelArray.add(new Label("Dragon Long Boat",skin));
-        boatLabelArray.add(new Label("Jet Ski",skin));
-        boatLabelArray.add(new Label("Normal boat",skin));
+        for (int i = 0; i < BoatsStats.numOfBoats(); i++) {
+            boatLabelArray.add(new Label(BoatsStats.getBoatStats(i).getName(), skin));
+        }
 
         table.add(titleLabel).colspan(2);
         table.row().pad(10,0,0,10);

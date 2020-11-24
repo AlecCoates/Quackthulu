@@ -5,8 +5,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import java.util.ArrayList;
-
 public class Assets {
     private final static  String FILE_TEXTURE_ATLAS = "images13.atlas";
 
@@ -55,19 +53,19 @@ public class Assets {
     public TextureRegion getBoatTexture(int boatNumber) {
         if (loaded) {
             switch (boatNumber) {
-                case 0:
+                case BoatsStats.TANK_BOAT:
                     return manager.get(textureAtlas).findRegion(Assets.tankBoatTexture);
-                case 1:
+                case BoatsStats.SPEED_BOAT:
                     return manager.get(textureAtlas).findRegion(Assets.speedBoatTexture);
-                case 2:
+                case BoatsStats.VIKING_BOAT:
                     return manager.get(textureAtlas).findRegion(Assets.vikingBoatTexture);
-                case 3:
+                case BoatsStats.JETSKI_BOAT:
                     return manager.get(textureAtlas).findRegion(Assets.jetSkiTexture);
+                case BoatsStats.NORMAL_BOAT:
+                    return manager.get(textureAtlas).findRegion(Assets.normalBoatTexture);
             }
-            return manager.get(textureAtlas).findRegion(Assets.normalBoatTexture);
-        } else {
-            return null;
         }
+        return null;
     }
 
 }
