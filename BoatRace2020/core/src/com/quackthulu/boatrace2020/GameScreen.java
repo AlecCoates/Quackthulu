@@ -174,6 +174,18 @@ public class GameScreen implements Screen {
                     opponentBoatsRotations.get(i).add(opponentBoats.get(i).getSpriteObj().getSprite().getRotation());
                 }
 
+                //Check for deaths
+                if (playerBoat.getHealth() <= 0) {
+                    parent.changeScreen(BoatRace.LOSE);
+                }
+                for (Boat opponentBoat : opponentBoats) {
+                    if (opponentBoat.getHealth() <= 0) {
+                        spriteObjs.remove(opponentBoat.getSpriteObj());
+                        opponentBoats.remove(opponentBoat);
+                    }
+                }
+
+
                 //Set any finished times
                 if (!playerBoat.finishedRace() && playerBoat.getSpriteObj().getSprite().getY() > raceLength) {
                     playerBoat.setFinishingTime(timer);

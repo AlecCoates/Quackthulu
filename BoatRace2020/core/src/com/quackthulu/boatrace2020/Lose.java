@@ -43,6 +43,7 @@ public class Lose implements Screen {
         returnButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                parent.level = 0;
                 parent.changeScreen(BoatRace.MENU);
             }
         });
