@@ -46,7 +46,7 @@ public class BoatRace extends Game {
 		LOSE_SCREEN = new Lose(this);
 		WIN_SCREEN = new Win(this);
 		PICK_BOAT_SCREEN = new PickBoatMenu(this);
-		//Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+		Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 		setScreen(MENU_SCREEN);
 
 		settings = new Settings();
