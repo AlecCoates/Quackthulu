@@ -51,7 +51,7 @@ public class BoatRace extends Game {
 
 		settings = new Settings();
 
-		music = Gdx.audio.newMusic(Gdx.files.internal("music/Daniel_Birch_-_02_-_One_Man.mp3"));
+		music = Gdx.audio.newMusic(Gdx.files.internal("music/Dragon-Mystery.mp3"));
 		music.setLooping(true);
 		music.setVolume(settings.getSoundVolume());
 		if (settings.isSoundEnabled()) {

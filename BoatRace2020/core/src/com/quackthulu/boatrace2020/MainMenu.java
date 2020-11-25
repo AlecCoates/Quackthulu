@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g3d.particles.values.LineSpawnShapeValue;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -51,6 +52,8 @@ public class MainMenu implements Screen {
         TextButton settings = new TextButton("Settings", skin);
         TextButton quit = new TextButton("Quit", skin);
 
+        Label creditLabel = new Label("Song: Dragon-Mystery  Artist: Eric Matyas",skin);
+
         //Adding buttons to the table
         table.add(startGame).fillX().uniformX();
         table.row().pad(20, 0, 20, 0);
@@ -59,6 +62,8 @@ public class MainMenu implements Screen {
         table.add(instructions).fillX().uniformX();
         table.row().pad(20,0,20,0);
         table.add(quit).fillX().uniformX();
+        table.row().pad(20,0,20,0);
+        table.add(creditLabel);
 
         //add listeners to buttons so that they change to appropriate screen when clicked
         instructions.addListener(new ChangeListener() {
