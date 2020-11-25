@@ -201,7 +201,7 @@ public class GameScreen implements Screen {
                 //check if boats have finished race
                 float slowestTime = 0;
                 float quickestTime = 0;
-                boolean anyDead = false;
+                boolean anyDead = drawOpponentBoats.size() < opponentBoats.size();
                 boolean allFinished = true;
                 if (playerBoat.finishedRace()) {
                     slowestTime = Math.max(slowestTime, playerBoat.getFinishingTime());
@@ -214,8 +214,6 @@ public class GameScreen implements Screen {
                         if (opponentBoat.getHealth() > 0) {
                             slowestTime = Math.max(slowestTime, opponentBoat.getFinishingTime());
                             quickestTime = Math.min(quickestTime, opponentBoat.getFinishingTime());
-                        } else {
-                            anyDead = true;
                         }
                     } else {
                         allFinished = false;
@@ -225,13 +223,11 @@ public class GameScreen implements Screen {
                     List<Integer> newBoats = new LinkedList<>();
                     for (int i = 0; i < opponentBoats.size(); i++) {
                         if (opponentBoats.get(i).getHealth() > 0 && (opponentBoats.get(i).getFinishingTime() != slowestTime || anyDead || parent.level == 1)){
-                            if (opponentBoats.get(i).getFinishingTime() != slowestTime){
-                                newBoats.add(parent.boats.get(i));
-                            }
+                            newBoats.add(parent.boats.get(i));
                         }
                     }
                     parent.boats = newBoats;
-                    if (playerBoat.getFinishingTime() != slowestTime || anyDead || parent.level == 1){
+                    if (playerBoat.getFinishingTime() != slowestTime || anyDead || parent.level == 1 || opponentBoats.size() == 0){
                         parent.changeScreen(BoatRace.WIN);
                     } else {
                         parent.changeScreen(BoatRace.LOSE);
