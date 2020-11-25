@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-<title>Documents</title>
+<title>About</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -19,7 +19,6 @@ body, html {
   padding: 16px;
 }
 </style>
-<script src="./fileBrowser.js"></script>
 </head>
 
 <body>
@@ -27,12 +26,12 @@ body, html {
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-card" id="myNavbar">
-    <a href="./index.html" class="w3-bar-item w3-button w3-wide">HOME</a>
+    <a href="../" class="w3-bar-item w3-button w3-wide">HOME</a>
     <!-- Right-sided navbar links -->
     <div class="w3-right w3-hide-small">
-      <a href="./about.html" class="w3-bar-item w3-button"><i class="fa fa-info-circle"></i> ABOUT</a>
-      <a href="./documents.html" class="w3-bar-item w3-button"><i class="fa fa-file-text"></i> DOCUMENTS</a>
-      <a href="./downloads.html" class="w3-bar-item w3-button"><i class="fa fa-download"></i> DOWNLOADS</a>
+      <a href="../about/index.html" class="w3-bar-item w3-button"><i class="fa fa-info-circle"></i> ABOUT</a>
+      <a href="../documents/index.html" class="w3-bar-item w3-button"><i class="fa fa-file-text"></i> DOCUMENTS</a>
+      <a href="../downloads/index.html" class="w3-bar-item w3-button"><i class="fa fa-download"></i> DOWNLOADS</a>
     </div>
     <!-- Hide right-floated links on small screens and replace them with a menu icon -->
 
@@ -45,17 +44,41 @@ body, html {
 <!-- Sidebar on small screens when clicking the menu icon -->
 <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
-  <a href="./about.html" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
-  <a href="./documents.html" onclick="w3_close()" class="w3-bar-item w3-button">DOCUMENTS</a>
-  <a href="./downloads.html" onclick="w3_close()" class="w3-bar-item w3-button">DOWNLOADS</a>
+  <a href="../about/index.html" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
+  <a href="../documents/index.html" onclick="w3_close()" class="w3-bar-item w3-button">DOCUMENTS</a>
+  <a href="../downloads/index.html" onclick="w3_close()" class="w3-bar-item w3-button">DOWNLOADS</a>
 </nav>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div style="text-align: center;">QUACKTHULU!!!</div>
+<br>
+<div style="text-align: center;">Quackthulu is a student software development group founded at the University of York</div>
+<div style="text-align: center;">Our Aims</div>
+<div style="text-align: center;">
+To develop the "Dragon Boat Race 2020" game
+</div>
+<div style="text-align: center;">
+To improve our teamwork and development process
+</div>
+<br>
+<br>
+<div style="text-align: center;">
+HOW TO NAVIGATE THIS SITE
+</div>
+<div style="text-align: center;">
+To follow currrent plans and progress go to the about page
+</div>
+<div style="text-align: center;">
+To access assessment documents go to te downloads page
+</div>
+<div style="text-align: center;">
+To view code on the GitHub repository click the GitHub symbol at the botom of the screen
+</div>
 
-<!-- File browser -->
-<table id="fileBrowser" class="w3-table w3-bordered w3-border w3-hoverable" style="margin-top: 65pt; margin-bottom: 20pt; width: 90%; margin-left: auto; margin-right: auto;">
-  <tr class="w3-gray">
-    <th>Index of <i>Documents</i><i id="fileDir"></i></th>
-  </tr>
-</table>
 
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-24" style="position: fixed; left: 0; bottom: 0; width: 100%;">
@@ -82,61 +105,6 @@ function w3_open() {
 function w3_close() {
     mySidebar.style.display = "none";
 }
-</script>
-
-<!-- Document browser script -->
-<script>
-  var dirPath = "../documents"
-  var dirMap = [
-    [
-    ],
-    {
-      "Week 3 Plans":[
-        [
-          "Week 3 Plan.docx",
-          "Week 3 Progress.docx"
-        ],
-        []
-      ],
-      "Week 4 Plans":[
-        [
-          "Week 4 Plan.docx",
-          "Week 4 Progress.docx"
-        ],
-        []
-      ],
-      "Week 5 Plans":[
-        [
-          "Week 5 Plan.docx",
-          "Week 5 Progress.docx"
-        ],
-        []
-      ],
-      "Week 6 Plans":[
-        [
-          "Week 6 Plan.docx",
-          "Week 6 Progress.docx"
-        ],
-        []
-      ],
-      "Week 7 Plans":[
-        [
-          "Week 7 Plan.docx",
-          "Week 7 Progress.docx"
-        ],
-        []
-      ],
-      "Week 8 Plans":[
-        [
-          "Week 8 Plan.docx",
-          "Week 8 Progress.docx"
-        ],
-        []
-      ]
-    }
-  ];
-
-  refreshFileBrowser();
 </script>
 
 </body>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-<title>Downloads</title>
+<title>Documents</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -19,7 +19,7 @@ body, html {
   padding: 16px;
 }
 </style>
-<script src="./fileBrowser.js"></script>
+<script src="../fileBrowser.js"></script>
 </head>
 
 <body>
@@ -27,12 +27,12 @@ body, html {
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-card" id="myNavbar">
-    <a href="./index.html" class="w3-bar-item w3-button w3-wide">HOME</a>
+    <a href="../" class="w3-bar-item w3-button w3-wide">HOME</a>
     <!-- Right-sided navbar links -->
     <div class="w3-right w3-hide-small">
-      <a href="./about.html" class="w3-bar-item w3-button"><i class="fa fa-info-circle"></i> ABOUT</a>
-      <a href="./documents.html" class="w3-bar-item w3-button"><i class="fa fa-file-text"></i> DOCUMENTS</a>
-      <a href="./downloads.html" class="w3-bar-item w3-button"><i class="fa fa-download"></i> DOWNLOADS</a>
+      <a href="../about/index.html" class="w3-bar-item w3-button"><i class="fa fa-info-circle"></i> ABOUT</a>
+      <a href="../documents/index.html" class="w3-bar-item w3-button"><i class="fa fa-file-text"></i> DOCUMENTS</a>
+      <a href="../downloads/index.html" class="w3-bar-item w3-button"><i class="fa fa-download"></i> DOWNLOADS</a>
     </div>
     <!-- Hide right-floated links on small screens and replace them with a menu icon -->
 
@@ -45,15 +45,15 @@ body, html {
 <!-- Sidebar on small screens when clicking the menu icon -->
 <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
-  <a href="./about.html" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
-  <a href="./documents.html" onclick="w3_close()" class="w3-bar-item w3-button">DOCUMENTS</a>
-  <a href="./downloads.html" onclick="w3_close()" class="w3-bar-item w3-button">DOWNLOADS</a>
+  <a href="../about/index.html" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
+  <a href="../documents/index.html" onclick="w3_close()" class="w3-bar-item w3-button">DOCUMENTS</a>
+  <a href="../downloads/index.html" onclick="w3_close()" class="w3-bar-item w3-button">DOWNLOADS</a>
 </nav>
 
 <!-- File browser -->
 <table id="fileBrowser" class="w3-table w3-bordered w3-border w3-hoverable" style="margin-top: 65pt; margin-bottom: 20pt; width: 90%; margin-left: auto; margin-right: auto;">
   <tr class="w3-gray">
-    <th>Index of <i>Downloads</i><i id="fileDir"></i></th>
+    <th>Index of <i>Documents</i><i id="fileDir"></i></th>
   </tr>
 </table>
 
@@ -90,18 +90,49 @@ function w3_close() {
   var dirMap = [
     [
     ],
-    {"AssessementDocs":[
-      [
-      "Req1.pdf",
-      "Arch1.pdf",
-      "Plan1.pdf",
-      "Risk1.pdf",
-      "Impl1.pdf",
-      "SelfAss1.pdf",
-      "Bib1.pdf"
-    ],
-    []
-    ]
+    {
+      "Week 3 Plans":[
+        [
+          "Week 3 Plan.docx",
+          "Week 3 Progress.docx"
+        ],
+        []
+      ],
+      "Week 4 Plans":[
+        [
+          "Week 4 Plan.docx",
+          "Week 4 Progress.docx"
+        ],
+        []
+      ],
+      "Week 5 Plans":[
+        [
+          "Week 5 Plan.docx",
+          "Week 5 Progress.docx"
+        ],
+        []
+      ],
+      "Week 6 Plans":[
+        [
+          "Week 6 Plan.docx",
+          "Week 6 Progress.docx"
+        ],
+        []
+      ],
+      "Week 7 Plans":[
+        [
+          "Week 7 Plan.docx",
+          "Week 7 Progress.docx"
+        ],
+        []
+      ],
+      "Week 8 Plans":[
+        [
+          "Week 8 Plan.docx",
+          "Week 8 Progress.docx"
+        ],
+        []
+      ]
     }
   ];
 
