@@ -1,0 +1,62 @@
+
+images5.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+duck_in_a_top_hat
+  rotate: false
+  xy: 0, 717
+  size: 1200, 1200
+  orig: 1200, 1200
+  offset: 0, 0
+  index: -1
+full_paddle
+  rotate: false
+  xy: 1200, 1869
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+half_paddle
+  rotate: false
+  xy: 0, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+health_bar_blank
+  rotate: false
+  xy: 1200, 1901
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
+health_bar_empty
+  rotate: false
+  xy: 66, 145
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
+health_bar_full
+  rotate: false
+  xy: 0, 32
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 0, 48
+  size: 66, 113
+  orig: 66, 113
+  offset: 0, 0
+  index: -1
+sea2
+  rotate: false
+  xy: 0, 161
+  size: 1269, 556
+  orig: 1269, 556
+  offset: 0, 0
+  index: -1
