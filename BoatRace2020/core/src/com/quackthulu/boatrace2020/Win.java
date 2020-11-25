@@ -37,13 +37,13 @@ public class Win implements Screen {
         //Button creation
         Skin skin = new Skin(Gdx.files.internal("skins/pixthulhu/skin/pixthulhu-ui.json"));
 
-        WinLable = new Label("You Win!",skin);
-        table.add(WinLable).colspan(2);
-        table.row().pad(10,0,0,10);
-        table.row().pad(10,0,0,10);
 
         //return to main menu button
         if (parent.level != 4){
+            WinLable = new Label("You advanced to the next stage!",skin);
+            table.add(WinLable).colspan(2);
+            table.row().pad(10,0,0,10);
+            table.row().pad(10,0,0,10);
             TextButton nextButton = new TextButton("Next Stage",skin);
             nextButton.addListener(new ChangeListener() {
                 @Override
@@ -53,10 +53,15 @@ public class Win implements Screen {
             });
             table.add(nextButton).colspan(2);
         } else {
+            WinLable = new Label("You Win!",skin);
+            table.add(WinLable).colspan(2);
+            table.row().pad(10,0,0,10);
+            table.row().pad(10,0,0,10);
             final TextButton returnButton = new TextButton("Quit", skin);
             returnButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
+                    parent.level = 0;
                     parent.changeScreen(BoatRace.MENU);
                 }
             });
