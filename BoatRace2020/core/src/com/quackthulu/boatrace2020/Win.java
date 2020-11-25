@@ -45,21 +45,21 @@ public class Win implements Screen {
         playerBoat = finalBoats.getLast();
         finalBoats.removeLast();
 
+        //calculates the total boats in the last race
         if (parent.getLevel() <= 2){
             playerPosition = 5;
         }else{
             playerPosition = 7-parent.getLevel();
         }
 
-        System.out.println("number of times: " + finalBoats.size());
+        //calculates the players final position in the last race
         for (Boat boat: finalBoats){
             if (playerBoat.getFinishingTime() <= boat.getFinishingTime()){
                 playerPosition--;
             }
         }
 
-        System.out.println(playerPosition);
-
+        //selects the correct message to display
         if(parent.getLevel() == 4){
             switch (playerPosition){
                 case 1:
@@ -122,6 +122,7 @@ public class Win implements Screen {
         playerPosition = 5;
     }
 
+    //sets the boats that survived from the last race
     public void setFinalBoats(LinkedList<Boat> finalBoats){
         this.finalBoats = finalBoats;
     }

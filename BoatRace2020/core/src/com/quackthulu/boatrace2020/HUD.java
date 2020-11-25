@@ -17,6 +17,7 @@ public class HUD {
         damageIconHeight = 64;
     }
 
+    //calculates the player boats health and draws it to the batch using textures
     public void draw(Batch batch, Viewport viewport) {
         for (int i = 0; i < boat.getHealth(); i += 2) {
             if (i < boat.getHealth() - 1) {

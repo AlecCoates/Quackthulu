@@ -25,6 +25,7 @@ public class PickBoatMenu implements Screen{
         boatNumber = parent.playerBoatNumber;
     }
 
+    //draws menu to pick a boat to the screen
     @Override
     public void show() {
 
@@ -44,6 +45,7 @@ public class PickBoatMenu implements Screen{
         //Button creation
         Skin skin = new Skin(Gdx.files.internal("skins/pixthulhu/skin/pixthulhu-ui.json"));
 
+        //group button creation, so only one can be selected
         ButtonGroup<CheckBox> boatCheckboxes = new ButtonGroup<>();
         for (int i = 0; i < BoatsStats.numOfBoats(); i++) {
             final int finalI = i;
@@ -56,14 +58,6 @@ public class PickBoatMenu implements Screen{
             });
         }
         boatCheckboxes.getButtons().get(boatNumber).setChecked(true);
-        //return to main menu button
-        /*final TextButton returnButton = new TextButton("Return", skin);
-        returnButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(BoatRace.MENU);
-            }
-        });*/
 
         //continue to game
         final TextButton continueButton = new TextButton("Continue", skin);

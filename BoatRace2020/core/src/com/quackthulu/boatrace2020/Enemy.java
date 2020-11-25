@@ -1,5 +1,6 @@
 package com.quackthulu.boatrace2020;
 
+//enemy
 public class Enemy {
     private SpriteObj spriteObj;
 
