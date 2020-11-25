@@ -94,6 +94,7 @@ public class BoatRace extends Game {
 				break;
 			case WIN:
 				if (WIN_SCREEN == null) WIN_SCREEN = new Win(this);
+				WIN_SCREEN.setFinalBoats(GAME_SCREEN.getFinalBoats());
 				this.setScreen(WIN_SCREEN);
 				break;
       		case INTER:
@@ -103,6 +104,9 @@ public class BoatRace extends Game {
 		}
 	}
 
+	public int getLevel(){
+		return level;
+	}
 
 	//function disposes of assets not being used to clear memory
 	@Override

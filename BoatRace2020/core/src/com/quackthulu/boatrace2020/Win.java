@@ -12,14 +12,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.util.LinkedList;
+
 public class Win implements Screen {
 
     private Stage stage;
     private BoatRace parent;
     private Label WinLable;
+    private LinkedList<Boat> finalBoats;
+    private Boat playerBoat;
+    private int playerPosition = 5;
+
     Win(BoatRace boatRace){
         parent = boatRace;
-
     }
 
     @Override
@@ -37,13 +42,64 @@ public class Win implements Screen {
         //Button creation
         Skin skin = new Skin(Gdx.files.internal("skins/pixthulhu/skin/pixthulhu-ui.json"));
 
+        playerBoat = finalBoats.getLast();
+        finalBoats.removeLast();
+
+        if (parent.getLevel() <= 2){
+            playerPosition = 5;
+        }else{
+            playerPosition = 7-parent.getLevel();
+        }
+
+        System.out.println("number of times: " + finalBoats.size());
+        for (Boat boat: finalBoats){
+            if (playerBoat.getFinishingTime() <= boat.getFinishingTime()){
+                playerPosition--;
+            }
+        }
+
+        System.out.println(playerPosition);
+
+        if(parent.getLevel() == 4){
+            switch (playerPosition){
+                case 1:
+                    WinLable = new Label("Gold Medal",skin);
+                    break;
+                case 2:
+                    WinLable = new Label("Silver Medal",skin);
+                    break;
+                case 3:
+                    WinLable = new Label("Bronze Medal",skin);
+                    break;
+            }
+        }else{
+            System.out.println("Hello World Else");
+            switch (playerPosition) {
+                case 1:
+                    WinLable = new Label("You Came First!",skin);
+                    break;
+                case 2:
+                    WinLable = new Label("You Came Second!",skin);
+                    break;
+                case 3:
+                    WinLable = new Label("You Came Third",skin);
+                    break;
+                case 4:
+                    WinLable = new Label("You Came Fourth",skin);
+                    break;
+                case 5:
+                    WinLable = new Label("You Came Fifth",skin);
+                    break;
+            }
+        }
+
+
+        table.add(WinLable).colspan(2);
+        table.row().pad(10,0,0,10);
+        table.row().pad(10,0,0,10);
 
         //return to main menu button
-        if (parent.level != 4){
-            WinLable = new Label("You advanced to the next stage!",skin);
-            table.add(WinLable).colspan(2);
-            table.row().pad(10,0,0,10);
-            table.row().pad(10,0,0,10);
+        if (parent.getLevel() != 4){
             TextButton nextButton = new TextButton("Next Stage",skin);
             nextButton.addListener(new ChangeListener() {
                 @Override
@@ -52,23 +108,22 @@ public class Win implements Screen {
                 }
             });
             table.add(nextButton).colspan(2);
-        } else {
-            WinLable = new Label("You Win!",skin);
-            table.add(WinLable).colspan(2);
-            table.row().pad(10,0,0,10);
-            table.row().pad(10,0,0,10);
+        }
+        else {
             final TextButton returnButton = new TextButton("Quit", skin);
             returnButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    parent.level = 0;
                     parent.changeScreen(BoatRace.MENU);
                 }
             });
-
-
             table.add(returnButton).colspan(2);
         }
+        playerPosition = 5;
+    }
+
+    public void setFinalBoats(LinkedList<Boat> finalBoats){
+        this.finalBoats = finalBoats;
     }
 
     @Override

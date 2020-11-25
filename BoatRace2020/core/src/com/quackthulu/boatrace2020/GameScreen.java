@@ -119,7 +119,7 @@ public class GameScreen implements Screen {
             enemyObjects.add(new Enemy());
             enemyObjects.get(i).getSpriteObj().setTimedTextures(new TimedTexture[]{new TimedTexture(assets.getTexture(Assets.enemyDuckTexture))});
             enemyObjects.get(i).getSpriteObj().gameScreen = this;
-            enemyObjects.get(i).getSpriteObj().setDamage(1);
+            enemyObjects.get(i).getSpriteObj().setDamage(0);
             enemyObjects.get(i).getSpriteObj().setIsCollider(false);
             Random rand = new Random();
             Sprite enemyObjectSprite = enemyObjects.get(i).getSpriteObj().getSprite();
@@ -347,7 +347,12 @@ public class GameScreen implements Screen {
                 playerBoat.setSteering(0.0f);
             }
         }
-      
+
+    public LinkedList<Boat> getFinalBoats() {
+        LinkedList<Boat> finalBoats = new LinkedList<>(opponentBoats);
+        finalBoats.add(playerBoat);
+        return finalBoats;
+    }
 
         @Override
         public void resize ( int width, int height){
