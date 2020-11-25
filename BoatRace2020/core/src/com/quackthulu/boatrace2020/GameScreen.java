@@ -114,7 +114,7 @@ public class GameScreen implements Screen {
         }
 
         //Set up obstacle objects
-        enemyObjects = new LinkedList<Enemy>();
+        enemyObjects = new LinkedList<>();
         for (int i = 0; i < 0.2f * noOfBoats * raceLength; i++) {
             enemyObjects.add(new Enemy());
             enemyObjects.get(i).getSpriteObj().setTimedTextures(new TimedTexture[]{new TimedTexture(assets.getTexture(Assets.enemyDuckTexture))});
