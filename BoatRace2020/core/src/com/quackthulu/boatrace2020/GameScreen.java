@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
     private float laneWidthsScreen = 6.5f;
     private float minAspectRatio = 1.8f;
     private float boatWidthsLane = 4.0f;
-    private float raceLength = 40.0f;
+    private float raceLength = 5.0f;
     private int backgroundTextureSize = 64;
     private float riverCountX = 0;
     private float riverCountY = 0;
@@ -80,7 +80,7 @@ public class GameScreen implements Screen {
         //Set lane size
         backgroundTextureSize = 106;
 
-        //set up game objects
+        //Generate player boat
         spriteObjs = new LinkedList<>();
         playerBoat = new Boat(BoatsStats.getBoatStats(parent.playerBoatNumber), assets);
         playerBoat.getSpriteObj().gameScreen = this;
@@ -90,12 +90,14 @@ public class GameScreen implements Screen {
         drawOpponentBoats = new LinkedList<>();
         opponentBoatsRotations = new LinkedList<>();
 
+        //Generate new opponents if on the first level
         if (parent.level == 1) {
             parent.boats.clear();
             for (int i = 0; i < noOfBoats - 1; i++) {
                 parent.boats.add(new Random().nextInt(BoatsStats.numOfBoats()));
             }
         }
+        //Generate opponents
         for (int i = 0; i < parent.boats.size(); i++) {
             opponentBoats.add(new Boat(BoatsStats.getBoatStats(parent.boats.get(i)), assets));
             opponentBoats.get(i).getSpriteObj().gameScreen = this;
@@ -128,18 +130,20 @@ public class GameScreen implements Screen {
             spriteObjs.add(enemyObjects.get(i).getSpriteObj());
         }
 
-        //hud
+        //Create hud
         hud = new HUD(playerBoat, assets.getTexture(Assets.fullHUDTexture), assets.getTexture(Assets.halfHUDTexture));
 
         batch = new SpriteBatch();
     }
 
+    //Check that assets exist before drawing
     private void safeDraw(TextureRegion region, float x, float y, float originX, float originY) {
         if (batch != null && assets.loaded) {
             batch.draw(region, x, y, originX, originY);
         }
     }
 
+    //Check that assets exist before drawing
     private void safeDraw(TextureRegion region, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation) {
         if (batch != null && assets.loaded) {
             batch.draw(region, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
@@ -150,9 +154,11 @@ public class GameScreen implements Screen {
     public void render(float avgDelta) {
         if (assets.loaded) {
             try {
+                //Get the true delta time for calculations
                 float delta = Gdx.graphics.getRawDeltaTime();
                 timer += delta;
 
+                //Set screen clear color
                 Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                 batch.begin();
@@ -328,8 +334,12 @@ public class GameScreen implements Screen {
             ////Keyboard input
             //Return to menu
             if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-                parent.level = 0;
-                parent.changeScreen(BoatRace.MENU);
+                parent.level -= 1;
+                if (parent.level == 0) {
+                    parent.changeScreen(BoatRace.MENU);
+                } else {
+                    parent.changeScreen(BoatRace.INTER);
+                }
             }
             //Player controls
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
