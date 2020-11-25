@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
     private float laneWidthsScreen = 6.5f;
     private float minAspectRatio = 1.8f;
     private float boatWidthsLane = 4.0f;
-    private float raceLength = 10.0f;
+    private float raceLength = 40.0f;
     private int backgroundTextureSize = 64;
     private float riverCountX = 0;
     private float riverCountY = 0;
@@ -119,7 +119,7 @@ public class GameScreen implements Screen {
             enemyObjects.add(new Enemy());
             enemyObjects.get(i).getSpriteObj().setTimedTextures(new TimedTexture[]{new TimedTexture(assets.getTexture(Assets.enemyDuckTexture))});
             enemyObjects.get(i).getSpriteObj().gameScreen = this;
-            enemyObjects.get(i).getSpriteObj().setDamage(0);
+            enemyObjects.get(i).getSpriteObj().setDamage(1);
             enemyObjects.get(i).getSpriteObj().setIsCollider(false);
             Random rand = new Random();
             Sprite enemyObjectSprite = enemyObjects.get(i).getSpriteObj().getSprite();
