@@ -65,7 +65,7 @@ public class Boat implements CollisionCallback {
     public void update(float delta, EnvironmentalConditions env, List<SpriteObj> collisionObjs) {
         dynamicObj.update(delta, env, collisionObjs, spriteObj);
         spriteObj.updateTexture(delta);
-        if (spriteObj.getSprite().getX() < lane[0] || spriteObj.getSprite().getX() > lane[1]) {
+        if (spriteObj.getSprite().getX() + spriteObj.getSprite().getWidth() < lane[0] || spriteObj.getSprite().getX() > lane[1]) {
             penaltyTime += 4 * delta;
         }
         if (ai != null) {

@@ -45,6 +45,7 @@ public class GameScreen implements Screen {
     //game objects
     private Boat playerBoat;
     private LinkedList<Boat> opponentBoats;
+    private LinkedList<Boat> drawOpponentBoats;
     private LinkedList<LinkedList<Float>> opponentBoatsRotations;
     private LinkedList<SpriteObj> spriteObjs;
     private LinkedList<Enemy> enemyObjects;
@@ -86,6 +87,7 @@ public class GameScreen implements Screen {
         playerBoat.lane = new float[] {-0.5f, 0.5f};
         spriteObjs.add(playerBoat.getSpriteObj());
         opponentBoats = new LinkedList<>();
+        drawOpponentBoats = new LinkedList<>();
         opponentBoatsRotations = new LinkedList<>();
 
         if (parent.level == 1) {
@@ -99,7 +101,6 @@ public class GameScreen implements Screen {
             opponentBoats.get(i).getSpriteObj().gameScreen = this;
             opponentBoats.get(i).ai = new AI();
             opponentBoats.get(i).ai.boat = opponentBoats.get(i);
-            spriteObjs.add(opponentBoats.get(i).getSpriteObj());
             if (i < 2) {
                 opponentBoats.get(i).getSpriteObj().getSprite().setX(i - 2);
                 opponentBoats.get(i).lane = new float[] {-0.5f + (i - 2), 0.5f + (i - 2)};
@@ -107,7 +108,8 @@ public class GameScreen implements Screen {
                 opponentBoats.get(i).getSpriteObj().getSprite().setX(i - 1);
                 opponentBoats.get(i).lane = new float[] {-0.5f + (i - 1), 0.5f + (i - 1)};
             }
-            opponentBoats.get(i).setThrottle(1.0f);
+            drawOpponentBoats.add(opponentBoats.get(i));
+            spriteObjs.add(opponentBoats.get(i).getSpriteObj());
             opponentBoatsRotations.add(new LinkedList<Float>());
         }
 
@@ -167,11 +169,11 @@ public class GameScreen implements Screen {
                 }
 
                 //Keeps a list of recent AI boat rotations so we can smooth them out later
-                for (int i = 0; i < opponentBoatsRotations.size(); i++) {
+                for (int i = 0; i < drawOpponentBoats.size(); i++) {
                     if (opponentBoatsRotations.get(i).size() > 30) {
                         opponentBoatsRotations.get(i).remove();
                     }
-                    opponentBoatsRotations.get(i).add(opponentBoats.get(i).getSpriteObj().getSprite().getRotation());
+                    opponentBoatsRotations.get(i).add(drawOpponentBoats.get(i).getSpriteObj().getSprite().getRotation());
                 }
 
                 //Check for deaths
@@ -181,7 +183,7 @@ public class GameScreen implements Screen {
                 for (Boat opponentBoat : opponentBoats) {
                     if (opponentBoat.getHealth() <= 0) {
                         spriteObjs.remove(opponentBoat.getSpriteObj());
-                        opponentBoats.remove(opponentBoat);
+                        drawOpponentBoats.remove(opponentBoat);
                     }
                 }
 
@@ -255,8 +257,8 @@ public class GameScreen implements Screen {
                 safeDraw(playerBoat.getSpriteObj().getTexture(), (viewport.getWorldWidth() - assets.getBoatTexture(parent.playerBoatNumber).getRegionWidth()) / 2, (viewport.getWorldHeight() - assets.getBoatTexture(parent.playerBoatNumber).getRegionHeight()) / 2, playerBoat.getSpriteObj().getSprite().getOriginX(), playerBoatSprite.getOriginY(), playerBoatSprite.getWidth(), playerBoatSprite.getHeight(), playerBoatSprite.getScaleX(), playerBoatSprite.getScaleY(), playerBoatSprite.getRotation());
 
                 //draw opponents
-                for (int i = 0; i < opponentBoats.size(); i++) {
-                    Boat opponentBoat = opponentBoats.get(i);
+                for (int i = 0; i < drawOpponentBoats.size(); i++) {
+                    Boat opponentBoat = drawOpponentBoats.get(i);
                     Float avgRotation = 0.0f;
                     for (Float opponentBoatRotation : opponentBoatsRotations.get(i)) avgRotation += opponentBoatRotation;
                     avgRotation = avgRotation / (float) opponentBoatsRotations.get(i).size();
@@ -330,14 +332,14 @@ public class GameScreen implements Screen {
             ////Keyboard input
             //Return to menu
             if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-                parent.level--;
+                parent.level = 0;
                 parent.changeScreen(BoatRace.MENU);
             }
             //Player controls
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                playerBoat.setThrottle(1.0f);
+                playerBoat.setThrottle(1.05f);
             } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                playerBoat.setThrottle(-1.0f);
+                playerBoat.setThrottle(-1.05f);
             } else {
                 playerBoat.setThrottle(0.0f);
             }
